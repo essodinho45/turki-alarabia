@@ -12,11 +12,12 @@
     </div>
     <div class="mt-4">
         <x-label for="amount" value="{{ __('Amount') }}" />
-        <div class="relative mb-4 flex flex-wrap items-stretch">
-            <x-input id="amount" type="number" class="mt-1 block w-full" wire:change="$refresh"
-                wire:model="amount" />
+        <div class="relative mb-4 flex flex-wrap items-stretch w-full relative">
+            <x-input id="amount" type="number"
+                class="mt-1 flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border border-r-0 h-10 border-grey-light rounded-lg rounded-r-none px-3 relative"
+                wire:change="$refresh" wire:model="amount" />
             <span
-                class="flex items-center whitespace-nowrap rounded-l border border-l-0 border-solid border-neutral-300 px-3 py-[0.25rem] text-center text-base font-normal leading-[1.6] text-neutral-700 dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200">{{ __('KWD') }}</span>
+                class="mt-1 flex items-center leading-normal bg-grey-lighter border-1 rounded-l-none border border-l-0 border-grey-light px-3 whitespace-no-wrap text-grey-dark text-sm w-12 h-10 justify-center items-center rounded-lg">{{ __('KWD') }}</span>
         </div>
         @error('amount')
             <span class="error">{{ $message }}</span>
@@ -35,17 +36,19 @@
     </div>
     <div class="mt-4">
         <x-label for="price" value="{{ __('Price') }}" />
-        <div class="relative mb-4 flex flex-wrap items-stretch">
-            <x-input id="price" type="number" class="mt-1 block w-full" wire:model="price" disabled />
+        <div class="relative mb-4 flex flex-wrap items-stretch w-full relative">
+            <x-input id="amount" type="number"
+                class="mt-1 flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border border-r-0 h-10 border-grey-light rounded-lg rounded-r-none px-3 relative"
+                wire:model="price" disabled />
             <span
-                class="flex items-center whitespace-nowrap rounded-l border border-l-0 border-solid border-neutral-300 px-3 py-[0.25rem] text-center text-base font-normal leading-[1.6] text-neutral-700 dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200">{{ __('KWD') }}</span>
+                class="mt-1 flex items-center leading-normal bg-grey-lighter border-1 rounded-l-none border border-l-0 border-grey-light px-3 whitespace-no-wrap text-grey-dark text-sm w-12 h-10 justify-center items-center rounded-lg">{{ __('KWD') }}</span>
         </div>
     </div>
     <div class="mt-4">
         <x-label for="quantity" value="{{ __('Quantity') }}" />
         <x-input id="quantity" type="number" class="mt-1 block w-full" wire:model="quantity" disabled />
     </div>
-    <hr>
+    <hr class="mt-4">
     <div class="mt-4">
         <x-label for="client_name" value="{{ __('Client Name') }}" />
         <x-input id="client_name" type="text" class="mt-1 block w-full" wire:model="client_name" />
