@@ -5,7 +5,6 @@ namespace App\Livewire;
 use App\Models\Material;
 use App\Models\Transaction;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class CreatePriceOffer extends Component
 {
@@ -19,7 +18,6 @@ class CreatePriceOffer extends Component
     public float $price = 0;
     public float $quantity = 0;
 
-    use WithPagination;
     public function mount()
     {
         $latest_transaction = Transaction::orderBy('id', 'DESC')->first();

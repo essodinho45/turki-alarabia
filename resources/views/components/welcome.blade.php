@@ -10,7 +10,7 @@
                 </div>
             </div>
         </a>
-        <a href="#">
+        <a href="{{ route('transactions.create-buying-order') }}">
             <div class="content flex py-2 items-center">
                 <img src="{{ asset('images/order_c.png') }}" alt="" />
                 <div class="item-body px-2 ">
@@ -26,7 +26,7 @@
                 <img src="{{ asset('images/offer_v.png') }}" alt="" />
                 <div class="item-body px-2 ">
                     <h1 class="font-bold text-xl text-blue-700">
-                        {{ __('View Price Offers') }}
+                        {{ __('Update Price Offer') }}
                     </h1>
                 </div>
             </div>
@@ -34,10 +34,10 @@
         <a href="#">
 
             <div class="content flex py-2 items-center">
-                <img src="{{ asset('images/order_v.png') }}" alt="" />
+                <img src="{{ asset('images/print.png') }}" alt="" />
                 <div class="item-body px-2 ">
                     <h1 class="font-bold text-xl text-blue-700">
-                        {{ __('View Buying Orders') }}
+                        {{ __('Print Transactions') }}
                     </h1>
                 </div>
             </div>

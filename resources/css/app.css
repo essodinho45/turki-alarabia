@@ -5,3 +5,13 @@
 [x-cloak] {
     display: none;
 }
+
+[dir="rtl"] .form-select {
+    background-position: left 0.5rem center;
+}
+
+/* For those who use it direct */
+
+[dir="rtl"] select {
+    background-position: left 0.5rem center;
+}
