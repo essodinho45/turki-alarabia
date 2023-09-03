@@ -46,4 +46,8 @@ Route::middleware([
     Route::get('/branches', function () {
         return view('dashboard.branches');
     })->name('branches');
+
+    Route::get('/materials', function () {
+        return view('dashboard.materials');
+    })->name('materials');
 });

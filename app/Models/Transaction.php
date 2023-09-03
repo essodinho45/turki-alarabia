@@ -19,4 +19,13 @@ class Transaction extends Model
         'user_id',
     ];
 
+    public static function boot(): void
+    {
+        parent::boot();
+        static::creating(
+            fn($model) =>
+            $model->user_id = auth()->user()->id ?? 1,
+        );
+    }
+
 }

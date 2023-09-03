@@ -1,11 +1,11 @@
 <div class="p-6">
     <div>
         <x-label for="id" value="{{ __('ID') }}" />
-        <x-input id="id" type="text" class="mt-1 block w-full" wire:model.debounce.800ms="id" disabled />
+        <x-input id="id" type="text" class="mt-1 block w-full" value="{{ $id }}" disabled />
     </div>
     <div class="mt-4">
         <x-label for="date" value="{{ __('Date') }}" />
-        <x-input id="date" type="date" class="mt-1 block w-full" wire:model.debounce.800ms="date" />
+        <x-input id="date" type="date" class="mt-1 block w-full" wire:model="date" />
         @error('date')
             <span class="error">{{ $message }}</span>
         @enderror
@@ -13,7 +13,8 @@
     <div class="mt-4">
         <x-label for="amount" value="{{ __('Amount') }}" />
         <div class="relative mb-4 flex flex-wrap items-stretch">
-            <x-input id="amount" type="number" class="mt-1 block w-full" wire:model.debounce.800ms="amount" />
+            <x-input id="amount" type="number" class="mt-1 block w-full" wire:change="$refresh"
+                wire:model="amount" />
             <span
                 class="flex items-center whitespace-nowrap rounded-l border border-l-0 border-solid border-neutral-300 px-3 py-[0.25rem] text-center text-base font-normal leading-[1.6] text-neutral-700 dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200">{{ __('KWD') }}</span>
         </div>
@@ -35,36 +36,33 @@
     <div class="mt-4">
         <x-label for="price" value="{{ __('Price') }}" />
         <div class="relative mb-4 flex flex-wrap items-stretch">
-            <x-input id="price" type="number" class="mt-1 block w-full" wire:model.debounce.800ms="price"
-                disabled />
+            <x-input id="price" type="number" class="mt-1 block w-full" wire:model="price" disabled />
             <span
                 class="flex items-center whitespace-nowrap rounded-l border border-l-0 border-solid border-neutral-300 px-3 py-[0.25rem] text-center text-base font-normal leading-[1.6] text-neutral-700 dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200">{{ __('KWD') }}</span>
         </div>
     </div>
     <div class="mt-4">
         <x-label for="quantity" value="{{ __('Quantity') }}" />
-        <x-input id="quantity" type="number" class="mt-1 block w-full" wire:model.debounce.800ms="quantity"
-            disabled />
+        <x-input id="quantity" type="number" class="mt-1 block w-full" wire:model="quantity" disabled />
     </div>
     <hr>
     <div class="mt-4">
         <x-label for="client_name" value="{{ __('Client Name') }}" />
-        <x-input id="client_name" type="text" class="mt-1 block w-full" wire:model.debounce.800ms="client_name" />
+        <x-input id="client_name" type="text" class="mt-1 block w-full" wire:model="client_name" />
         @error('client_name')
             <span class="error">{{ $message }}</span>
         @enderror
     </div>
     <div class="mt-4">
         <x-label for="client_national_id" value="{{ __('Client National Id') }}" />
-        <x-input id="client_national_id" type="text" class="mt-1 block w-full"
-            wire:model.debounce.800ms="client_national_id" />
+        <x-input id="client_national_id" type="text" class="mt-1 block w-full" wire:model="client_national_id" />
         @error('client_national_id')
             <span class="error">{{ $message }}</span>
         @enderror
     </div>
     <div class="mt-4">
         <x-label for="client_phone" value="{{ __('Client Phone') }}" />
-        <x-input id="client_phone" type="text" class="mt-1 block w-full" wire:model.debounce.800ms="client_phone" />
+        <x-input id="client_phone" type="text" class="mt-1 block w-full" wire:model="client_phone" />
         @error('client_phone')
             <span class="error">{{ $message }}</span>
         @enderror

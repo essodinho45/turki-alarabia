@@ -25,6 +25,9 @@
                         <x-nav-link href="{{ route('branches') }}" :active="request()->routeIs('branches')">
                             {{ __('Branches') }}
                         </x-nav-link>
+                        <x-nav-link href="{{ route('materials') }}" :active="request()->routeIs('materials')">
+                            {{ __('Materials') }}
+                        </x-nav-link>
                     @endhasrole
                 </div>
             </div>
@@ -173,6 +176,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link href="{{ route('branches') }}" :active="request()->routeIs('branches')">
                     {{ __('Branches') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('materials') }}" :active="request()->routeIs('materials')">
+                    {{ __('Materials') }}
                 </x-responsive-nav-link>
             @endhasrole
         </div>

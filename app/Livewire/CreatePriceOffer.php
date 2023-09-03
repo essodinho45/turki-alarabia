@@ -10,18 +10,20 @@ use Livewire\WithPagination;
 class CreatePriceOffer extends Component
 {
     public $id;
-    public $amount = 0;
+    public $date;
+    public float $amount = 0;
     public $material_id;
     public $client_name;
     public $client_national_id;
     public $client_phone;
-    public $quantity = 0;
+    public float $price = 0;
+    public float $quantity = 0;
 
     use WithPagination;
-    public function init()
+    public function mount()
     {
         $latest_transaction = Transaction::orderBy('id', 'DESC')->first();
-        $this->id = $latest_transaction ? $latest_transaction->id : 1;
+        $this->id = $latest_transaction ? ($latest_transaction->id + 1) : 1;
     }
     public function rules()
     {
@@ -37,6 +39,7 @@ class CreatePriceOffer extends Component
     public function create()
     {
         $validated_data = $this->validate();
+        $validated_data['quantity'] = $this->quantity;
         $transaction = Transaction::create([
             'date' => $validated_data['date'],
             'amount' => $validated_data['amount'],
@@ -44,15 +47,16 @@ class CreatePriceOffer extends Component
             'client_name' => $validated_data['client_name'],
             'client_national_id' => $validated_data['client_national_id'],
             'client_phone' => $validated_data['client_phone'],
-            'quantity' => $this->quantity,
+            'quantity' => $validated_data['quantity'],
         ]);
         $this->date = NULL;
-        $this->amount = NULL;
+        $this->amount = 0;
         $this->material_id = NULL;
         $this->client_name = NULL;
         $this->client_national_id = NULL;
         $this->client_phone = NULL;
-        $this->quantity = NULL;
+        $this->quantity = 0;
+        $this->price = 0;
     }
     public function back()
     {
@@ -62,7 +66,8 @@ class CreatePriceOffer extends Component
     {
         $material = Material::find($this->material_id);
         if ($material) {
-            $this->quantitiy = $this->amount / $material->unit_price;
+            $this->price = $material->unit_price;
+            $this->quantity = $this->amount / $this->price;
         }
         return view('livewire.create-price-offer')->withMaterials(Material::all());
     }
