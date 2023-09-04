@@ -30,6 +30,9 @@ Route::middleware([
     Route::get('/create-buying-order', function () {
         return view('transactions.create-buying-order');
     })->name('transactions.create-buying-order');
+    Route::get('/index-transactions/{status}', function ($status) {
+        return view('transactions.index', compact('status'));
+    })->name('transactions.index');
 });
 Route::middleware([
     'auth:sanctum',

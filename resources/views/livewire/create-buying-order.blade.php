@@ -61,7 +61,7 @@
 
         <x-button class="@if (\App::isLocale('ar')) mr-3 @else ml-3 @endif" wire:click="create"
             wire:loading.attr="disabled">
-            {{ __('Save') }}
+            {{ __('Execute Buying') }}
         </x-button>
     </div>
 </div>

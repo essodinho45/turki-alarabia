@@ -61,4 +61,8 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
 }

@@ -23,6 +23,10 @@ class Transaction extends Model
     {
         return $this->belongsTo(Material::class);
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public static function boot(): void
     {
         parent::boot();

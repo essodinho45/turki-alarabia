@@ -18,7 +18,8 @@ class CreateBuyingOrder extends Component
     {
         if($this->transaction)
         {
-            $this->transaction->update(['status' => 'order']);
+            $this->transaction->status = 'order';
+            $this->transaction->save();
         }
         $this->id = NULL;
         $this->transaction = NULL;

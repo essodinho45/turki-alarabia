@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->enum('status', ['offer', 'order', 'approved_by_bank', 'approved_by_manager', 'done', 'canceled'])->default('offer');
+            $table->enum('status', ['offer', 'order', 'approved_by_bank', 'approved_by_agent', 'done', 'canceled'])->default('offer');
         });
     }
 

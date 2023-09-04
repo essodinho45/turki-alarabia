@@ -37,12 +37,13 @@ class Users extends Component
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
             'role_id' => 'required|exists:roles,id',
-            'bank' => 'sometimes|exists:banks,id',
-            'branch_id' => 'sometimes|exists:branches,id',
+            'bank' => 'sometimes',
+            'branch_id' => 'sometimes',
         ];
     }
     public function create()
     {
+        try{
         $validated_data = $this->validate();
         $user = User::create([
             'name' => $validated_data['name'],
@@ -58,6 +59,9 @@ class Users extends Component
         $this->role_id = NULL;
         $this->bank = NULL;
         $this->branch_id = NULL;
+    }
+    catch(Throwable $e)
+    {dd($e);}
     }
     public function render()
     {
