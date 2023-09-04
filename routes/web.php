@@ -13,6 +13,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return redirect()->route('dashboard');
+});
+
+Route::get('/config-clear', function() {
+    $status = Artisan::call('optimize:clear');
+    return '<h1>Configurations cleared</h1>';
+});
+
+//Generate Key:
+Route::get('/gen-key', function() {
+    $status = Artisan::call('key:generate');
+    return '<h1>Key Generated</h1>';
+});
+
+Route::get('/migrate', function() {
+    $status = Artisan::call('migrate');
+    return '<h1>Migrated</h1>';
+});
+
+Route::get('/seed', function () {
+    $status = Artisan::call('db:seed', ['--class' => 'RolesAndPermissionsSeeder']);
+    return '<h1>Seeded</h1>';
+});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
