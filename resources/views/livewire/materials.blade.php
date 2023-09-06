@@ -31,7 +31,8 @@
                     <tr>
                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $material->id }}</td>
                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $material->name }}</td>
-                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $material->unit_price }}</td>
+                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ number_format($material->unit_price, 3) }}
+                        </td>
                         <td class="px-6 py-4 text-sm text-right">
                         </td>
                     </tr>
@@ -61,7 +62,7 @@
             </div>
             <div class="mt-4">
                 <x-label for="unit_price" value="{{ __('Price') }}" />
-                <x-input id="unit_price" type="number" class="mt-1 block w-full"
+                <x-input id="unit_price" type="number" class="mt-1 block w-full" step=".001"
                     wire:model.debounce.800ms="unit_price" />
                 @error('unit_price')
                     <span class="error">{{ $message }}</span>
