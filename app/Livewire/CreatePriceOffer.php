@@ -10,13 +10,13 @@ class CreatePriceOffer extends Component
 {
     public $id;
     public $date;
-    public float $amount = 0;
+    public float $amount;
     public $material_id;
     public $client_name;
     public $client_national_id;
     public $client_phone;
-    public float $price = 0;
-    public float $quantity = 0;
+    public float $price;
+    public float $quantity;
 
     public function mount()
     {
