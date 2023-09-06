@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'STV';
+    src: url('/fonts/stv-bold.ttf') format('truetype');
+    /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}
+
+body {
+    font-family: 'STV' !important;
+}
+
 [x-cloak] {
     display: none;
 }
@@ -22,6 +32,10 @@
 
 [dir="rtl"] #pag_prev {
     transform: scaleX(-1);
+}
+
+[dir="rtl"] .tracking-widest {
+    letter-spacing: 0;
 }
 
 .btn {

@@ -1,4 +1,4 @@
-<div class="p-6 lg:p-8 bg-white border-b border-gray-200">
+<div class="p-6 lg:p-8">
     <div class="grid grid-cols-4 gap-4">
         <a href="{{ route('transactions.create-price-offer') }}">
             <div class="content flex py-2 items-center">
