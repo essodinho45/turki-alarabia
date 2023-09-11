@@ -23,6 +23,8 @@
     <x-banner />
 
     <div class="min-h-screen bg-gray-100">
+        <img src="{{ asset('images/watermark.png') }}"
+            class="fixed z-0 h-5/6 top-6 mx-auto my-auto inset-x-0 inset-y-0">
         @livewire('navigation-menu')
 
         <!-- Page Heading -->
@@ -35,11 +37,12 @@
         @endif
 
         <!-- Page Content -->
-        <main>
+        <main class="z-10 relative">
             {{ $slot }}
         </main>
     </div>
 
+    <img src="{{ asset('images/bottom-logo.png') }}" class="fixed bottom-8 right-8">
     @stack('modals')
 
     @livewireScripts
