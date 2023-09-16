@@ -28,6 +28,14 @@ class Materials extends Component
             'unit_price' => 'required|numeric',
         ];
     }
+    public function messages()
+    {
+        return [
+            'name.required' => __('The Name cannot be empty.'),
+            'unit_price.required' => __('The Unit Price cannot be empty.'),
+            'unit_price.numeric' => __('The Unit Price must be a number.'),
+        ];
+    }
     public function create()
     {
         $validated_data = $this->validate();

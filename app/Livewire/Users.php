@@ -41,27 +41,40 @@ class Users extends Component
             'branch_id' => 'sometimes',
         ];
     }
+    public function messages()
+    {
+        return [
+            'name.required' => __('The Name cannot be empty.'),
+            'email.required' => __('The Email cannot be empty.'),
+            'email.email' => __('The Email must be valid.'),
+            'email.unique' => __('The Email has been taken.'),
+            'password.required' => __('The Password cannot be empty.'),
+            'password.min' => __('The Password cannot be less than 8 letters.'),
+            'role_id.required' => __('The Role cannot be empty.'),
+            'role_id.exists' => __('The Role cannot be empty.'),
+        ];
+    }
     public function create()
     {
-        try{
-        $validated_data = $this->validate();
-        $user = User::create([
-            'name' => $validated_data['name'],
-            'email' => $validated_data['email'],
-            'password' => bcrypt($validated_data['password']),
-            'branch_id' => $validated_data['branch_id'],
-        ]);
-        $user->assignRole($this->role_id);
-        $this->modalFormVisible = false;
-        $this->email = NULL;
-        $this->name = NULL;
-        $this->password = NULL;
-        $this->role_id = NULL;
-        $this->bank = NULL;
-        $this->branch_id = NULL;
-    }
-    catch(Throwable $e)
-    {dd($e);}
+        try {
+            $validated_data = $this->validate();
+            $user = User::create([
+                'name' => $validated_data['name'],
+                'email' => $validated_data['email'],
+                'password' => bcrypt($validated_data['password']),
+                'branch_id' => $validated_data['branch_id'],
+            ]);
+            $user->assignRole($this->role_id);
+            $this->modalFormVisible = false;
+            $this->email = NULL;
+            $this->name = NULL;
+            $this->password = NULL;
+            $this->role_id = NULL;
+            $this->bank = NULL;
+            $this->branch_id = NULL;
+        } catch (Throwable $e) {
+            dd($e);
+        }
     }
     public function render()
     {

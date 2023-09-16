@@ -10,10 +10,12 @@
     </div>
     <div class="mt-1 flex items-center gap-x-2">
         <x-label for="date" value="{{ __('Date') }}" class="basis-1/4 text-lg flex justify-end" />
-        <x-input id="date" type="date" class="mt-1 block basis-3/4" wire:model="date" />
-        @error('date')
-            <span class="error">{{ $message }}</span>
-        @enderror
+        <div class="mt-1 block basis-3/4">
+            <x-input id="date" type="date" class="w-full" wire:model="date" />
+            @error('date')
+                <span class="error w-full">{{ $message }}</span>
+            @enderror
+        </div>
     </div>
     <div class="mt-1 flex items-center gap-x-2">
         <x-label for="amount" value="{{ __('Amount') }}" class="basis-1/4 text-lg flex justify-end" />
@@ -23,10 +25,10 @@
                 wire:change="$refresh" wire:model="amount" />
             <span
                 class="mt-1 flex items-center leading-normal bg-grey-lighter border-1 ltr:rounded-l-none rtl:rounded-r-none border ltr:border-l-0 rtl:border-r-0 border-grey-light px-3 whitespace-no-wrap text-grey-dark text-sm w-12 h-10 justify-center items-center rounded-lg">{{ __('KWD') }}</span>
+            @error('amount')
+                <span class="error w-full">{{ $message }}</span>
+            @enderror
         </div>
-        @error('amount')
-            <span class="error">{{ $message }}</span>
-        @enderror
     </div>
     <div class="mt-1 flex items-center gap-x-2">
         <x-label for="material_id" value="{{ __('Material') }}" class="basis-1/4 text-lg flex justify-end" />
@@ -60,25 +62,31 @@
     </div>
     <div class="mt-1 flex items-center gap-x-2">
         <x-label for="client_name" value="{{ __('Client Name') }}" class="basis-1/4 text-lg flex justify-end" />
-        <x-input id="client_name" type="text" class="mt-1 block basis-3/4" wire:model="client_name" />
-        @error('client_name')
-            <span class="error">{{ $message }}</span>
-        @enderror
+        <div class="mt-1 block basis-3/4">
+            <x-input id="client_name" type="text" class="w-full" wire:model="client_name" />
+            @error('client_name')
+                <span class="error w-full">{{ $message }}</span>
+            @enderror
+        </div>
     </div>
     <div class="mt-1 flex items-center gap-x-2">
         <x-label for="client_national_id" value="{{ __('Client National Id') }}"
             class="basis-1/4 text-lg flex justify-end" />
-        <x-input id="client_national_id" type="text" class="mt-1 block basis-3/4" wire:model="client_national_id" />
-        @error('client_national_id')
-            <span class="error">{{ $message }}</span>
-        @enderror
+        <div class="mt-1 block basis-3/4">
+            <x-input id="client_national_id" type="text" class="w-full" wire:model="client_national_id" />
+            @error('client_national_id')
+                <span class="error w-full">{{ $message }}</span>
+            @enderror
+        </div>
     </div>
     <div class="mt-1 flex items-center gap-x-2">
         <x-label for="client_phone" value="{{ __('Client Phone') }}" class="basis-1/4 text-lg flex justify-end" />
-        <x-input id="client_phone" type="text" class="mt-1 block basis-3/4" wire:model="client_phone" />
-        @error('client_phone')
-            <span class="error">{{ $message }}</span>
-        @enderror
+        <div class="mt-1 block basis-3/4">
+            <x-input id="client_phone" type="text" class="w-full" wire:model="client_phone" />
+            @error('client_phone')
+                <span class="error w-full">{{ $message }}</span>
+            @enderror
+        </div>
     </div>
     <div class="flex mt-2 justify-end">
         <x-secondary-button wire:click="back" wire:loading.attr="disabled">

@@ -29,6 +29,14 @@ class Branches extends Component
             'bank_id' => 'required|exists:banks,id',
         ];
     }
+    public function messages()
+    {
+        return [
+            'name.required' => __('The Name cannot be empty.'),
+            'bank_id.required' => __('The Bank cannot be empty.'),
+            'bank_id.exists' => __('The Bank must be valid.'),
+        ];
+    }
     public function create()
     {
         $validated_data = $this->validate();

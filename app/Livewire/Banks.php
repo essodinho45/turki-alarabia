@@ -25,6 +25,12 @@ class Banks extends Component
             'name' => 'required',
         ];
     }
+    public function messages()
+    {
+        return [
+            'name.required' => __('The Name cannot be empty.'),
+        ];
+    }
     public function create()
     {
         $validated_data = $this->validate();

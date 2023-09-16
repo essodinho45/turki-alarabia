@@ -30,8 +30,23 @@ class CreatePriceOffer extends Component
             'amount' => 'required|numeric',
             'material_id' => 'required|exists:materials,id',
             'client_name' => 'required|string',
-            'client_national_id' => 'required|numeric',
-            'client_phone' => 'required|numeric',
+            'client_national_id' => 'required|numeric|digits:12',
+            'client_phone' => 'required|numeric|digits:8',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'date.required' => __('The Date cannot be empty.'),
+            'amount.required' => __('The Amount cannot be empty.'),
+            'client_name.required' => __('The Client Name cannot be empty.'),
+            'client_national_id.required' => __('The Client National Id cannot be empty.'),
+            'client_phone.required' => __('The Client Phone cannot be empty.'),
+            'client_national_id.numeric' => __('The Client National Id must be a number.'),
+            'client_national_id.digits' => __('The Client National Id must contain 12 digits.'),
+            // 'client_national_id.unique' => __('The Client National Id has been taken.'),
+            'client_phone.numeric' => __('The Client Phone must be a number.'),
+            'client_phone.digits' => __('The Client Phone must contain 8 digits.'),
         ];
     }
     public function create()
