@@ -86,7 +86,7 @@ class CreatePriceOffer extends Component
     }
     public function back()
     {
-        return redirect()->back();
+        return redirect()->route('dashboard');
     }
     public function render()
     {
