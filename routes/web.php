@@ -53,6 +53,9 @@ Route::middleware([
     Route::get('/create-price-offer', function () {
         return view('transactions.create-price-offer');
     })->name('transactions.create-price-offer');
+    Route::get('/update-price-offer', function () {
+        return view('transactions.update-price-offer');
+    })->name('transactions.update-price-offer');
     Route::get('/create-buying-order', function (Request $request) {
         $id = null;
         if ($request->has('id'))

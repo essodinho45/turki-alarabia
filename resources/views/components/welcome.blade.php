@@ -20,8 +20,7 @@
                 </div>
             </div>
         </a>
-        <a href="#">
-
+        <a href="{{ route('transactions.update-price-offer') }}">
             <div class="content flex py-2 items-center">
                 <img src="{{ asset('images/offer_v.png') }}" alt="" />
                 <div class="item-body px-2 ">
