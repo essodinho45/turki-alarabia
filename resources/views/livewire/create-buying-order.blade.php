@@ -9,8 +9,8 @@
     </div>
     <div class="mt-1 flex items-center gap-x-2">
         <x-label for="date" value="{{ __('Date') }}" class="basis-1/4 text-lg flex justify-end" />
-        <x-input id="date" type="date" class="mt-1 block basis-3/4" value="{{ $transaction->date ?? '' }}"
-            disabled />
+        <x-input id="date" type="text" class="mt-1 block basis-3/4"
+            value="{{ $transaction ? date('d-m-Y', strtotime($transaction->date)) : '' }}" disabled />
     </div>
     <div class="mt-1 flex items-center gap-x-2">
         <x-label for="amount" value="{{ __('Amount') }}" class="basis-1/4 text-lg flex justify-end" />

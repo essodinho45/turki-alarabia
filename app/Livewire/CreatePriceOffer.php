@@ -22,6 +22,7 @@ class CreatePriceOffer extends Component
     {
         $latest_transaction = Transaction::orderBy('id', 'DESC')->first();
         $this->id = $latest_transaction ? ($latest_transaction->id + 1) : 1;
+        $this->date = date('d-m-Y');
     }
     public function rules()
     {
@@ -53,8 +54,9 @@ class CreatePriceOffer extends Component
     {
         $validated_data = $this->validate();
         $validated_data['quantity'] = $this->quantity;
+        $date_format = \DateTime::createFromFormat('d-m-Y', $validated_data['date']);
         $transaction = Transaction::create([
-            'date' => $validated_data['date'],
+            'date' => $date_format->format('Y-m-d'),
             'amount' => $validated_data['amount'],
             'material_id' => $validated_data['material_id'],
             'client_name' => $validated_data['client_name'],
@@ -70,6 +72,8 @@ class CreatePriceOffer extends Component
         $this->client_phone = NULL;
         $this->quantity = 0;
         $this->price = 0;
+        $latest_transaction = Transaction::orderBy('id', 'DESC')->first();
+        $this->id = $latest_transaction ? ($latest_transaction->id + 1) : 1;
     }
     public function back()
     {

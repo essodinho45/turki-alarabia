@@ -11,7 +11,7 @@
     <div class="mt-1 flex items-center gap-x-2">
         <x-label for="date" value="{{ __('Date') }}" class="basis-1/4 text-lg flex justify-end" />
         <div class="mt-1 block basis-3/4">
-            <x-input id="date" type="date" class="w-full" wire:model="date" />
+            <x-date wire:model="date" class="w-full" />
             @error('date')
                 <span class="error w-full">{{ $message }}</span>
             @enderror

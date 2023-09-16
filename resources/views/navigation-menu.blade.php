@@ -103,6 +103,10 @@
                                     <button type="button"
                                         class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-700 hover:text-blue-300 focus:outline-none focus:bg-blue-800 active:bg-blue-800 transition ease-in-out duration-150">
                                         {{ Auth::user()->name }}
+                                        @if (Auth::user()->branch)
+                                            {{ ' - ' . Auth::user()->branch->bank->name }}
+                                            {{ ' - ' . Auth::user()->branch->name }}
+                                        @endif
 
                                         <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
                                             fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
