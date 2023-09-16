@@ -9,6 +9,11 @@ class CreateBuyingOrder extends Component
 {
     public $id;
     public $transaction;
+    public function mount()
+    {
+        if ($this->id)
+            $this->transaction = Transaction::find($this->id);
+    }
 
     public function back()
     {
@@ -16,8 +21,7 @@ class CreateBuyingOrder extends Component
     }
     public function create()
     {
-        if($this->transaction)
-        {
+        if ($this->transaction) {
             $this->transaction->status = 'order';
             $this->transaction->save();
         }

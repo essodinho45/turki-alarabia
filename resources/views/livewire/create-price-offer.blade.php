@@ -98,4 +98,26 @@
             {{ __('Order Price Offer') }}
         </x-button>
     </div>
+
+    <x-dialog-modal wire:model="modalFormVisible">
+        <x-slot name="title">
+            {{ __('Price Offer') }}
+        </x-slot>
+
+        <x-slot name="content">
+            <div class="mt-4">
+                {{ __('Price offer created with number:') }}&nbsp;{{ $id }}
+            </div>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="closeModal" wire:loading.attr="disabled">
+                {{ __('Close') }}
+            </x-secondary-button>
+
+            <x-button class="rtl:mr-3 ltr:ml-3" wire:click="proceedToOrder" wire:loading.attr="disabled">
+                {{ __('Proceed to Buying Order') }}
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
 </div>

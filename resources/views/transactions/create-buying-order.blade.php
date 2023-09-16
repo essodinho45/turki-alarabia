@@ -8,7 +8,7 @@
                     </h2>
                 </div>
                 <div class="basis-1/3">
-                    @livewire('create-buying-order')
+                    @livewire('create-buying-order', ['id' => $id])
                 </div>
             </div>
         </div>

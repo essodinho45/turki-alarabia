@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,18 +18,18 @@ Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
-Route::get('/config-clear', function() {
+Route::get('/config-clear', function () {
     $status = Artisan::call('optimize:clear');
     return '<h1>Configurations cleared</h1>';
 });
 
 //Generate Key:
-Route::get('/gen-key', function() {
+Route::get('/gen-key', function () {
     $status = Artisan::call('key:generate');
     return '<h1>Key Generated</h1>';
 });
 
-Route::get('/migrate', function() {
+Route::get('/migrate', function () {
     $status = Artisan::call('migrate');
     return '<h1>Migrated</h1>';
 });
@@ -52,8 +53,11 @@ Route::middleware([
     Route::get('/create-price-offer', function () {
         return view('transactions.create-price-offer');
     })->name('transactions.create-price-offer');
-    Route::get('/create-buying-order', function () {
-        return view('transactions.create-buying-order');
+    Route::get('/create-buying-order', function (Request $request) {
+        $id = null;
+        if ($request->has('id'))
+            $id = $request->id;
+        return view('transactions.create-buying-order', compact('id'));
     })->name('transactions.create-buying-order');
     Route::get('/index-transactions/{status}', function ($status) {
         return view('transactions.index', compact('status'));

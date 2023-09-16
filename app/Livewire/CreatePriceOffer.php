@@ -17,7 +17,7 @@ class CreatePriceOffer extends Component
     public $client_phone;
     public float $price;
     public float $quantity;
-
+    public $modalFormVisible = false;
     public function mount()
     {
         $latest_transaction = Transaction::orderBy('id', 'DESC')->first();
@@ -64,7 +64,8 @@ class CreatePriceOffer extends Component
             'client_phone' => $validated_data['client_phone'],
             'quantity' => $validated_data['quantity'],
         ]);
-        $this->date = NULL;
+        $this->modalFormVisible = true;
+        $this->date = date('d-m-Y');
         $this->amount = 0;
         $this->material_id = NULL;
         $this->client_name = NULL;
@@ -72,8 +73,16 @@ class CreatePriceOffer extends Component
         $this->client_phone = NULL;
         $this->quantity = 0;
         $this->price = 0;
+    }
+    public function closeModal()
+    {
         $latest_transaction = Transaction::orderBy('id', 'DESC')->first();
         $this->id = $latest_transaction ? ($latest_transaction->id + 1) : 1;
+        $this->modalFormVisible = false;
+    }
+    public function proceedToOrder()
+    {
+        return redirect()->route('transactions.create-buying-order', ['id' => $this->id]);
     }
     public function back()
     {
