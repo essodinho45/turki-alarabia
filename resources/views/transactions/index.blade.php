@@ -18,12 +18,16 @@
                     {{ __('Completed Transactions') }}
                 @break
 
+                @case('print')
+                    {{ __('Print') }}
+                @break
+
                 @default
             @endswitch
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-1">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 @livewire('index-transactions', ['status' => $status])

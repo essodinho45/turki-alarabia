@@ -9,6 +9,7 @@ class CreateBuyingOrder extends Component
 {
     public $id;
     public $transaction;
+    public $modalFormVisible = false;
     public function mount()
     {
         if ($this->id)
@@ -25,8 +26,13 @@ class CreateBuyingOrder extends Component
             $this->transaction->status = 'order';
             $this->transaction->save();
         }
-        $this->id = NULL;
+        $this->modalFormVisible = true;
         $this->transaction = NULL;
+    }
+    public function closeModal()
+    {
+        $this->id = NULL;
+        $this->modalFormVisible = false;
     }
     public function render()
     {

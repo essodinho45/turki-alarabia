@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\Transaction;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,9 +63,17 @@ Route::middleware([
             $id = $request->id;
         return view('transactions.create-buying-order', compact('id'));
     })->name('transactions.create-buying-order');
+
     Route::get('/index-transactions/{status}', function ($status) {
         return view('transactions.index', compact('status'));
     })->name('transactions.index');
+
+    Route::get('/print-price-offer/{transaction}', function (Transaction $transaction) {
+        return view('transactions.print-price-offer', compact('transaction'));
+    })->name('transactions.printOffer');
+    Route::get('/print-buying-order/{transaction}', function (Transaction $transaction) {
+        return view('transactions.print-buying-order', compact('transaction'));
+    })->name('transactions.printOrder');
 });
 Route::middleware([
     'auth:sanctum',

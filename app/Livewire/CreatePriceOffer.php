@@ -11,6 +11,7 @@ class CreatePriceOffer extends Component
     public $id;
     public $date;
     public float $amount;
+    public float $total_amount;
     public $material_id;
     public $client_name;
     public $client_national_id;
@@ -67,6 +68,7 @@ class CreatePriceOffer extends Component
         $this->modalFormVisible = true;
         $this->date = date('d-m-Y');
         $this->amount = 0;
+        $this->total_amount = 0;
         $this->material_id = NULL;
         $this->client_name = NULL;
         $this->client_national_id = NULL;
@@ -94,6 +96,7 @@ class CreatePriceOffer extends Component
         if ($material) {
             $this->price = $material->unit_price;
             $this->quantity = $this->amount / $this->price;
+            $this->total_amount = ($this->amount == 0) ? 0 : $this->amount + 50;
         }
         return view('livewire.create-price-offer')->withMaterials(Material::all());
     }

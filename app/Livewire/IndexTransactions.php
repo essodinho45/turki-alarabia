@@ -11,6 +11,8 @@ class IndexTransactions extends Component
     public $status;
     public function read()
     {
+        if($this->status == 'print')
+            return Transaction::paginate(10);
         return Transaction::where('status', $this->status)->paginate(10);
     }
     public function approveByBank($id)

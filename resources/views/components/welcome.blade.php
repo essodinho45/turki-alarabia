@@ -30,8 +30,7 @@
                 </div>
             </div>
         </a>
-        <a href="#">
-
+        <a href="{{ route('transactions.index', 'print') }}">
             <div class="content flex py-2 items-center">
                 <img src="{{ asset('images/print.png') }}" alt="" />
                 <div class="item-body px-2 ">

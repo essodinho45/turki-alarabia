@@ -1,4 +1,4 @@
-<div class="p-6">
+<div>
     <table class="w-full divide-y divide-gray-200">
         <thead class="bg-white border-b">
             <tr>
@@ -30,16 +30,30 @@
             @if ($data->count())
                 @foreach ($data as $transaction)
                     <tr>
-                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $transaction->id }}</td>
-                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $transaction->date }}</td>
-                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $transaction->client_name }}</td>
-                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $transaction->user->name }}</td>
-                        <td class="px-6 py-4 text-sm whitespace-no-wrap">
+                        <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->id }}</td>
+                        <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->date }}</td>
+                        <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->client_name }}</td>
+                        <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->user->name }}</td>
+                        <td class="px-6 py-2 text-sm whitespace-no-wrap">
                             {{ $transaction->user->branch ? $transaction->user->branch->bank->name - $transaction->user->branch->name : '' }}
                         </td>
-                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $transaction->amount }}</td>
-                        <td class="px-6 py-4 text-sm text-right">
+                        <td class="px-6 py-2 text-sm whitespace-no-wrap">
+                            {{ number_format($transaction->amount + 50, 3) }}
+                        </td>
+                        <td class="px-6 py-2 text-sm text-right">
                             @switch($status)
+                                @case('print')
+                                    <a href="
+                                        @if ($transaction->status == 'offer') {{ route('transactions.printOffer', ['transaction' => $transaction->id]) }}
+                                        @elseif ($transaction->status == 'order') {{ route('transactions.printOrder', ['transaction' => $transaction->id]) }}
+                                        @else # @endif
+                                        "
+                                        target="_blank"
+                                        class="inline-flex items-center px-4 py-2 bg-blue-700 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-800 focus:bg-blue-800 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 rtl:mr-3 ltr:ml-3">
+                                        {{ __('Print') }}
+                                    </a>
+                                @break
+
                                 @case('order')
                                     @can('approve by bank')
                                         <button class="btn btn-blue" wire:click="approveByBank({{ $transaction->id }})">
@@ -73,6 +87,7 @@
             @endif
         </tbody>
     </table>
-    {{ $data->links('vendor.livewire.tailwind') }}
-
+    <div class="p-6">
+        {{ $data->links('vendor.livewire.tailwind') }}
+    </div>
 </div>
