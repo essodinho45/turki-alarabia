@@ -5,17 +5,21 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Transaction;
+use Carbon\Carbon;
+
 class IndexTransactions extends Component
 {
     use WithPagination;
     public $status;
     public function read()
     {
-        if($this->status == 'print')
+        if ($this->status == 'print')
             return Transaction::paginate(10);
-        return Transaction::where('status', $this->status)->paginate(10);
+        return Transaction::where('status', $this->status)
+            ->whereDate('created_at', '>=', Carbon::now()->StartOfDay())
+            ->paginate(10);
     }
-    public function approveByBank($id)
+    public function approve($id)
     {
         $current = Transaction::find($id);
         $current->status = 'approved_by_bank';

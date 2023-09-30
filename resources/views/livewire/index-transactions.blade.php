@@ -13,6 +13,12 @@
                     {{ __('Client Name') }}</th>
                 <th
                     class="px-6 py-3 bg-gray-50 rtl:text-right ltr:text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    {{ __('Client Phone') }}</th>
+                <th
+                    class="px-6 py-3 bg-gray-50 rtl:text-right ltr:text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    {{ __('Client National Id') }}</th>
+                <th
+                    class="px-6 py-3 bg-gray-50 rtl:text-right ltr:text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                     {{ __('Employee Name') }}</th>
                 <th
                     class="px-6 py-3 bg-gray-50 rtl:text-right ltr:text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -33,6 +39,8 @@
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->id }}</td>
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->date }}</td>
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->client_name }}</td>
+                        <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->client_phone }}</td>
+                        <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->client_national_id }}</td>
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->user->name }}</td>
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">
                             {{ $transaction->user->branch ? $transaction->user->branch->bank->name - $transaction->user->branch->name : '' }}
@@ -55,9 +63,12 @@
                                 @break
 
                                 @case('order')
-                                    @can('approve by bank')
-                                        <button class="btn btn-blue" wire:click="approveByBank({{ $transaction->id }})">
+                                    @can('approve by manager')
+                                        <button class="btn btn-blue" wire:click="approve({{ $transaction->id }})">
                                             {{ __('Approve') }}
+                                        </button>
+                                        <button class="btn btn-red" wire:click="cancelByManager({{ $transaction->id }})">
+                                            {{ __('Cancel') }}
                                         </button>
                                     @endcan
                                 @break
