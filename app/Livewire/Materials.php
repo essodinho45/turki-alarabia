@@ -11,7 +11,11 @@ class Materials extends Component
     use WithPagination;
     public $name;
     public $unit_price;
+    public $update_name;
+    public $update_unit_price;
     public $modalFormVisible = false;
+    public $updateFormVisible = false;
+    public $modelToChange;
 
     public function read()
     {
@@ -27,6 +31,13 @@ class Materials extends Component
             'name' => 'required',
             'unit_price' => 'required|numeric',
         ];
+    }
+    public function updateShowModal($id)
+    {
+        $this->modelToChange = Material::find($id);
+        $this->update_name = $this->modelToChange->name;
+        $this->update_unit_price = $this->modelToChange->unit_price;
+        $this->updateFormVisible = true;
     }
     public function messages()
     {
@@ -46,6 +57,21 @@ class Materials extends Component
         $this->modalFormVisible = false;
         $this->name = NULL;
         $this->unit_price = NULL;
+    }
+    public function update()
+    {
+        $validated_data = $this->validate([
+            'update_name' => 'required',
+            'update_unit_price' => 'required|numeric',
+        ]);
+        $this->modelToChange->update([
+            'name' => $validated_data['update_name'],
+            'unit_price' => $validated_data['update_unit_price']
+        ]);
+        $this->updateFormVisible = false;
+        $this->update_name = NULL;
+        $this->update_unit_price = NULL;
+        $this->modelToChange = NULL;
     }
     public function render()
     {

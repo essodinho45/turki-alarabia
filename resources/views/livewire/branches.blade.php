@@ -33,6 +33,9 @@
                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $branch->name }}</td>
                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $branch->bank->name }}</td>
                         <td class="px-6 py-4 text-sm text-right">
+                            <x-button wire:click="updateShowModal({{ $branch->id }})">
+                                {{ __('Update') }}
+                            </x-button>
                         </td>
                     </tr>
                 @endforeach
@@ -78,6 +81,43 @@
             </x-secondary-button>
 
             <x-button class="rtl:mr-3 ltr:ml-3" wire:click="create" wire:loading.attr="disabled">
+                {{ __('Save') }}
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
+    <x-dialog-modal wire:model="updateFormVisible">
+        <x-slot name="title">
+            {{ __('Save Branch') }}
+        </x-slot>
+
+        <x-slot name="content">
+            <div class="mt-4">
+                <x-label for="update_name" value="{{ __('Name') }}" />
+                <x-input id="update_name" type="text" class="mt-1 block w-full"
+                    wire:model.debounce.800ms="update_name" />
+                @error('update_name')
+                    <span class="error">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="mt-4">
+                <x-label for="update_bank_id" value="{{ __('Bank') }}" />
+                <select name="update_bank_id" wire:model="update_bank_id"
+                    class="rounded border-gray-300 shadow-sm p-2 bg-white w-full focus:ring-indigo-800 focus:border-indigo-800">
+                    @foreach ($banks as $bank)
+                        <option value={{ $bank->id }} wire:key="bank_{{ $bank->id }}"
+                            @selected($bank->id == $update_bank_id)>{{ $bank->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="$toggle('updateFormVisible')" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+
+            <x-button class="rtl:mr-3 ltr:ml-3" wire:click="update" wire:loading.attr="disabled">
                 {{ __('Save') }}
             </x-button>
         </x-slot>

@@ -12,7 +12,11 @@ class Branches extends Component
     use WithPagination;
     public $name;
     public $bank_id;
+    public $update_name;
+    public $update_bank_id;
     public $modalFormVisible = false;
+    public $updateFormVisible = false;
+    public $modelToChange;
 
     public function read()
     {
@@ -21,6 +25,13 @@ class Branches extends Component
     public function createShowModal()
     {
         $this->modalFormVisible = true;
+    }
+    public function updateShowModal($id)
+    {
+        $this->modelToChange = Branch::find($id);
+        $this->update_name = $this->modelToChange->name;
+        $this->update_bank_id = $this->modelToChange->bank_id;
+        $this->updateFormVisible = true;
     }
     public function rules()
     {
@@ -47,6 +58,21 @@ class Branches extends Component
         $this->modalFormVisible = false;
         $this->name = NULL;
         $this->bank_id = NULL;
+    }
+    public function update()
+    {
+        $validated_data = $this->validate([
+            'update_name' => 'required',
+            'update_bank_id' => 'required|exists:banks,id',
+        ]);
+        $this->modelToChange->update([
+            'name' => $validated_data['update_name'],
+            'bank_id' => $validated_data['update_bank_id']
+        ]);
+        $this->updateFormVisible = false;
+        $this->update_name = NULL;
+        $this->update_bank_id = NULL;
+        $this->modelToChange = NULL;
     }
     public function render()
     {

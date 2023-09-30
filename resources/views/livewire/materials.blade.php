@@ -34,6 +34,9 @@
                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ number_format($material->unit_price, 3) }}
                         </td>
                         <td class="px-6 py-4 text-sm text-right">
+                            <x-button wire:click="updateShowModal({{ $material->id }})">
+                                {{ __('Update') }}
+                            </x-button>
                         </td>
                     </tr>
                 @endforeach
@@ -76,6 +79,40 @@
             </x-secondary-button>
 
             <x-button class="rtl:mr-3 ltr:ml-3" wire:click="create" wire:loading.attr="disabled">
+                {{ __('Save') }}
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
+    <x-dialog-modal wire:model="updateFormVisible">
+        <x-slot name="title">
+            {{ __('Save Material') }}
+        </x-slot>
+
+        <x-slot name="content">
+            <div class="mt-4">
+                <x-label for="update_name" value="{{ __('Name') }}" />
+                <x-input id="update_name" type="text" class="mt-1 block w-full"
+                    wire:model.debounce.800ms="update_name" />
+                @error('update_name')
+                    <span class="error">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="mt-4">
+                <x-label for="update_unit_price" value="{{ __('Price') }}" />
+                <x-input id="update_unit_price" type="number" class="mt-1 block w-full" step=".001"
+                    wire:model.debounce.800ms="update_unit_price" />
+                @error('update_unit_price')
+                    <span class="error">{{ $message }}</span>
+                @enderror
+            </div>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="$toggle('updateFormVisible')" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+
+            <x-button class="rtl:mr-3 ltr:ml-3" wire:click="update" wire:loading.attr="disabled">
                 {{ __('Save') }}
             </x-button>
         </x-slot>
