@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->text('fcm_token')->nullable();
+            $table->text('fcm_token')->nullable()->default(NULL);
         });
     }
 
