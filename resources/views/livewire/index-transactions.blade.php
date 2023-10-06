@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5000ms>
     <table class="w-full divide-y divide-gray-200">
         <thead class="bg-white border-b">
             <tr>
