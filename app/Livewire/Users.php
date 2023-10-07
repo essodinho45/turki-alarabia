@@ -16,11 +16,17 @@ class Users extends Component
     public $email;
     public $password;
     public $role_id;
-    public $bank;
     public $branch_id;
     public $branches = [];
     public $modalFormVisible = false;
     public $show_branch = false;
+    public $updateFormVisible = false;
+    public $modelToChange;
+    public $update_name;
+    public $update_email;
+    public $update_password;
+    public $update_role_id;
+    public $update_branch_id;
 
     public function read()
     {
@@ -30,6 +36,16 @@ class Users extends Component
     {
         $this->modalFormVisible = true;
     }
+    public function updateShowModal($id)
+    {
+        $this->modelToChange = User::find($id);
+        $this->update_name = $this->modelToChange->name;
+        $this->update_email = $this->modelToChange->email;
+        $this->update_password = NULL;
+        $this->update_role_id = $this->modelToChange->role_id;
+        $this->update_branch_id = $this->modelToChange->branch_id;
+        $this->updateFormVisible = true;
+    }
     public function rules()
     {
         return [
@@ -37,7 +53,6 @@ class Users extends Component
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
             'role_id' => 'required|exists:roles,id',
-            'bank' => 'sometimes',
             'branch_id' => 'sometimes',
         ];
     }
@@ -70,19 +85,40 @@ class Users extends Component
             $this->name = NULL;
             $this->password = NULL;
             $this->role_id = NULL;
-            $this->bank = NULL;
             $this->branch_id = NULL;
         } catch (Throwable $e) {
             dd($e);
         }
     }
+    public function update()
+    {
+        $validated_data = $this->validate([
+            'update_name' => 'required',
+            'update_email' => 'required',
+            'update_password' => 'sometimes|min:8',
+            'update_role_id' => 'required|exists:roles,id',
+            'update_branch_id' => 'sometimes',
+        ]);
+        $this->modelToChange->update([
+            'name' => $validated_data['update_name'],
+            'email' => $validated_data['update_email'],
+            'password' => ($validated_data['update_password'] ? bcrypt($validated_data['update_password']) : $this->modelToChange->password),
+            'branch_id' => $validated_data['update_branch_id'],
+        ]);
+        $this->updateFormVisible = false;
+        $this->update_name = NULL;
+        $this->update_email = NULL;
+        $this->update_password = NULL;
+        $this->update_role_id = NULL;
+        $this->update_branch_id = NULL;
+        $this->modelToChange = NULL;
+    }
     public function render()
     {
-        if (!empty($this->bank)) {
-            $this->branches = Branch::where('bank_id', $this->bank)->get();
-        }
+        $banks = Bank::all();
+        $this->branches = Branch::where('bank_id', $banks[0]->id)->get();
         return view('livewire.users', [
             'data' => $this->read()
-        ])->withRoles(Role::all())->withBanks(Bank::all());
+        ])->withRoles(Role::all())->withBanks($banks);
     }
 }
