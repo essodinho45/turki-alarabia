@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Material;
 use App\Models\Transaction;
+use App\Notifications\SendPushNotification;
 use Livewire\Component;
 
 class CreatePriceOffer extends Component
@@ -98,6 +99,7 @@ class CreatePriceOffer extends Component
             $this->quantity = $this->amount / $this->price;
             $this->total_amount = ($this->amount == 0) ? 0 : $this->amount + 50;
         }
+        // auth()->user()->notify(new SendPushNotification($title,$message,$fcmTokens));
         return view('livewire.create-price-offer')->withMaterials(Material::all());
     }
 }
