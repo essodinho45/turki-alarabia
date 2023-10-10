@@ -140,6 +140,9 @@
                         </option>
                     @endforeach
                 </select>
+                @error('update_role_id')
+                    <span class="error">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mt-4">
                 <x-label for="update_name" value="{{ __('Name') }}" />
@@ -188,6 +191,9 @@
                                 {{ $branch->name }}</option>
                         @endforeach
                     </select>
+                    @error('update_branch_id')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
                 </div>
             @endif
         </x-slot>

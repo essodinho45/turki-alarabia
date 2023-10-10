@@ -42,7 +42,7 @@ class Users extends Component
         $this->update_name = $this->modelToChange->name;
         $this->update_email = $this->modelToChange->email;
         $this->update_password = NULL;
-        $this->update_role_id = $this->modelToChange->role_id;
+        $this->update_role_id = $this->modelToChange->roles[0]->id;
         $this->update_branch_id = $this->modelToChange->branch_id;
         $this->updateFormVisible = true;
     }
@@ -95,7 +95,7 @@ class Users extends Component
         $validated_data = $this->validate([
             'update_name' => 'required',
             'update_email' => 'required',
-            'update_password' => 'sometimes|min:8',
+            'update_password' => 'sometimes|nullable|min:8',
             'update_role_id' => 'required|exists:roles,id',
             'update_branch_id' => 'sometimes',
         ]);
@@ -105,6 +105,8 @@ class Users extends Component
             'password' => ($validated_data['update_password'] ? bcrypt($validated_data['update_password']) : $this->modelToChange->password),
             'branch_id' => $validated_data['update_branch_id'],
         ]);
+        $this->modelToChange->roles()->detach();
+        $this->modelToChange->assignRole($validated_data['update_role_id']);
         $this->updateFormVisible = false;
         $this->update_name = NULL;
         $this->update_email = NULL;
