@@ -30,7 +30,7 @@ window.setToken = function () {
             if (currentToken) {
                 // Send the token to your server and update the UI if necessary
 
-                data = new FormData();
+                var data = new FormData();
                 data.append("_token", document.querySelector('meta[name="csrf-token"]').content);
                 navigator.sendBeacon(
                     `/setToken?fcm_token=${currentToken}`
