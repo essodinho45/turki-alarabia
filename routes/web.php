@@ -74,6 +74,8 @@ Route::middleware([
     Route::get('/print-buying-order/{transaction}', function (Transaction $transaction) {
         return view('transactions.print-buying-order', compact('transaction'));
     })->name('transactions.printOrder');
+
+    Route::post('setToken', [FirebasePushController::class, 'setToken'])->name('firebase.token');
 });
 
 Route::middleware([

@@ -48,66 +48,12 @@
 
     @livewireScripts
 </body>
-
-{{-- <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
-
-<!-- TODO: Add SDKs for Firebase products that you want to use
-    https://firebase.google.com/docs/web/setup#available-libraries -->
-
-<script>
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyCSouWPGPBvmw5kgfgyYyQbg6n44oJbAyc",
-        authDomain: "turki-alarabia.firebaseapp.com",
-        projectId: "turki-alarabia",
-        storageBucket: "turki-alarabia.appspot.com",
-        messagingSenderId: "570609799086",
-        appId: "1:570609799086:web:6f46a2d17ea79c903f023f",
-        measurementId: "G-DPKPVFKXEL"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-
-    const messaging = firebase.messaging();
-
-    function initFirebaseMessagingRegistration() {
-        messaging.requestPermission().then(function() {
-            return messaging.getToken()
-        }).then(function(token) {
-
-            axios.post("{{ route('fcmToken') }}", {
-                _method: "PATCH",
-                token
-            }).then(({
-                data
-            }) => {
-                console.log(data)
-            }).catch(({
-                response: {
-                    data
-                }
-            }) => {
-                console.error(data)
-            })
-
-        }).catch(function(err) {
-            console.log('Token Error :: ${err}');
+@if (!auth()->user()->fcm_token)
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            setToken();
         });
-    }
-
-    initFirebaseMessagingRegistration();
-
-    messaging.onMessage(function({
-        data: {
-            body,
-            title
-        }
-    }) {
-        new Notification(title, {
-            body
-        });
-    });
-</script> --}}
+    </script>
+@endif
 
 </html>
