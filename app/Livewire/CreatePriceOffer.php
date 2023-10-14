@@ -93,6 +93,7 @@ class CreatePriceOffer extends Component
     }
     public function render()
     {
+        auth()->user()->notify(new SendPushNotification);
         $material = Material::find($this->material_id);
         if ($material) {
             $this->price = $material->unit_price;

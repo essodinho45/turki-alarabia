@@ -2,45 +2,29 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Kutia\Larafirebase\Messages\FirebaseMessage;
+use NotificationChannels\Fcm\FcmChannel;
+use NotificationChannels\Fcm\FcmMessage;
+use NotificationChannels\Fcm\Resources\AndroidConfig;
+use NotificationChannels\Fcm\Resources\AndroidFcmOptions;
+use NotificationChannels\Fcm\Resources\AndroidNotification;
+use NotificationChannels\Fcm\Resources\ApnsConfig;
+use NotificationChannels\Fcm\Resources\ApnsFcmOptions;
 
 class SendPushNotification extends Notification
 {
-    use Queueable;
-
-    protected $title;
-    protected $message;
-    protected $fcmTokens;
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct($title, $message, $fcmTokens)
-    {
-        $this->title = $title;
-        $this->message = $message;
-        $this->fcmTokens = $fcmTokens;
-    }
-
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
-        return ['firebase'];
+        return [FcmChannel::class];
     }
 
-    public function toFirebase($notifiable)
+    public function toFcm($notifiable)
     {
-        return (new FirebaseMessage)
-            ->withTitle($this->title)
-            ->withBody($this->message)
-            ->withPriority('high')->asMessage($this->fcmTokens);
+        return FcmMessage::create()
+            ->setData(['data1' => 'value', 'data2' => 'value2'])
+            ->setNotification(\NotificationChannels\Fcm\Resources\Notification::create()
+                ->setTitle('Test')
+                ->setBody('Test')
+        );
     }
 }

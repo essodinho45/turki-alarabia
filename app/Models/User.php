@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Branch::class);
     }
+
+    public function routeNotificationForFcm()
+    {
+        return $this->fcm_token;
+    }
 }

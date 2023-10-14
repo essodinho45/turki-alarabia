@@ -75,6 +75,7 @@ Route::middleware([
         return view('transactions.print-buying-order', compact('transaction'));
     })->name('transactions.printOrder');
 });
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
