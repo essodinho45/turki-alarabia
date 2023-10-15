@@ -66,6 +66,7 @@ class CreatePriceOffer extends Component
             'client_phone' => $validated_data['client_phone'],
             'quantity' => $validated_data['quantity'],
         ]);
+        auth()->user()->notify(new SendPushNotification);
         $this->modalFormVisible = true;
         $this->date = date('d-m-Y');
         $this->amount = 0;
@@ -93,7 +94,6 @@ class CreatePriceOffer extends Component
     }
     public function render()
     {
-        auth()->user()->notify(new SendPushNotification);
         $material = Material::find($this->material_id);
         if ($material) {
             $this->price = $material->unit_price;

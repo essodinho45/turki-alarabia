@@ -6,11 +6,11 @@
                     {{ __('Transactions To Approve') }}
                 @break
 
-                @case('approved_by_bank')
+                @case('approved_by_manager')
                     {{ __('Transactions To Approve By Agent') }}
                 @break
 
-                @case('approved_by_agent')
+                @case('approved_by_bank')
                     {{ __('Transactions In Progress') }}
                 @break
 

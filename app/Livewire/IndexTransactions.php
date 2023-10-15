@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Branch;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Transaction;
@@ -13,9 +14,14 @@ class IndexTransactions extends Component
     public $status;
     public function read()
     {
+        $transactions = Transaction::query();
+        if (auth()->user()->branch_id) {
+            $users = Branch::find(auth()->user()->branch_id)->users()->pluck('id');
+            $transactions = $transactions->whereIn('user_id', $users);
+        }
         if ($this->status == 'print')
-            return Transaction::paginate(10);
-        return Transaction::where('status', $this->status)
+            return $transactions->paginate(10);
+        return $transactions->where('status', $this->status)
             ->whereDate('created_at', '>=', Carbon::now()->StartOfDay())
             ->paginate(10);
     }
@@ -28,7 +34,7 @@ class IndexTransactions extends Component
     public function approveByManager($id)
     {
         $current = Transaction::find($id);
-        $current->status = 'done';
+        $current->status = 'approved_by_manager';
         $current->save();
     }
     public function cancelByManager($id)

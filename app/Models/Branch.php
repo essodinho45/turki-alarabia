@@ -17,4 +17,14 @@ class Branch extends Model
     {
         return $this->belongsTo(Bank::class);
     }
+
+    /**
+     * Get all of the comments for the Branch
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

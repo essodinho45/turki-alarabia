@@ -43,7 +43,7 @@
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->client_national_id }}</td>
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->user->name }}</td>
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">
-                            {{ $transaction->user->branch ? $transaction->user->branch->bank->name - $transaction->user->branch->name : '' }}
+                            {{ $transaction->user->branch ? $transaction->user->branch->bank->name . ' - ' . $transaction->user->branch->name : '' }}
                         </td>
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">
                             {{ number_format($transaction->amount + 50, 3) }}
@@ -63,7 +63,7 @@
                                 @break
 
                                 @case('order')
-                                    @can('approve by manager')
+                                    @can('approve by bank')
                                         <button class="btn btn-blue" wire:click="approve({{ $transaction->id }})">
                                             {{ __('Approve') }}
                                         </button>
@@ -73,7 +73,7 @@
                                     @endcan
                                 @break
 
-                                @case('approved_by_agent')
+                                @case('approved_by_bank')
                                     @can('approve by manager')
                                         <button class="btn btn-blue" wire:click="approveByManager({{ $transaction->id }})">
                                             {{ __('Approve') }}

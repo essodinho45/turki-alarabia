@@ -16,6 +16,9 @@
                 <th
                     class="px-6 py-3 bg-gray-50 rtl:text-right ltr:text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                     {{ __('Price') }}</th>
+                <th
+                    class="px-6 py-3 bg-gray-50 rtl:text-right ltr:text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    {{ __('Description') }}</th>
                 {{-- <th
                     class="px-6 py-3 bg-gray-50 rtl:text-right ltr:text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                     {{ __('Roles') }}</th> --}}
@@ -32,6 +35,7 @@
                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $material->id }}</td>
                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $material->name }}</td>
                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ number_format($material->unit_price, 3) }}
+                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $material->description }}
                         </td>
                         <td class="px-6 py-4 text-sm text-right">
                             <x-button wire:click="updateShowModal({{ $material->id }})">
@@ -71,6 +75,15 @@
                     <span class="error">{{ $message }}</span>
                 @enderror
             </div>
+            <div class="mt-4">
+                <x-label for="description" value="{{ __('Description') }}" />
+                <textarea
+                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
+                    id="description" wire:model.debounce.800ms="description"></textarea>
+                @error('description')
+                    <span class="error">{{ $message }}</span>
+                @enderror
+            </div>
         </x-slot>
 
         <x-slot name="footer">
@@ -102,6 +115,15 @@
                 <x-input id="update_unit_price" type="number" class="mt-1 block w-full" step=".001"
                     wire:model.debounce.800ms="update_unit_price" />
                 @error('update_unit_price')
+                    <span class="error">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="mt-4">
+                <x-label for="update_description" value="{{ __('Description') }}" />
+                <textarea
+                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
+                    id="update_description" wire:model.debounce.800ms="update_description">{{ $update_description }}</textarea>
+                @error('update_description')
                     <span class="error">{{ $message }}</span>
                 @enderror
             </div>
