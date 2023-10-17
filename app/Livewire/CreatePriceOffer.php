@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Material;
 use App\Models\Transaction;
+use App\Notifications\OfferCreated;
 use App\Notifications\SendPushNotification;
 use Livewire\Component;
 
@@ -66,7 +67,11 @@ class CreatePriceOffer extends Component
             'client_phone' => $validated_data['client_phone'],
             'quantity' => $validated_data['quantity'],
         ]);
-        auth()->user()->notify(new SendPushNotification);
+        $users = $transaction->branch->users;
+        foreach ($users as $user) {
+            if($user->id == $transaction->user_id)
+                $user->notify(new OfferCreated($transaction->id));
+        }
         $this->modalFormVisible = true;
         $this->date = date('d-m-Y');
         $this->amount = 0;

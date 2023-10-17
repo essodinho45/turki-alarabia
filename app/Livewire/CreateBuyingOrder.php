@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Notifications\OrderCreated;
 use Livewire\Component;
 use App\Models\Transaction;
 
@@ -25,6 +26,11 @@ class CreateBuyingOrder extends Component
         if ($this->transaction) {
             $this->transaction->status = 'order';
             $this->transaction->save();
+        }
+        $users = $this->transaction->branch->users;
+        foreach ($users as $user) {
+            if($user->id == $this->transaction->user_id || $user->hasRole('Bank Employee'))
+                $user->notify(new OrderCreated($this->transaction->id));
         }
         $this->modalFormVisible = true;
         $this->transaction = NULL;
