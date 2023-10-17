@@ -16,8 +16,7 @@ class IndexTransactions extends Component
     {
         $transactions = Transaction::query();
         if (auth()->user()->branch_id) {
-            $users = Branch::find(auth()->user()->branch_id)->users()->pluck('id');
-            $transactions = $transactions->whereIn('user_id', $users);
+            $transactions = $transactions->where('branch_id', auth()->user()->branch_id);
         }
         if ($this->status == 'print')
             return $transactions->paginate(10);

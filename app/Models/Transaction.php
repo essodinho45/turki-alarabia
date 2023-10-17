@@ -17,6 +17,7 @@ class Transaction extends Model
         'client_national_id',
         'client_phone',
         'user_id',
+        'branch_id',
     ];
 
     public function material()
@@ -27,13 +28,17 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
     public static function boot(): void
     {
         parent::boot();
-        static::creating(
-            fn($model) =>
-            $model->user_id = auth()->user()->id ?? 1,
-        );
+        static::creating( function (Transaction $transaction){
+            $transaction->user_id = auth()->user()->id ?? 1;
+            $transaction->branch_id = auth()->user()->branch_id ?? 1;
+        });
     }
 
 }
