@@ -29,7 +29,7 @@ class CreateBuyingOrder extends Component
         }
         $users = $this->transaction->branch->users;
         foreach ($users as $user) {
-            if($user->id == $this->transaction->user_id || $user->hasRole('Bank Employee'))
+            if($user->id == $this->transaction->user_id || $user->hasRole('Manager'))
                 $user->notify(new OrderCreated($this->transaction->id));
         }
         $this->modalFormVisible = true;

@@ -67,7 +67,7 @@
                                         <button class="btn btn-blue" wire:click="approve({{ $transaction->id }})">
                                             {{ __('Approve') }}
                                         </button>
-                                        <button class="btn btn-red" wire:click="cancelByManager({{ $transaction->id }})">
+                                        <button class="btn btn-red" wire:click="cancelByBank({{ $transaction->id }})">
                                             {{ __('Cancel') }}
                                         </button>
                                     @endcan

@@ -16,7 +16,7 @@ class RolesAndPermissionsSeeder extends Seeder
     public function run(): void
     {
         Role::create(['name' => 'Super Admin']);
-        $role = Role::create(['name' => 'Company Employee']);
+        $role = Role::create(['name' => 'Bank Employee']); //reception
         $permissions = [
             'create offer',
             'update offer',
@@ -30,12 +30,12 @@ class RolesAndPermissionsSeeder extends Seeder
             Permission::create(['name' => $permission]);
         $permissions = Permission::whereIn('name', $permissions)->get();
         $role->syncPermissions($permissions);
-        $role = Role::create(['name' => 'Bank Employee']);
+        $role = Role::create(['name' => 'Manager']); //bank branch
         Permission::create(['name' => 'approve by bank']);
         $permissions = Permission::whereIn('name', ['approve by bank', 'index transactions'])->get();
         $role->syncPermissions($permissions);
-        $role = Role::create(['name' => 'Manager']);
-        Permission::create(['name' => 'approve by manager']);
+        $role = Role::create(['name' => 'Company Employee']);
+        Permission::create(['name' => 'approve by manager']); //turki
         $permissions = Permission::whereIn('name', ['approve by manager', 'index transactions'])->get();
         $role->syncPermissions($permissions);
         $user = User::create([

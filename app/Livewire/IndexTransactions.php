@@ -33,10 +33,20 @@ class IndexTransactions extends Component
         $current->save();
         $users = $current->branch->users;
         foreach ($users as $user) {
-            if($user->id == $current->user_id || $user->hasRole('Manager'))
+            if($user->id == $current->user_id || $user->hasRole('Company Employee'))
                 $user->notify(new ApprovedByBank($current->id));
         }
-
+    }
+    public function cancelByBank($id)
+    {
+        $current = Transaction::find($id);
+        $current->status = 'canceled_by_bank';
+        $current->save();
+        $users = $current->branch->users;
+        foreach ($users as $user) {
+            if($user->id == $current->user_id || $user->hasRole('Bank Employee'))
+                $user->notify(new CanceledByBank($current->id));
+        }
     }
     public function approveByManager($id)
     {
@@ -45,7 +55,7 @@ class IndexTransactions extends Component
         $current->save();
         $users = $current->branch->users;
         foreach ($users as $user) {
-            if($user->id == $current->user_id || $user->hasRole('Company Employee'))
+            if($user->id == $current->user_id || $user->hasRole('Bank Employee'))
                 $user->notify(new ApprovedByBank($current->id));
         }
     }
@@ -54,8 +64,11 @@ class IndexTransactions extends Component
         $current = Transaction::find($id);
         $current->status = 'canceled';
         $current->save();
-        $user = $current->user();
-        $user->notify(new CanceledByManager($current->id));
+        $users = $current->branch->users;
+        foreach ($users as $user) {
+            if($user->id == $current->user_id || $user->hasRole('Bank Employee'))
+                $user->notify(new ApprovedByBank($current->id));
+        }
     }
     public function render()
     {
