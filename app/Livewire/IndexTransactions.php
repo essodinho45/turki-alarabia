@@ -22,6 +22,10 @@ class IndexTransactions extends Component
         }
         if ($this->status == 'print')
             return $transactions->paginate(10);
+        elseif($this->status == 'approved_by_bank')
+        return $transactions->whereIn('status', [$this->status, 'canceled'])
+            ->whereDate('created_at', '>=', Carbon::now()->StartOfDay())
+            ->paginate(10);
         return $transactions->where('status', $this->status)
             ->whereDate('created_at', '>=', Carbon::now()->StartOfDay())
             ->paginate(10);

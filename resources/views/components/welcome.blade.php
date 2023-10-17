@@ -50,7 +50,7 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('transactions.index', 'approved_by_bank') }}">
+        <a href="{{ route('transactions.index', 'approved_by_manager') }}">
             <div class="content flex py-2 items-center">
                 <img src="{{ asset('images/agent_v.png') }}" alt="" />
                 <div class="item-body px-2 ">
@@ -60,7 +60,7 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('transactions.index', 'approved_by_agent') }}">
+        <a href="{{ route('transactions.index', 'approved_by_bank') }}">
             <div class="content flex py-2 items-center">
                 <img src="{{ asset('images/waiting_v.png') }}" alt="" />
                 <div class="item-body px-2 ">

@@ -35,7 +35,11 @@
         <tbody class="devide-y devide-gray-200">
             @if ($data->count())
                 @foreach ($data as $transaction)
-                    <tr>
+                    <tr @class([
+                        'bg-red-100' =>
+                            $transaction->status == 'canceled' ||
+                            $transaction->status == 'canceled_by_bank',
+                    ])>
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->id }}</td>
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->date }}</td>
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->client_name }}</td>
@@ -68,7 +72,7 @@
                                             {{ __('Approve') }}
                                         </button>
                                         <button class="btn btn-red" wire:click="cancelByBank({{ $transaction->id }})">
-                                            {{ __('Cancel') }}
+                                            {{ __('Refuse') }}
                                         </button>
                                     @endcan
                                 @break
@@ -79,7 +83,7 @@
                                             {{ __('Approve') }}
                                         </button>
                                         <button class="btn btn-red" wire:click="cancelByManager({{ $transaction->id }})">
-                                            {{ __('Cancel') }}
+                                            {{ __('Refuse') }}
                                         </button>
                                     @endcan
                                 @break
