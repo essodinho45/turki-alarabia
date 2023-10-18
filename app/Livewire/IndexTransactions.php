@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Branch;
 use App\Notifications\ApprovedByBank;
+use App\Notifications\CanceledByBank;
 use App\Notifications\CanceledByManager;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -71,7 +72,7 @@ class IndexTransactions extends Component
         $users = $current->branch->users;
         foreach ($users as $user) {
             if($user->id == $current->user_id || $user->hasRole('Bank Employee'))
-                $user->notify(new ApprovedByBank($current->id));
+                $user->notify(new CanceledByManager($current->id));
         }
     }
     public function render()
