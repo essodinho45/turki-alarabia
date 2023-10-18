@@ -11,9 +11,7 @@ class Branches extends Component
 {
     use WithPagination;
     public $name;
-    public $bank_id;
     public $update_name;
-    public $update_bank_id;
     public $modalFormVisible = false;
     public $updateFormVisible = false;
     public $modelToChange;
@@ -30,22 +28,18 @@ class Branches extends Component
     {
         $this->modelToChange = Branch::find($id);
         $this->update_name = $this->modelToChange->name;
-        $this->update_bank_id = $this->modelToChange->bank_id;
         $this->updateFormVisible = true;
     }
     public function rules()
     {
         return [
             'name' => 'required',
-            'bank_id' => 'required|exists:banks,id',
         ];
     }
     public function messages()
     {
         return [
             'name.required' => __('The Name cannot be empty.'),
-            'bank_id.required' => __('The Bank cannot be empty.'),
-            'bank_id.exists' => __('The Bank must be valid.'),
         ];
     }
     public function create()
@@ -53,25 +47,22 @@ class Branches extends Component
         $validated_data = $this->validate();
         $user = Branch::create([
             'name' => $validated_data['name'],
-            'bank_id' => $validated_data['bank_id'],
+            'bank_id' => Bank::first()->id
         ]);
         $this->modalFormVisible = false;
         $this->name = NULL;
-        $this->bank_id = NULL;
     }
     public function update()
     {
         $validated_data = $this->validate([
             'update_name' => 'required',
-            'update_bank_id' => 'required|exists:banks,id',
         ]);
         $this->modelToChange->update([
             'name' => $validated_data['update_name'],
-            'bank_id' => $validated_data['update_bank_id']
+            'bank_id' => Bank::first()->id
         ]);
         $this->updateFormVisible = false;
         $this->update_name = NULL;
-        $this->update_bank_id = NULL;
         $this->modelToChange = NULL;
     }
     public function render()

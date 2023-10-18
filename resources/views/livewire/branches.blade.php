@@ -64,9 +64,9 @@
             </div>
             <div class="mt-4">
                 <x-label for="bank_id" value="{{ __('Bank') }}" />
-                <select name="bank_id" wire:model="bank_id"
-                    class="rounded border-gray-300 shadow-sm p-2 bg-white w-full focus:ring-indigo-800 focus:border-indigo-800">
-                    <option value='' wire:key="bank_00">{{ __('Choose bank') }}</option>
+                <select name="bank_id"
+                    class="rounded border-gray-300 shadow-sm p-2 bg-white w-full focus:ring-indigo-800 focus:border-indigo-800"
+                        disabled>
                     @foreach ($banks as $bank)
                         <option value={{ $bank->id }} wire:key="bank_{{ $bank->id }}">{{ $bank->name }}
                         </option>
@@ -101,11 +101,12 @@
             </div>
             <div class="mt-4">
                 <x-label for="update_bank_id" value="{{ __('Bank') }}" />
-                <select name="update_bank_id" wire:model="update_bank_id"
-                    class="rounded border-gray-300 shadow-sm p-2 bg-white w-full focus:ring-indigo-800 focus:border-indigo-800">
+                <select name="update_bank_id"
+                    class="rounded border-gray-300 shadow-sm p-2 bg-white w-full focus:ring-indigo-800 focus:border-indigo-800"
+                    disabled>
                     @foreach ($banks as $bank)
-                        <option value={{ $bank->id }} wire:key="bank_{{ $bank->id }}"
-                            @selected($bank->id == $update_bank_id)>{{ $bank->name }}
+                        <option value={{ $bank->id }} wire:key="bank_{{ $bank->id }}">
+                            {{$bank->name}}
                         </option>
                     @endforeach
                 </select>
