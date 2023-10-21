@@ -29,9 +29,10 @@ class CanceledByManager extends Notification
     {
         return FcmMessage::create()
             ->setData(['data1' => 'value', 'data2' => 'value2'])
-            ->setNotification(\NotificationChannels\Fcm\Resources\Notification::create()
-                ->setTitle(__('Transaction Canceled By Manager'))
-                ->setBody(__('Manager has canceled transaction with id: ').$this->transaction_id)
+            ->setNotification(
+                \NotificationChannels\Fcm\Resources\Notification::create()
+                    ->setTitle(__('Transaction Refused By Manager'))
+                    ->setBody(__('Manager has refused transaction with id: ') . $this->transaction_id)
             );
     }
 }
