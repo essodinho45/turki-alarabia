@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Transaction;
 use App\Http\Controllers\FirebasePushController;
+use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,7 @@ Route::middleware([
         return view('dashboard');
     });
     Route::get('/dashboard', function () {
+        dd(Role::findByName("Manager"));
         return view('dashboard');
     })->name('dashboard');
     Route::get('/create-price-offer', function () {
