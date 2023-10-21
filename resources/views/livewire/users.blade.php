@@ -36,6 +36,18 @@
                             <x-button wire:click="updateShowModal({{ $user->id }})">
                                 {{ __('Update') }}
                             </x-button>
+                            @role('Super Admin')
+                                <button wire:click="deleteShowModal({{ $user->id }})" @disabled(!$user->transactions->isEmpty() || $user->id == 1)
+                                    @class([
+                                        'btn',
+                                        'text-white',
+                                        'bg-red-300' => !$user->transactions->isEmpty() || $user->id == 1,
+                                        'hover:bg-red-300' => !$user->transactions->isEmpty() || $user->id == 1,
+                                        'btn-red' => $user->transactions->isEmpty() && $user->id != 1,
+                                    ])>
+                                    {{ __('Delete') }}
+                                </button>
+                            @endrole
                         </td>
                     </tr>
                 @endforeach
@@ -205,6 +217,27 @@
 
             <x-button class="rtl:mr-3 ltr:ml-3" wire:click="update" wire:loading.attr="disabled">
                 {{ __('Save') }}
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
+    <x-dialog-modal wire:model="deleteFormVisible">
+        <x-slot name="title">
+            {{ __('Delete User') }}
+        </x-slot>
+
+        <x-slot name="content">
+            <div class="mt-4">
+                {{ __('Are you sure you want to delete') . __(' user: ') . ($modelToDelete->name ?? '') . __(' ?') }}
+            </div>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="$toggle('deleteFormVisible')" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+
+            <x-button class="btn-red rtl:mr-3 ltr:ml-3" wire:click="delete" wire:loading.attr="disabled">
+                {{ __('Confirm') }}
             </x-button>
         </x-slot>
     </x-dialog-modal>

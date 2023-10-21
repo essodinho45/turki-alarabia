@@ -27,7 +27,8 @@ class Users extends Component
     public $update_password;
     public $update_role_id;
     public $update_branch_id;
-
+    public $deleteFormVisible = false;
+    public $modelToDelete;
     public function read()
     {
         return User::paginate(10);
@@ -114,6 +115,16 @@ class Users extends Component
         $this->update_role_id = NULL;
         $this->update_branch_id = NULL;
         $this->modelToChange = NULL;
+    }
+    public function deleteShowModal($id)
+    {
+        $this->modelToDelete = User::find($id);
+        $this->deleteFormVisible = true;
+    }
+    public function delete()
+    {
+        $this->modelToDelete->delete();
+        $this->deleteFormVisible = false;
     }
     public function render()
     {

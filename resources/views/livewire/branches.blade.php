@@ -36,20 +36,22 @@
                             <x-button wire:click="updateShowModal({{ $branch->id }})">
                                 {{ __('Update') }}
                             </x-button>
-                            <button wire:click="deleteShowModal({{ $branch->id }})" @disabled(!($branch->users->isEmpty() && $branch->transactions->isEmpty()))
-                                @class([
-                                    'btn',
-                                    'text-white',
-                                    'bg-red-300' => !(
-                                        $branch->users->isEmpty() && $branch->transactions->isEmpty()
-                                    ),
-                                    'hover:bg-red-300' => !(
-                                        $branch->users->isEmpty() && $branch->transactions->isEmpty()
-                                    ),
-                                    'btn-red' => $branch->users->isEmpty() && $branch->transactions->isEmpty(),
-                                ])>
-                                {{ __('Delete') }}
-                            </button>
+                            @role('Super Admin')
+                                <button wire:click="deleteShowModal({{ $branch->id }})" @disabled(!($branch->users->isEmpty() && $branch->transactions->isEmpty()))
+                                    @class([
+                                        'btn',
+                                        'text-white',
+                                        'bg-red-300' => !(
+                                            $branch->users->isEmpty() && $branch->transactions->isEmpty()
+                                        ),
+                                        'hover:bg-red-300' => !(
+                                            $branch->users->isEmpty() && $branch->transactions->isEmpty()
+                                        ),
+                                        'btn-red' => $branch->users->isEmpty() && $branch->transactions->isEmpty(),
+                                    ])>
+                                    {{ __('Delete') }}
+                                </button>
+                            @endrole
                         </td>
                     </tr>
                 @endforeach

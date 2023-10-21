@@ -41,16 +41,18 @@
                             <x-button wire:click="updateShowModal({{ $material->id }})">
                                 {{ __('Update') }}
                             </x-button>
-                            <button wire:click="deleteShowModal({{ $material->id }})" @disabled(!$material->transactions->isEmpty())
-                                @class([
-                                    'btn',
-                                    'text-white',
-                                    'bg-red-300' => !$material->transactions->isEmpty(),
-                                    'hover:bg-red-300' => !$material->transactions->isEmpty(),
-                                    'btn-red' => $material->transactions->isEmpty(),
-                                ])>
-                                {{ __('Delete') }}
-                            </button>
+                            @role('Super Admin')
+                                <button wire:click="deleteShowModal({{ $material->id }})" @disabled(!$material->transactions->isEmpty())
+                                    @class([
+                                        'btn',
+                                        'text-white',
+                                        'bg-red-300' => !$material->transactions->isEmpty(),
+                                        'hover:bg-red-300' => !$material->transactions->isEmpty(),
+                                        'btn-red' => $material->transactions->isEmpty(),
+                                    ])>
+                                    {{ __('Delete') }}
+                                </button>
+                            @endrole
                         </td>
                     </tr>
                 @endforeach
