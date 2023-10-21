@@ -63,8 +63,8 @@ Route::middleware([
         $id = null;
         if ($request->has('id'))
             $id = $request->id;
-        return view('transactions.create-buying-order', compact('id'))->middleware(['can:create order']);
-    })->name('transactions.create-buying-order');
+        return view('transactions.create-buying-order', compact('id'));
+    })->name('transactions.create-buying-order')->middleware(['can:create order']);
 
     Route::get('/index-transactions/{status}', function ($status) {
         return view('transactions.index', compact('status'));

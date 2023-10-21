@@ -1,30 +1,32 @@
 <div class="p-6 lg:p-8">
     <div class="grid grid-cols-4 gap-4">
-        <a href="{{ route('transactions.create-price-offer') }}">
+        <a @can('create offer')href="{{ route('transactions.create-price-offer') }}"@endcan>
             <div class="content flex py-2 items-center">
                 <img src="{{ asset('images/offer_c.png') }}" alt="" />
                 <div class="item-body px-2 ">
-                    <h1 class="font-bold text-xl text-blue-700">
+                    <h1 class="font-bold text-xl text-blue-700" @cannot('create offer')style="cursor: default"@endcannot>
                         {{ __('Create Price Offer') }}
                     </h1>
                 </div>
             </div>
         </a>
-        <a href="{{ route('transactions.create-buying-order') }}">
+        <a @can('create order')href="{{ route('transactions.create-buying-order') }}"@endcan>
             <div class="content flex py-2 items-center">
                 <img src="{{ asset('images/order_c.png') }}" alt="" />
                 <div class="item-body px-2 ">
-                    <h1 class="font-bold text-xl text-blue-700">
+                    <h1 class="font-bold text-xl text-blue-700"
+                        @cannot('create order')style="cursor: default"@endcannot>
                         {{ __('Create Buying Order') }}
                     </h1>
                 </div>
             </div>
         </a>
-        <a href="{{ route('transactions.update-price-offer') }}">
+        <a @can('update offer')href="{{ route('transactions.update-price-offer') }}"@endcan>
             <div class="content flex py-2 items-center">
                 <img src="{{ asset('images/offer_v.png') }}" alt="" />
                 <div class="item-body px-2 ">
-                    <h1 class="font-bold text-xl text-blue-700">
+                    <h1 class="font-bold text-xl text-blue-700"
+                        @cannot('update offer')style="cursor: default"@endcannot>
                         {{ __('Update Price Offer') }}
                     </h1>
                 </div>
