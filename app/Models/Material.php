@@ -13,4 +13,8 @@ class Material extends Model
         'unit_price',
         'description',
     ];
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }

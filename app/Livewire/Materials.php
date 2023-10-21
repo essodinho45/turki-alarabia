@@ -17,7 +17,9 @@ class Materials extends Component
     public $update_description;
     public $modalFormVisible = false;
     public $updateFormVisible = false;
+    public $deleteFormVisible = false;
     public $modelToChange;
+    public $modelToDelete;
 
     public function read()
     {
@@ -42,6 +44,11 @@ class Materials extends Component
         $this->update_unit_price = $this->modelToChange->unit_price;
         $this->update_description = $this->modelToChange->description;
         $this->updateFormVisible = true;
+    }
+    public function deleteShowModal($id)
+    {
+        $this->modelToDelete = Material::find($id);
+        $this->deleteFormVisible = true;
     }
     public function messages()
     {
@@ -82,6 +89,11 @@ class Materials extends Component
         $this->update_unit_price = NULL;
         $this->update_description = NULL;
         $this->modelToChange = NULL;
+    }
+    public function delete()
+    {
+        $this->modelToDelete->delete();
+        $this->deleteFormVisible = false;
     }
     public function render()
     {

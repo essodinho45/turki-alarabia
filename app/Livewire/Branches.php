@@ -14,7 +14,9 @@ class Branches extends Component
     public $update_name;
     public $modalFormVisible = false;
     public $updateFormVisible = false;
+    public $deleteFormVisible = false;
     public $modelToChange;
+    public $modelToDelete;
 
     public function read()
     {
@@ -29,6 +31,11 @@ class Branches extends Component
         $this->modelToChange = Branch::find($id);
         $this->update_name = $this->modelToChange->name;
         $this->updateFormVisible = true;
+    }
+    public function deleteShowModal($id)
+    {
+        $this->modelToDelete = Branch::find($id);
+        $this->deleteFormVisible = true;
     }
     public function rules()
     {
@@ -64,6 +71,11 @@ class Branches extends Component
         $this->updateFormVisible = false;
         $this->update_name = NULL;
         $this->modelToChange = NULL;
+    }
+    public function delete()
+    {
+        $this->modelToDelete->delete();
+        $this->deleteFormVisible = false;
     }
     public function render()
     {

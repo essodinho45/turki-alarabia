@@ -36,6 +36,20 @@
                             <x-button wire:click="updateShowModal({{ $branch->id }})">
                                 {{ __('Update') }}
                             </x-button>
+                            <button wire:click="deleteShowModal({{ $branch->id }})" @disabled(!($branch->users->isEmpty() && $branch->transactions->isEmpty()))
+                                @class([
+                                    'btn',
+                                    'text-white',
+                                    'bg-red-300' => !(
+                                        $branch->users->isEmpty() && $branch->transactions->isEmpty()
+                                    ),
+                                    'hover:bg-red-300' => !(
+                                        $branch->users->isEmpty() && $branch->transactions->isEmpty()
+                                    ),
+                                    'btn-red' => $branch->users->isEmpty() && $branch->transactions->isEmpty(),
+                                ])>
+                                {{ __('Delete') }}
+                            </button>
                         </td>
                     </tr>
                 @endforeach
@@ -66,7 +80,7 @@
                 <x-label for="bank_id" value="{{ __('Bank') }}" />
                 <select name="bank_id"
                     class="rounded border-gray-300 shadow-sm p-2 bg-white w-full focus:ring-indigo-800 focus:border-indigo-800"
-                        disabled>
+                    disabled>
                     @foreach ($banks as $bank)
                         <option value={{ $bank->id }} wire:key="bank_{{ $bank->id }}">{{ $bank->name }}
                         </option>
@@ -106,7 +120,7 @@
                     disabled>
                     @foreach ($banks as $bank)
                         <option value={{ $bank->id }} wire:key="bank_{{ $bank->id }}">
-                            {{$bank->name}}
+                            {{ $bank->name }}
                         </option>
                     @endforeach
                 </select>
@@ -120,6 +134,27 @@
 
             <x-button class="rtl:mr-3 ltr:ml-3" wire:click="update" wire:loading.attr="disabled">
                 {{ __('Save') }}
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
+    <x-dialog-modal wire:model="deleteFormVisible">
+        <x-slot name="title">
+            {{ __('Delete Branch') }}
+        </x-slot>
+
+        <x-slot name="content">
+            <div class="mt-4">
+                {{ __('Are you sure you want to delete') . __(' branch: ') . ($modelToDelete->name ?? '') . __(' ?') }}
+            </div>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="$toggle('deleteFormVisible')" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+
+            <x-button class="btn-red rtl:mr-3 ltr:ml-3" wire:click="delete" wire:loading.attr="disabled">
+                {{ __('Confirm') }}
             </x-button>
         </x-slot>
     </x-dialog-modal>

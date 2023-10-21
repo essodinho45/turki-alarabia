@@ -41,6 +41,16 @@
                             <x-button wire:click="updateShowModal({{ $material->id }})">
                                 {{ __('Update') }}
                             </x-button>
+                            <button wire:click="deleteShowModal({{ $material->id }})" @disabled(!$material->transactions->isEmpty())
+                                @class([
+                                    'btn',
+                                    'text-white',
+                                    'bg-red-300' => !$material->transactions->isEmpty(),
+                                    'hover:bg-red-300' => !$material->transactions->isEmpty(),
+                                    'btn-red' => $material->transactions->isEmpty(),
+                                ])>
+                                {{ __('Delete') }}
+                            </button>
                         </td>
                     </tr>
                 @endforeach
@@ -136,6 +146,27 @@
 
             <x-button class="rtl:mr-3 ltr:ml-3" wire:click="update" wire:loading.attr="disabled">
                 {{ __('Save') }}
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
+    <x-dialog-modal wire:model="deleteFormVisible">
+        <x-slot name="title">
+            {{ __('Delete Material') }}
+        </x-slot>
+
+        <x-slot name="content">
+            <div class="mt-4">
+                {{ __('Are you sure you want to delete') . __(' material: ') . ($modelToDelete->name ?? '') . __(' ?') }}
+            </div>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="$toggle('deleteFormVisible')" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+
+            <x-button class="btn-red rtl:mr-3 ltr:ml-3" wire:click="delete" wire:loading.attr="disabled">
+                {{ __('Confirm') }}
             </x-button>
         </x-slot>
     </x-dialog-modal>
