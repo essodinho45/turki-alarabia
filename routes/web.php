@@ -51,20 +51,19 @@ Route::middleware([
         return view('dashboard');
     });
     Route::get('/dashboard', function () {
-        dd(Role::findByName("Manager"));
         return view('dashboard');
     })->name('dashboard');
     Route::get('/create-price-offer', function () {
         return view('transactions.create-price-offer');
-    })->name('transactions.create-price-offer');
+    })->name('transactions.create-price-offer')->middleware(['can:create order']);
     Route::get('/update-price-offer', function () {
-        return view('transactions.update-price-offer');
+        return view('transactions.update-price-offer')->middleware(['can:update offer']);
     })->name('transactions.update-price-offer');
     Route::get('/create-buying-order', function (Request $request) {
         $id = null;
         if ($request->has('id'))
             $id = $request->id;
-        return view('transactions.create-buying-order', compact('id'));
+        return view('transactions.create-buying-order', compact('id'))->middleware(['can:create order']);
     })->name('transactions.create-buying-order');
 
     Route::get('/index-transactions/{status}', function ($status) {
@@ -73,10 +72,10 @@ Route::middleware([
 
     Route::get('/print-price-offer/{transaction}', function (Transaction $transaction) {
         return view('transactions.print-price-offer', compact('transaction'));
-    })->name('transactions.printOffer');
+    })->name('transactions.printOffer')->middleware(['can:print offer']);
     Route::get('/print-buying-order/{transaction}', function (Transaction $transaction) {
         return view('transactions.print-buying-order', compact('transaction'));
-    })->name('transactions.printOrder');
+    })->name('transactions.printOrder')->middleware(['can:print order']);
 
     Route::post('setToken', [FirebasePushController::class, 'setToken'])->name('firebase.token');
 });

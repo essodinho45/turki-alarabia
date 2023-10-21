@@ -48,12 +48,10 @@
 
     @livewireScripts
 </body>
-@if (!auth()->user()->fcm_token)
-    <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
-            setToken();
-        });
-    </script>
-@endif
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        setToken();
+    });
+</script>
 
 </html>
