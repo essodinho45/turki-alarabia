@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Branch;
+use App\Models\User;
 use App\Notifications\ApprovedByBank;
 use App\Notifications\CanceledByBank;
 use App\Notifications\CanceledByManager;
@@ -23,10 +24,10 @@ class IndexTransactions extends Component
         }
         if ($this->status == 'print')
             return $transactions->paginate(10);
-        elseif($this->status == 'approved_by_bank')
-        return $transactions->whereIn('status', [$this->status, 'canceled'])
-            ->whereDate('created_at', '>=', Carbon::now()->StartOfDay())
-            ->paginate(10);
+        elseif ($this->status == 'approved_by_bank')
+            return $transactions->whereIn('status', [$this->status, 'canceled'])
+                ->whereDate('created_at', '>=', Carbon::now()->StartOfDay())
+                ->paginate(10);
         return $transactions->where('status', $this->status)
             ->whereDate('created_at', '>=', Carbon::now()->StartOfDay())
             ->paginate(10);
@@ -36,9 +37,9 @@ class IndexTransactions extends Component
         $current = Transaction::find($id);
         $current->status = 'approved_by_bank';
         $current->save();
-        $users = $current->branch->users;
+        $users = User::role('Company Employee')->orWhere('id', $current->user_id)->get();
         foreach ($users as $user) {
-            if($user->id == $current->user_id || $user->hasRole('Company Employee'))
+            if ($user->id == $current->user_id || $user->hasRole('Company Employee'))
                 $user->notify(new ApprovedByBank($current->id));
         }
     }
@@ -49,7 +50,7 @@ class IndexTransactions extends Component
         $current->save();
         $users = $current->branch->users;
         foreach ($users as $user) {
-            if($user->id == $current->user_id || $user->hasRole('Bank Employee'))
+            if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
                 $user->notify(new CanceledByBank($current->id));
         }
     }
@@ -60,7 +61,7 @@ class IndexTransactions extends Component
         $current->save();
         $users = $current->branch->users;
         foreach ($users as $user) {
-            if($user->id == $current->user_id || $user->hasRole('Bank Employee'))
+            if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
                 $user->notify(new ApprovedByBank($current->id));
         }
     }
@@ -71,7 +72,7 @@ class IndexTransactions extends Component
         $current->save();
         $users = $current->branch->users;
         foreach ($users as $user) {
-            if($user->id == $current->user_id || $user->hasRole('Bank Employee'))
+            if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
                 $user->notify(new CanceledByManager($current->id));
         }
     }

@@ -88,7 +88,7 @@
                     <span class="error">{{ $message }}</span>
                 @enderror
             </div>
-            @if (in_array($role_id, [2, 3, 4]))
+            @if (in_array($role_id, [2, 3]))
                 <div class="mt-4">
                     <x-label for="bank" value="{{ __('Bank') }}" />
                     <select name="bank" wire:change="$refresh" disabled
@@ -168,7 +168,7 @@
                     <span class="error">{{ $message }}</span>
                 @enderror
             </div>
-            @if (in_array($update_role_id, [2, 3, 4]))
+            @if (in_array($update_role_id, [2, 3]))
                 <div class="mt-4">
                     <x-label for="bank" value="{{ __('Bank') }}" />
                     <select name="bank" wire:change="$refresh" disabled
