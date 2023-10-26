@@ -23,7 +23,6 @@ function requestPermission() {
 }
 
 window.setToken = function () {
-    deleteToken(messaging);
     getToken(messaging, {
         vapidKey: import.meta.env.VITE_VAPID_KEY,
     })

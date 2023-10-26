@@ -48,10 +48,12 @@
 
     @livewireScripts
 </body>
-<script>
-    document.addEventListener("DOMContentLoaded", function(event) {
-        setToken();
-    });
-</script>
+@if (session()->has('login_script'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            setToken();
+        });
+    </script>
+@endif
 
 </html>
