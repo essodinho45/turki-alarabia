@@ -12,7 +12,7 @@ class FirebasePushController extends Controller
         $token = $request->input('fcm_token');
         $old_user = User::where('fcm_token', $token)->first();
         if ($old_user) {
-            $user->update([
+            $old_user->update([
                 'fcm_token' => null
             ]);
         }
