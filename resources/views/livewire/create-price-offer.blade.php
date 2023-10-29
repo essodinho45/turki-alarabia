@@ -22,7 +22,7 @@
         <div class="relative flex flex-wrap items-stretch basis-3/4 relative">
             <x-input id="amount" type="number" step='.001'
                 class="mt-1 flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border ltr:border-r-0 rtl:border-l-0 h-10 border-grey-light rounded-lg ltr:rounded-r-none rtl:rounded-l-none px-3 relative"
-                wire:change="$refresh" wire:model.live="amount" />
+                wire:change="$refresh" wire:model.live.debounce.800ms="amount" />
             <span
                 class="mt-1 flex items-center leading-normal bg-grey-lighter border-1 ltr:rounded-l-none rtl:rounded-r-none border ltr:border-l-0 rtl:border-r-0 border-grey-light px-3 whitespace-no-wrap text-grey-dark text-sm w-12 h-10 justify-center items-center rounded-lg">{{ __('KWD') }}</span>
             @error('amount')
