@@ -27,6 +27,7 @@ window.setToken = function () {
         vapidKey: import.meta.env.VITE_VAPID_KEY,
     })
         .then((currentToken) => {
+            console.log(currentToken);
             if (currentToken) {
                 // Send the token to your server and update the UI if necessary
 
@@ -52,6 +53,7 @@ window.setToken = function () {
 }
 
 onMessage(messaging, function ({ notification }) {
+    console.log(notification);
     new Notification(notification.title, {
         body: notification.body,
     });
