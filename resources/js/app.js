@@ -7,7 +7,7 @@ import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
 
 import app from "@/utils/initialize";
-import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-messaging.js";
+import { getMessaging, getToken, onMessage, deleteToken } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-messaging.js";
 
 window.Pikaday = Pikaday;
 
@@ -23,6 +23,7 @@ function requestPermission() {
 }
 
 window.setToken = function () {
+    deleteToken(messaging);
     getToken(messaging, {
         vapidKey: import.meta.env.VITE_VAPID_KEY,
     })
