@@ -42,7 +42,7 @@
         </tbody>
     </table>
     {{ $data->links('vendor.livewire.tailwind') }}
-    <x-dialog-modal wire:model="modalFormVisible">
+    <x-dialog-modal wire:model.live="modalFormVisible">
         <x-slot name="title">
             {{ __('Save Bank') }}
         </x-slot>
@@ -50,7 +50,7 @@
         <x-slot name="content">
             <div class="mt-4">
                 <x-label for="name" value="{{ __('Name') }}" />
-                <x-input id="name" type="text" class="mt-1 block w-full" wire:model.debounce.800ms="name" />
+                <x-input id="name" type="text" class="mt-1 block w-full" wire:model.live.debounce.800ms="name" />
                 @error('name')
                     <span class="error">{{ $message }}</span>
                 @enderror

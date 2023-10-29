@@ -65,7 +65,7 @@
         </tbody>
     </table>
     {{ $data->links('vendor.livewire.tailwind') }}
-    <x-dialog-modal wire:model="modalFormVisible">
+    <x-dialog-modal wire:model.live="modalFormVisible">
         <x-slot name="title">
             {{ __('Save Branch') }}
         </x-slot>
@@ -73,7 +73,7 @@
         <x-slot name="content">
             <div class="mt-4">
                 <x-label for="name" value="{{ __('Name') }}" />
-                <x-input id="name" type="text" class="mt-1 block w-full" wire:model.debounce.800ms="name" />
+                <x-input id="name" type="text" class="mt-1 block w-full" wire:model.live.debounce.800ms="name" />
                 @error('name')
                     <span class="error">{{ $message }}</span>
                 @enderror
@@ -101,7 +101,7 @@
             </x-button>
         </x-slot>
     </x-dialog-modal>
-    <x-dialog-modal wire:model="updateFormVisible">
+    <x-dialog-modal wire:model.live="updateFormVisible">
         <x-slot name="title">
             {{ __('Save Branch') }}
         </x-slot>
@@ -110,7 +110,7 @@
             <div class="mt-4">
                 <x-label for="update_name" value="{{ __('Name') }}" />
                 <x-input id="update_name" type="text" class="mt-1 block w-full"
-                    wire:model.debounce.800ms="update_name" />
+                    wire:model.live.debounce.800ms="update_name" />
                 @error('update_name')
                     <span class="error">{{ $message }}</span>
                 @enderror
@@ -139,7 +139,7 @@
             </x-button>
         </x-slot>
     </x-dialog-modal>
-    <x-dialog-modal wire:model="deleteFormVisible">
+    <x-dialog-modal wire:model.live="deleteFormVisible">
         <x-slot name="title">
             {{ __('Delete Branch') }}
         </x-slot>
