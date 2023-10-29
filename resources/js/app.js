@@ -51,6 +51,7 @@ window.setToken = function () {
             console.log("An error occurred while retrieving token. ", err);
             // ...
         });
+    document.querySelectorAll("body").forEach(body => body.style.display = "block");
 }
 
 onMessage(messaging, function ({ notification }) {
