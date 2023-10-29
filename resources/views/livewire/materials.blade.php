@@ -66,7 +66,7 @@
         </tbody>
     </table>
     {{ $data->links('vendor.livewire.tailwind') }}
-    <x-dialog-modal wire:model.live="modalFormVisible">
+    <x-dialog-modal wire:model="modalFormVisible">
         <x-slot name="title">
             {{ __('Save Material') }}
         </x-slot>
@@ -74,7 +74,7 @@
         <x-slot name="content">
             <div class="mt-4">
                 <x-label for="name" value="{{ __('Name') }}" />
-                <x-input id="name" type="text" class="mt-1 block w-full" wire:model.live.debounce.800ms="name" />
+                <x-input id="name" type="text" class="mt-1 block w-full" wire:model="name" />
                 @error('name')
                     <span class="error">{{ $message }}</span>
                 @enderror
@@ -82,7 +82,7 @@
             <div class="mt-4">
                 <x-label for="unit_price" value="{{ __('Price') }}" />
                 <x-input id="unit_price" type="number" class="mt-1 block w-full" step=".001"
-                    wire:model.live.debounce.800ms="unit_price" />
+                    wire:model="unit_price" />
                 @error('unit_price')
                     <span class="error">{{ $message }}</span>
                 @enderror
@@ -91,7 +91,7 @@
                 <x-label for="description" value="{{ __('Description') }}" />
                 <textarea
                     class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
-                    id="description" wire:model.live.debounce.800ms="description"></textarea>
+                    id="description" wire:model="description"></textarea>
                 @error('description')
                     <span class="error">{{ $message }}</span>
                 @enderror
@@ -108,7 +108,7 @@
             </x-button>
         </x-slot>
     </x-dialog-modal>
-    <x-dialog-modal wire:model.live="updateFormVisible">
+    <x-dialog-modal wire:model="updateFormVisible">
         <x-slot name="title">
             {{ __('Save Material') }}
         </x-slot>
@@ -116,8 +116,7 @@
         <x-slot name="content">
             <div class="mt-4">
                 <x-label for="update_name" value="{{ __('Name') }}" />
-                <x-input id="update_name" type="text" class="mt-1 block w-full"
-                    wire:model.live.debounce.800ms="update_name" />
+                <x-input id="update_name" type="text" class="mt-1 block w-full" wire:model="update_name" />
                 @error('update_name')
                     <span class="error">{{ $message }}</span>
                 @enderror
@@ -125,7 +124,7 @@
             <div class="mt-4">
                 <x-label for="update_unit_price" value="{{ __('Price') }}" />
                 <x-input id="update_unit_price" type="number" class="mt-1 block w-full" step=".001"
-                    wire:model.live.debounce.800ms="update_unit_price" />
+                    wire:model="update_unit_price" />
                 @error('update_unit_price')
                     <span class="error">{{ $message }}</span>
                 @enderror
@@ -134,7 +133,7 @@
                 <x-label for="update_description" value="{{ __('Description') }}" />
                 <textarea
                     class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
-                    id="update_description" wire:model.live.debounce.800ms="update_description">{{ $update_description }}</textarea>
+                    id="update_description" wire:model="update_description">{{ $update_description }}</textarea>
                 @error('update_description')
                     <span class="error">{{ $message }}</span>
                 @enderror
@@ -151,7 +150,7 @@
             </x-button>
         </x-slot>
     </x-dialog-modal>
-    <x-dialog-modal wire:model.live="deleteFormVisible">
+    <x-dialog-modal wire:model="deleteFormVisible">
         <x-slot name="title">
             {{ __('Delete Material') }}
         </x-slot>

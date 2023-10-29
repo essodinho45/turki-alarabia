@@ -11,7 +11,7 @@
     <div class="mt-1 flex items-center gap-x-2">
         <x-label for="date" value="{{ __('Date') }}" class="basis-1/4 text-lg flex justify-end" />
         <div class="mt-1 block basis-3/4">
-            <x-date wire:model.live="date" class="w-full" />
+            <x-date wire:model="date" class="w-full" />
             @error('date')
                 <span class="error w-full">{{ $message }}</span>
             @enderror
@@ -22,7 +22,7 @@
         <div class="relative flex flex-wrap items-stretch basis-3/4 relative">
             <x-input id="amount" type="number" step='.001'
                 class="mt-1 flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border ltr:border-r-0 rtl:border-l-0 h-10 border-grey-light rounded-lg ltr:rounded-r-none rtl:rounded-l-none px-3 relative"
-                wire:change="$refresh" wire:model.live.debounce.800ms="amount" />
+                wire:change="$refresh" wire:model="amount" />
             <span
                 class="mt-1 flex items-center leading-normal bg-grey-lighter border-1 ltr:rounded-l-none rtl:rounded-r-none border ltr:border-l-0 rtl:border-r-0 border-grey-light px-3 whitespace-no-wrap text-grey-dark text-sm w-12 h-10 justify-center items-center rounded-lg">{{ __('KWD') }}</span>
             @error('amount')
@@ -32,7 +32,7 @@
     </div>
     <div class="mt-1 flex items-center gap-x-2">
         <x-label for="material_id" value="{{ __('Material') }}" class="basis-1/4 text-lg flex justify-end" />
-        <select name="material_id" wire:model.live="material_id" wire:change="$refresh"
+        <select name="material_id" wire:model="material_id" wire:change="$refresh"
             class="rounded border-gray-300 shadow-sm p-2 bg-white basis-3/4 focus:ring-indigo-800 focus:border-indigo-800">
             <option hidden selected></option>
             @foreach ($materials as $material)
@@ -73,7 +73,7 @@
     <div class="mt-1 flex items-center gap-x-2">
         <x-label for="client_name" value="{{ __('Client Name') }}" class="basis-1/4 text-lg flex justify-end" />
         <div class="mt-1 block basis-3/4">
-            <x-input id="client_name" type="text" class="w-full" wire:model.live="client_name" />
+            <x-input id="client_name" type="text" class="w-full" wire:model="client_name" />
             @error('client_name')
                 <span class="error w-full">{{ $message }}</span>
             @enderror
@@ -83,7 +83,7 @@
         <x-label for="client_national_id" value="{{ __('Client National Id') }}"
             class="basis-1/4 text-lg flex justify-end" />
         <div class="mt-1 block basis-3/4">
-            <x-input id="client_national_id" type="text" class="w-full" wire:model.live="client_national_id" />
+            <x-input id="client_national_id" type="text" class="w-full" wire:model="client_national_id" />
             @error('client_national_id')
                 <span class="error w-full">{{ $message }}</span>
             @enderror
@@ -92,7 +92,7 @@
     <div class="mt-1 flex items-center gap-x-2">
         <x-label for="client_phone" value="{{ __('Client Phone') }}" class="basis-1/4 text-lg flex justify-end" />
         <div class="mt-1 block basis-3/4">
-            <x-input id="client_phone" type="text" class="w-full" wire:model.live="client_phone" />
+            <x-input id="client_phone" type="text" class="w-full" wire:model="client_phone" />
             @error('client_phone')
                 <span class="error w-full">{{ $message }}</span>
             @enderror
@@ -109,7 +109,7 @@
         </x-button>
     </div>
 
-    <x-dialog-modal wire:model.live="modalFormVisible">
+    <x-dialog-modal wire:model="modalFormVisible">
         <x-slot name="title">
             {{ __('Price Offer') }}
         </x-slot>

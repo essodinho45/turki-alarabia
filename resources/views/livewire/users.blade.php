@@ -61,7 +61,7 @@
         </tbody>
     </table>
     {{ $data->links('vendor.livewire.tailwind') }}
-    <x-dialog-modal wire:model.live="modalFormVisible">
+    <x-dialog-modal wire:model="modalFormVisible">
         <x-slot name="title">
             {{ __('Save User') }}
         </x-slot>
@@ -69,7 +69,7 @@
         <x-slot name="content">
             <div class="mt-4">
                 <x-label for="role_id" value="{{ __('User Type') }}" />
-                <select name="role_id" wire:model.live="role_id" id="role_id" wire:change="$refresh"
+                <select name="role_id" wire:model="role_id" id="role_id" wire:change="$refresh"
                     class="rounded border-gray-300 shadow-sm p-2 bg-white w-full focus:ring-indigo-800 focus:border-indigo-800">
                     <option value='' wire:key="role_00">{{ __('Choose type') }}</option>
                     @foreach ($roles as $role)
@@ -80,22 +80,21 @@
             </div>
             <div class="mt-4">
                 <x-label for="name" value="{{ __('Name') }}" />
-                <x-input id="name" type="text" class="mt-1 block w-full" wire:model.live.debounce.800ms="name" />
+                <x-input id="name" type="text" class="mt-1 block w-full" wire:model="name" />
                 @error('name')
                     <span class="error">{{ $message }}</span>
                 @enderror
             </div>
             <div class="mt-4">
                 <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" type="email" class="mt-1 block w-full" wire:model.live.debounce.800ms="email" />
+                <x-input id="email" type="email" class="mt-1 block w-full" wire:model="email" />
                 @error('email')
                     <span class="error">{{ $message }}</span>
                 @enderror
             </div>
             <div class="mt-4">
                 <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" type="password" class="mt-1 block w-full"
-                    wire:model.live.debounce.800ms="password" />
+                <x-input id="password" type="password" class="mt-1 block w-full" wire:model="password" />
                 @error('password')
                     <span class="error">{{ $message }}</span>
                 @enderror
@@ -113,7 +112,7 @@
                 </div>
                 <div class="mt-4">
                     <x-label for="branch_id" value="{{ __('Branch') }}" />
-                    <select name="branch_id" wire:model.live="branch_id"
+                    <select name="branch_id" wire:model="branch_id"
                         class="rounded border-gray-300 shadow-sm p-2 bg-white w-full focus:ring-indigo-800 focus:border-indigo-800">
                         <option value='' wire:key="branch_00">{{ __('Choose branch') }}</option>
                         @foreach ($branches as $branch)
@@ -135,7 +134,7 @@
             </x-button>
         </x-slot>
     </x-dialog-modal>
-    <x-dialog-modal wire:model.live="updateFormVisible">
+    <x-dialog-modal wire:model="updateFormVisible">
         <x-slot name="title">
             {{ __('Save User') }}
         </x-slot>
@@ -143,7 +142,7 @@
         <x-slot name="content">
             <div class="mt-4">
                 <x-label for="update_role_id" value="{{ __('User Type') }}" />
-                <select name="update_role_id" wire:model.live="update_role_id" id="update_role_id" wire:change="$refresh"
+                <select name="update_role_id" wire:model="update_role_id" id="update_role_id" wire:change="$refresh"
                     class="rounded border-gray-300 shadow-sm p-2 bg-white w-full focus:ring-indigo-800 focus:border-indigo-800">
                     @foreach ($roles as $role)
                         <option value={{ $role->id }} wire:key="update_role_{{ $role->id }}"
@@ -158,16 +157,14 @@
             </div>
             <div class="mt-4">
                 <x-label for="update_name" value="{{ __('Name') }}" />
-                <x-input id="update_name" type="text" class="mt-1 block w-full"
-                    wire:model.live.debounce.800ms="update_name" />
+                <x-input id="update_name" type="text" class="mt-1 block w-full" wire:model="update_name" />
                 @error('update_name')
                     <span class="error">{{ $message }}</span>
                 @enderror
             </div>
             <div class="mt-4">
                 <x-label for="update_email" value="{{ __('Email') }}" />
-                <x-input id="update_email" type="email" class="mt-1 block w-full"
-                    wire:model.live.debounce.800ms="update_email" />
+                <x-input id="update_email" type="email" class="mt-1 block w-full" wire:model="update_email" />
                 @error('update_email')
                     <span class="error">{{ $message }}</span>
                 @enderror
@@ -175,7 +172,7 @@
             <div class="mt-4">
                 <x-label for="update_password" value="{{ __('Password') }}" />
                 <x-input id="update_password" type="password" class="mt-1 block w-full"
-                    wire:model.live.debounce.800ms="update_password" />
+                    wire:model="update_password" />
                 @error('update_password')
                     <span class="error">{{ $message }}</span>
                 @enderror
@@ -194,7 +191,7 @@
                 </div>
                 <div class="mt-4">
                     <x-label for="update_branch_id" value="{{ __('Branch') }}" />
-                    <select name="update_branch_id" wire:model.live="update_branch_id"
+                    <select name="update_branch_id" wire:model="update_branch_id"
                         class="rounded border-gray-300 shadow-sm p-2 bg-white w-full focus:ring-indigo-800 focus:border-indigo-800">
                         <option value='' wire:key="update_branch_00">{{ __('Choose branch') }}</option>
                         @foreach ($branches as $branch)
@@ -220,7 +217,7 @@
             </x-button>
         </x-slot>
     </x-dialog-modal>
-    <x-dialog-modal wire:model.live="deleteFormVisible">
+    <x-dialog-modal wire:model="deleteFormVisible">
         <x-slot name="title">
             {{ __('Delete User') }}
         </x-slot>

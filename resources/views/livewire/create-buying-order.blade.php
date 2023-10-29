@@ -5,7 +5,7 @@
     </div>
     <div class="flex items-center gap-x-2">
         <x-label for="id" value="{{ __('ID') }}" class="basis-1/4 text-lg flex justify-end" />
-        <x-input id="id" type="text" class="mt-1 block basis-3/4" wire:model.live="id" wire:change="$refresh" />
+        <x-input id="id" type="text" class="mt-1 block basis-3/4" wire:model="id" wire:change="$refresh" />
     </div>
     <div class="mt-1 flex items-center gap-x-2">
         <x-label for="date" value="{{ __('Date') }}" class="basis-1/4 text-lg flex justify-end" />
@@ -73,7 +73,7 @@
             {{ __('Execute Buying') }}
         </x-button>
     </div>
-    <x-dialog-modal wire:model.live="modalFormVisible">
+    <x-dialog-modal wire:model="modalFormVisible">
         <x-slot name="title">
             {{ __('Buying Order') }}
         </x-slot>
