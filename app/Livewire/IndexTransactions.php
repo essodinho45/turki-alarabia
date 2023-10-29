@@ -39,7 +39,7 @@ class IndexTransactions extends Component
         $current->save();
         $users = User::role('Company Employee')->orWhere('id', $current->user_id)->get();
         foreach ($users as $user) {
-            if ($user->id == $current->user_id || $user->hasRole('Company Employee'))
+            if ($user->fcm_token && ($user->id == $current->user_id || $user->hasRole('Company Employee')))
                 $user->notify(new ApprovedByBank($current->id));
         }
     }
@@ -50,7 +50,7 @@ class IndexTransactions extends Component
         $current->save();
         $users = $current->branch->users;
         foreach ($users as $user) {
-            if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
+            if ($user->fcm_token && ($user->id == $current->user_id || $user->hasRole('Bank Employee')))
                 $user->notify(new CanceledByBank($current->id));
         }
     }
@@ -61,7 +61,7 @@ class IndexTransactions extends Component
         $current->save();
         $users = $current->branch->users;
         foreach ($users as $user) {
-            if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
+            if ($user->fcm_token && ($user->id == $current->user_id || $user->hasRole('Bank Employee')))
                 $user->notify(new ApprovedByBank($current->id));
         }
     }
@@ -72,7 +72,7 @@ class IndexTransactions extends Component
         $current->save();
         $users = $current->branch->users;
         foreach ($users as $user) {
-            if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
+            if ($user->fcm_token && ($user->id == $current->user_id || $user->hasRole('Bank Employee')))
                 $user->notify(new CanceledByManager($current->id));
         }
     }
