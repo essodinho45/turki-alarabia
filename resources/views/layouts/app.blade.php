@@ -17,7 +17,7 @@
 
 
     <!-- Styles -->
-    @livewireStyles
+    {{-- @livewireStyles --}}
 </head>
 
 <body class="font-sans antialiased" dir="rtl" @if (session()->has('login_script')) style="display: none" @endif>
@@ -46,7 +46,7 @@
     <img src="{{ asset('images/bottom-logo.png') }}" class="fixed bottom-8 right-8">
     @stack('modals')
 
-    @livewireScripts
+    {{-- @livewireScripts --}}
 </body>
 @if (session()->has('login_script'))
     <script>
