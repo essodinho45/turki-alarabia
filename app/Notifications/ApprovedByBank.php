@@ -22,7 +22,14 @@ class ApprovedByBank extends Notification
 
     public function via($notifiable)
     {
-        return [FcmChannel::class];
+        return [FcmChannel::class, 'database'];
+    }
+
+    public function toDatabase(object $notifiable): array
+    {
+        return [
+            'transaction_id' => $this->transaction_id,
+        ];
     }
 
     public function toFcm($notifiable)

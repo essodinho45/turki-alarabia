@@ -69,7 +69,7 @@ class CreatePriceOffer extends Component
         ]);
         $users = $transaction->branch->users;
         foreach ($users as $user) {
-            if ($user->fcm_token && ($user->id == $transaction->user_id))
+            if ($user->id == $transaction->user_id)
                 $user->notify(new OfferCreated($transaction->id));
         }
         $this->modalFormVisible = true;

@@ -22,7 +22,13 @@ class OfferCreated extends Notification
 
     public function via($notifiable)
     {
-        return [FcmChannel::class];
+        return [FcmChannel::class, 'database'];
+    }
+    public function toDatabase(object $notifiable): array
+    {
+        return [
+            'transaction_id' => $this->offer_id,
+        ];
     }
 
     public function toFcm($notifiable)

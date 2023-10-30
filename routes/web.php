@@ -1,5 +1,9 @@
 <?php
 
+use App\Notifications\ApprovedByBank;
+use App\Notifications\ApprovedByManager;
+use App\Notifications\CanceledByManager;
+use App\Notifications\OrderCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Transaction;
@@ -47,18 +51,24 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/', function () {
-        return view('dashboard');
-    });
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $user_notifications = auth()->user()->unreadNotifications;
+        $notifications = [];
+        $notifications['order'] = $user_notifications->where('type', OrderCreated::class)->count();
+        $notifications['approved_by_manager'] = $user_notifications->where('type', ApprovedByManager::class)->count();
+        $notifications['approved_by_bank'] = $user_notifications->whereIn('type', [ApprovedByBank::class])->count();
+        $notifications['done'] = 0; //$user_notifications->whereIn('type', [ApprovedByBank::class, CanceledByManager::class])->count();
+        return view('dashboard', compact('notifications'));
     })->name('dashboard');
+
     Route::get('/create-price-offer', function () {
         return view('transactions.create-price-offer');
     })->name('transactions.create-price-offer')->middleware(['can:create order']);
+
     Route::get('/update-price-offer', function () {
-        return view('transactions.update-price-offer')->middleware(['can:update offer']);
-    })->name('transactions.update-price-offer');
+        return view('transactions.update-price-offer');
+    })->name('transactions.update-price-offer')->middleware(['can:update offer']);
+
     Route::get('/create-buying-order', function (Request $request) {
         $id = null;
         if ($request->has('id'))

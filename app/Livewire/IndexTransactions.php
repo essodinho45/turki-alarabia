@@ -5,8 +5,11 @@ namespace App\Livewire;
 use App\Models\Branch;
 use App\Models\User;
 use App\Notifications\ApprovedByBank;
+use App\Notifications\ApprovedByManager;
 use App\Notifications\CanceledByBank;
 use App\Notifications\CanceledByManager;
+use App\Notifications\OrderCreated;
+use Illuminate\Notifications\Notification;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Transaction;
@@ -16,6 +19,22 @@ class IndexTransactions extends Component
 {
     use WithPagination;
     public $status;
+    public function mount()
+    {
+        switch ($this->status){
+            case 'order':
+                auth()->user()->unreadNotifications()->where('type', OrderCreated::class)->update(['read_at' => now()]);
+                break;
+            case 'approved_by_manager':
+                auth()->user()->unreadNotifications()->where('type', CanceledByManager::class)->update(['read_at' => now()]);
+                break;
+            case 'approved_by_bank':
+                auth()->user()->unreadNotifications()->whereIn('type', [ApprovedByBank::class, CanceledByManager::class])->update(['read_at' => now()]);
+                break;
+            default:
+                break;
+        }
+    }
     public function read()
     {
         $transactions = Transaction::query();
@@ -39,7 +58,7 @@ class IndexTransactions extends Component
         $current->save();
         $users = User::role('Company Employee')->orWhere('id', $current->user_id)->get();
         foreach ($users as $user) {
-            if ($user->fcm_token && ($user->id == $current->user_id || $user->hasRole('Company Employee')))
+            if ($user->id == $current->user_id || $user->hasRole('Company Employee'))
                 $user->notify(new ApprovedByBank($current->id));
         }
     }
@@ -50,7 +69,7 @@ class IndexTransactions extends Component
         $current->save();
         $users = $current->branch->users;
         foreach ($users as $user) {
-            if ($user->fcm_token && ($user->id == $current->user_id || $user->hasRole('Bank Employee')))
+            if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
                 $user->notify(new CanceledByBank($current->id));
         }
     }
@@ -61,8 +80,8 @@ class IndexTransactions extends Component
         $current->save();
         $users = $current->branch->users;
         foreach ($users as $user) {
-            if ($user->fcm_token && ($user->id == $current->user_id || $user->hasRole('Bank Employee')))
-                $user->notify(new ApprovedByBank($current->id));
+            if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
+                $user->notify(new ApprovedByManager($current->id));
         }
     }
     public function cancelByManager($id)
@@ -72,7 +91,7 @@ class IndexTransactions extends Component
         $current->save();
         $users = $current->branch->users;
         foreach ($users as $user) {
-            if ($user->fcm_token && ($user->id == $current->user_id || $user->hasRole('Bank Employee')))
+            if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
                 $user->notify(new CanceledByManager($current->id));
         }
     }
