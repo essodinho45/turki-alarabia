@@ -60,3 +60,14 @@ onMessage(messaging, function ({ notification }) {
     });
     // ...
 });
+
+self.addEventListener("push", (event) => {
+    console.log(event);
+    // let response = event.data && event.data.text();
+    // let title = JSON.parse(response).notification.title;
+    // let body = JSON.parse(response).notification.body;
+    //
+    // event.waitUntil(
+    //     self.registration.showNotification(title, { body, icon, image, data: { url: JSON.parse(response).data.url } })
+    // )
+});
