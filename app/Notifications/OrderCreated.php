@@ -34,7 +34,7 @@ class OrderCreated extends Notification
     public function toFcm($notifiable)
     {
         return FcmMessage::create()
-            ->setData(['data1' => 'value', 'data2' => 'value2'])
+            ->setData(['data' => 'value'])
             ->setNotification(\NotificationChannels\Fcm\Resources\Notification::create()
                 ->setTitle(__('Buying Order Created'))
                 ->setBody(__('buying order created with id: ').$this->transaction_id)

@@ -34,7 +34,7 @@ class OfferCreated extends Notification
     public function toFcm($notifiable)
     {
         return FcmMessage::create()
-            ->setData(['data1' => 'value', 'data2' => 'value2'])
+            ->setData(['data' => 'value'])
             ->setNotification(\NotificationChannels\Fcm\Resources\Notification::create()
                 ->setTitle(__('Price Offer Created'))
                 ->setBody(__('price offer created with id: ').$this->offer_id)
