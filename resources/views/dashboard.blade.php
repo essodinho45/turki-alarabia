@@ -18,6 +18,6 @@
     document.addEventListener("DOMContentLoaded", function(event) {
         setTimeout(function(){
             window.location.reload();
-        }, 5000);
+        }, 30000);
     });
 </script>
