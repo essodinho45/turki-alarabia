@@ -6,13 +6,13 @@ self.addEventListener('push', function (e) {
 
     if (e.data) {
         var msg = e.data.json();
-        console.log(msg)
+        console.log(msg);
+        const audio = new Audio('sound.mp3');
+        audio.play();
         e.waitUntil(self.registration.showNotification(msg.title, {
             body: msg.body,
             icon: msg.icon,
             actions: msg.actions
         }));
-        const audio = new Audio('sound.mp3');
-        audio.play();
     }
 });
