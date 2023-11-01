@@ -42,7 +42,7 @@
             {{ $slot }}
         </main>
         <audio id="audio">
-            <source src="{{ asset('audio.mp3') }}" type="audio/mpeg">
+            <source src="{{ asset('sound.mp3') }}" type="audio/mpeg">
         </audio>
     </div>
 
