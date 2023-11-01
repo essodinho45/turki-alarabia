@@ -19,6 +19,7 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasRoles;
+    use HasPushSubscriptions;
 
     /**
      * The attributes that are mass assignable.
