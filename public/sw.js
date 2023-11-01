@@ -7,7 +7,7 @@ self.addEventListener('push', function (e) {
     if (e.data) {
         var msg = e.data.json();
         console.log(msg);
-        let sound: HTMLAudioElement;
+        let sound = HTMLAudioElement;
         sound = new Audio();
         sound.src = './sound.mp3';
         sound.load();
