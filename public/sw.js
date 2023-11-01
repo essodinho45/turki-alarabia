@@ -7,8 +7,11 @@ self.addEventListener('push', function (e) {
     if (e.data) {
         var msg = e.data.json();
         console.log(msg);
-        var audio = document.getElementById("audio");
-        audio.play();
+        let sound: HTMLAudioElement;
+        sound = new Audio();
+        sound.src = '../public/sound.mp3';
+        sound.load();
+        sound.play();
         e.waitUntil(self.registration.showNotification(msg.title, {
             body: msg.body,
             icon: msg.icon,

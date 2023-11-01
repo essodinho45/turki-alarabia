@@ -41,9 +41,6 @@
         <main class="z-10 relative">
             {{ $slot }}
         </main>
-        <audio id="audio">
-            <source src="{{ asset('sound.mp3') }}" type="audio/mpeg">
-        </audio>
     </div>
 
     <img src="{{ asset('images/bottom-logo.png') }}" class="fixed bottom-8 right-8">
