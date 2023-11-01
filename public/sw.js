@@ -9,7 +9,7 @@ self.addEventListener('push', function (e) {
         console.log(msg);
         let sound: HTMLAudioElement;
         sound = new Audio();
-        sound.src = '../public/sound.mp3';
+        sound.src = './sound.mp3';
         sound.load();
         sound.play();
         e.waitUntil(self.registration.showNotification(msg.title, {
