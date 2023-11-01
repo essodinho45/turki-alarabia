@@ -3,13 +3,8 @@
 namespace App\Notifications;
 
 use Illuminate\Notifications\Notification;
-use NotificationChannels\Fcm\FcmChannel;
-use NotificationChannels\Fcm\FcmMessage;
-use NotificationChannels\Fcm\Resources\AndroidConfig;
-use NotificationChannels\Fcm\Resources\AndroidFcmOptions;
-use NotificationChannels\Fcm\Resources\AndroidNotification;
-use NotificationChannels\Fcm\Resources\ApnsConfig;
-use NotificationChannels\Fcm\Resources\ApnsFcmOptions;
+use NotificationChannels\WebPush\WebPushMessage;
+use NotificationChannels\WebPush\WebPushChannel;
 
 class ApprovedByBank extends Notification
 {
@@ -22,7 +17,7 @@ class ApprovedByBank extends Notification
 
     public function via($notifiable)
     {
-        return [FcmChannel::class, 'database'];
+        return [WebPushChannel::class, 'database'];
     }
 
     public function toDatabase(object $notifiable): array
@@ -32,13 +27,21 @@ class ApprovedByBank extends Notification
         ];
     }
 
-    public function toFcm($notifiable)
+    public function toWebPush($notifiable, $notification)
     {
-        return FcmMessage::create()
-            ->setData(['data1' => 'value', 'data2' => 'value2'])
-            ->setNotification(\NotificationChannels\Fcm\Resources\Notification::create()
-                ->setTitle(__('Transaction Approved By Bank'))
-                ->setBody(__('Bank has approved transaction with id: ').$this->transaction_id)
-            );
+        return (new WebPushMessage)
+            ->title(__('Transaction Approved By Bank'))
+            ->body(__('Bank has approved transaction with id: ') . $this->transaction_id)
+            // ->action('View account', 'view_account')
+            ->options(['TTL' => 1000]);
+        // ->data(['id' => $notification->id])
+        // ->badge()
+        // ->dir()
+        // ->image()
+        // ->lang()
+        // ->renotify()
+        // ->requireInteraction()
+        // ->tag()
+        // ->vibrate()
     }
 }
