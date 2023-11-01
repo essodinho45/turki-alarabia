@@ -7,7 +7,7 @@ use App\Notifications\OrderCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Transaction;
-use App\Http\Controllers\FirebasePushController;
+use App\Http\Controllers\PushController;
 use Spatie\Permission\Models\Role;
 
 /*
