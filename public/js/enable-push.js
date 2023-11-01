@@ -3,6 +3,9 @@
 const swReady = navigator.serviceWorker.ready;
 
 document.addEventListener('DOMContentLoaded', function () {
+    self.addEventListener("push", function () {
+        window.playAudio();
+    }, false);
     initSW();
 });
 
@@ -119,7 +122,3 @@ function urlBase64ToUint8Array(base64String) {
     }
     return outputArray;
 }
-
-Notification.addEventListener("show", function () {
-    window.playAudio();
-}, false);
