@@ -51,6 +51,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+    Route::post('/push', 'PushController@store');
     Route::get('/dashboard', function () {
         $user_notifications = auth()->user()->unreadNotifications;
         $notifications = [];
