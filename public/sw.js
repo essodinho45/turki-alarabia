@@ -1,3 +1,8 @@
+function playAudio() {
+    var x = document.getElementById("audio");
+    x.play();
+}
+
 self.addEventListener('push', function (e) {
     if (!(self.Notification && self.Notification.permission === 'granted')) {
         //notifications aren't supported or permission not granted!
@@ -7,6 +12,7 @@ self.addEventListener('push', function (e) {
     if (e.data) {
         var msg = e.data.json();
         console.log(msg);
+        playAudio();
         e.waitUntil(self.registration.showNotification(msg.title, {
             body: msg.body,
             icon: msg.icon,

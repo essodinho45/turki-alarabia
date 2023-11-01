@@ -3,9 +3,6 @@
 const swReady = navigator.serviceWorker.ready;
 
 document.addEventListener('DOMContentLoaded', function () {
-    self.addEventListener("push", function () {
-        window.playAudio();
-    }, false);
     initSW();
 });
 
