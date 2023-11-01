@@ -48,4 +48,8 @@
     @livewireScripts
 </body>
 
+@auth
+    <script src="{{ asset('js/enable-push.js') }}" defer></script>
+@endauth
+
 </html>
