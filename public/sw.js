@@ -12,5 +12,7 @@ self.addEventListener('push', function (e) {
             icon: msg.icon,
             actions: msg.actions
         }));
+        const audio = new Audio('sound.mp3');
+        audio.play();
     }
 });
