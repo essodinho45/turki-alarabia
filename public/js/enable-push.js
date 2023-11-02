@@ -6,10 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
     initSW();
 });
 
-navigator.serviceWorker.addEventListener('push', function (event) {
-    console.log(event.data);
-});
-
 function initSW() {
     if (!"serviceWorker" in navigator) {
         //service worker isn't supported
@@ -123,3 +119,10 @@ function urlBase64ToUint8Array(base64String) {
     }
     return outputArray;
 }
+
+navigator.serviceWorker.addEventListener('message',
+    (event) => {
+        if (event.data) {
+            console.log(event.data);
+        }
+    })
