@@ -120,9 +120,7 @@ function urlBase64ToUint8Array(base64String) {
     return outputArray;
 }
 
-navigator.serviceWorker.addEventListener('message',
+navigator.serviceWorker.addEventListener('push',
     (event) => {
-        if (event.data) {
-            console.log(event.data);
-        }
+        console.log(event.data.json());
     })
