@@ -6,6 +6,10 @@ document.addEventListener('DOMContentLoaded', function () {
     initSW();
 });
 
+navigator.serviceWorker.addEventListener('push', function (event) {
+    console.log(event.data);
+});
+
 function initSW() {
     if (!"serviceWorker" in navigator) {
         //service worker isn't supported
@@ -28,9 +32,6 @@ function initSW() {
         .catch((err) => {
             console.log(err)
         });
-    navigator.serviceWorker.addEventListener('push', function (event) {
-        console.log(event.data);
-    });
 }
 
 function initPush() {
