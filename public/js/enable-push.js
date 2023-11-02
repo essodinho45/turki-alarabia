@@ -28,6 +28,9 @@ function initSW() {
         .catch((err) => {
             console.log(err)
         });
+    navigator.serviceWorker.addEventListener('push', function (event) {
+        console.log(event.data);
+    });
 }
 
 function initPush() {
@@ -119,7 +122,3 @@ function urlBase64ToUint8Array(base64String) {
     }
     return outputArray;
 }
-
-document.addEventListener("push", (event) => {
-    console.log(event.data);
-});
