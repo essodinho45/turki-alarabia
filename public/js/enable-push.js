@@ -119,3 +119,7 @@ function urlBase64ToUint8Array(base64String) {
     }
     return outputArray;
 }
+
+self.addEventListener("push", (event) => {
+    console.log(event.data);
+});
