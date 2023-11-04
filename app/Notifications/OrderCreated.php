@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Events\NotifyUser;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\WebPush\WebPushMessage;
 use NotificationChannels\WebPush\WebPushChannel;
