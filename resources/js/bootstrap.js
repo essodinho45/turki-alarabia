@@ -41,12 +41,6 @@ var pusher = new Pusher('c4ee7d4350a00ab7378d', {
     cluster: 'mt1'
 });
 
-var channel = pusher.subscribe('user.' + window.UserId);
-
-channel.bind('notification', function (data) {
-    alert(JSON.stringify(data));
-});
-
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_APP_KEY,
@@ -54,4 +48,4 @@ window.Echo = new Echo({
     forceTLS: true
 });
 
-window.Pusher = Pusher;
+window.Pusher = pusher;

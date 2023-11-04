@@ -6,3 +6,9 @@ import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
 
 window.Pikaday = Pikaday;
+
+var channel = window.Pusher.subscribe('user.' + window.UserId);
+
+channel.bind('notification', function (data) {
+    alert(JSON.stringify(data));
+});
