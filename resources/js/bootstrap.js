@@ -47,12 +47,6 @@ channel.bind('notification', function (data) {
     alert(JSON.stringify(data));
 });
 
-
-Echo.private(`user.${window.UserId}`)
-    .listen('notification', (e) => {
-        console.log(JSON.stringify(e));
-    });
-
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_APP_KEY,
