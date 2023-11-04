@@ -29,6 +29,7 @@ class OrderCreated extends Notification
 
     public function toWebPush($notifiable, $notification)
     {
+        event(new NotifyUser($notifiable, $notification));
         return (new WebPushMessage)
             ->title(__('Buying Order Created'))
             ->body(__('buying order created with id: ') . $this->transaction_id)
