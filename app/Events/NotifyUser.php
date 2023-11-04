@@ -35,4 +35,9 @@ class NotifyUser
             new PrivateChannel('user.' . $this->user->id),
         ];
     }
+
+    public function broadcastAs()
+    {
+        return 'notification';
+    }
 }

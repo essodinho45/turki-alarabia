@@ -29,7 +29,7 @@ class OfferCreated extends Notification
 
     public function toWebPush($notifiable, $notification)
     {
-        event(new NotifyUser($notifiable, $notification));
+        broadcast(new NotifyUser($notifiable, $notification));
         return (new WebPushMessage)
             ->title(__('Price Offer Created'))
             ->body(__('price offer created with id: ') . $this->offer_id)

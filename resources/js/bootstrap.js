@@ -34,7 +34,18 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 
-window.Pusher = Pusher;
+
+Pusher.logToConsole = true;
+
+var pusher = new Pusher('c4ee7d4350a00ab7378d', {
+    cluster: 'mt1'
+});
+
+var channel = pusher.subscribe('user.' + window.UserId);
+
+channel.bind('notification', function (data) {
+    alert(JSON.stringify(data));
+});
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
@@ -42,3 +53,5 @@ window.Echo = new Echo({
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     forceTLS: true
 });
+
+window.Pusher = Pusher;
