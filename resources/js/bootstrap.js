@@ -41,7 +41,7 @@ var pusher = new Pusher('c4ee7d4350a00ab7378d', {
     cluster: 'mt1'
 });
 
-var channel = pusher.subscribe('user.' + window.UserId);
+var channel = pusher.private('user.' + window.UserId);
 
 channel.bind('notification', function (data) {
     alert(JSON.stringify(data));
