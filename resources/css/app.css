@@ -1,3 +1,5 @@
+@import '@fontsource/tajawal/900.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,6 +13,10 @@
 body {
     font-family: 'STV' !important;
     -webkit-print-color-adjust: exact;
+}
+
+option {
+    font-family: 'Tajawal', sans-serif !important;
 }
 
 [x-cloak] {

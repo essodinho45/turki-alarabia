@@ -33,7 +33,7 @@
     <div class="mt-1 flex items-center gap-x-2">
         <x-label for="material_id" value="{{ __('Material') }}" class="basis-1/4 text-lg flex justify-end" />
         <select name="material_id" wire:model="material_id" wire:change="$refresh"
-            class="rounded border-gray-300 shadow-sm p-2 bg-white basis-3/4 text-sm focus:ring-indigo-800 focus:border-indigo-800">
+            class="rounded border-gray-300 shadow-sm p-2 bg-white basis-3/4 text-md focus:ring-indigo-800 focus:border-indigo-800">
             <option hidden selected></option>
             @foreach ($materials as $material)
                 <option value={{ $material->id }} wire:key="material_{{ $material->id }}">{{ $material->name }}

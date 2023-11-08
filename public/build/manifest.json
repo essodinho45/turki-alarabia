@@ -1,6 +1,22 @@
 {
+  "node_modules/@fontsource/tajawal/files/tajawal-arabic-900-normal.woff": {
+    "file": "assets/tajawal-arabic-900-normal-88971aa2.woff",
+    "src": "node_modules/@fontsource/tajawal/files/tajawal-arabic-900-normal.woff"
+  },
+  "node_modules/@fontsource/tajawal/files/tajawal-arabic-900-normal.woff2": {
+    "file": "assets/tajawal-arabic-900-normal-ec0d7262.woff2",
+    "src": "node_modules/@fontsource/tajawal/files/tajawal-arabic-900-normal.woff2"
+  },
+  "node_modules/@fontsource/tajawal/files/tajawal-latin-900-normal.woff": {
+    "file": "assets/tajawal-latin-900-normal-221a9bf7.woff",
+    "src": "node_modules/@fontsource/tajawal/files/tajawal-latin-900-normal.woff"
+  },
+  "node_modules/@fontsource/tajawal/files/tajawal-latin-900-normal.woff2": {
+    "file": "assets/tajawal-latin-900-normal-518d9efe.woff2",
+    "src": "node_modules/@fontsource/tajawal/files/tajawal-latin-900-normal.woff2"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-6b0eb96f.css",
+    "file": "assets/app-cb32b458.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
@@ -12,7 +28,7 @@
     "css": [
       "assets/app-a133b04d.css"
     ],
-    "file": "assets/app-95d87e86.js",
+    "file": "assets/app-07a2b54b.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }
