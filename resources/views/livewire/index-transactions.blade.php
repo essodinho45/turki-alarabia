@@ -26,6 +26,9 @@
                 <th
                     class="px-6 py-3 bg-gray-50 rtl:text-right ltr:text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                     {{ __('Amount') }}</th>
+                <th
+                    class="px-6 py-3 bg-gray-50 rtl:text-right ltr:text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    {{ __('Material') }}</th>
 
                 <th
                     class="px-6 py-3 bg-gray-50 rtl:text-left ltr:text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -51,6 +54,9 @@
                         </td>
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">
                             {{ number_format($transaction->amount + 50, 3) }}
+                        </td>
+                        <td class="px-6 py-2 text-sm whitespace-no-wrap">
+                            {{ $transaction->material->name }}
                         </td>
                         <td class="px-6 py-2 text-sm text-right">
                             @switch($status)
