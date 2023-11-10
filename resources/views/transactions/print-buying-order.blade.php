@@ -32,15 +32,16 @@
                 <tbody class="text-gray-600 text-sm">
                     <tr class="border border-gray-200">
                         <td class="py-2 px-6 text-right whitespace-nowrap border w-1/4">{{ __('Date') }}</td>
-                        <td class="py-2 px-6 text-right whitespace-nowrap border w-3/4"></td>
+                        <td class="py-2 px-6 text-right whitespace-nowrap border w-3/4">{{ date('Y/m/d') }}</td>
                     </tr>
                     <tr class="border border-gray-200 bg-gray-100">
                         <td class="py-2 px-6 text-right whitespace-nowrap border w-1/4">الوقت</td>
-                        <td class="py-2 px-6 text-right whitespace-nowrap border w-3/4"></td>
+                        <td class="py-2 px-6 text-right whitespace-nowrap border w-3/4">{{ date('H:i:s') }}</td>
                     </tr>
                     <tr class="border border-gray-200">
                         <td class="py-2 px-6 text-right whitespace-nowrap border w-1/4">من</td>
-                        <td class="py-2 px-6 text-right whitespace-nowrap border w-3/4"></td>
+                        <td class="py-2 px-6 text-right whitespace-nowrap border w-3/4">شركة تركي العربية للتجارة العامة
+                        </td>
                     </tr>
                     <tr class="border border-gray-200 bg-gray-100">
                         <td class="py-2 px-6 text-right whitespace-nowrap border w-1/4">إلى</td>
@@ -92,6 +93,7 @@
                     <tr class="border border-gray-200 bg-gray-100">
                         <td class="py-2 px-6 text-right whitespace-nowrap border">وصف السلعة</td>
                         <td class="py-2 px-6 text-right whitespace-nowrap border">
+                            {{ $transaction->material->description }}
                         </td>
                     </tr>
                     <tr class="border border-gray-200">
