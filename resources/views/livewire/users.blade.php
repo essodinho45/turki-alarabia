@@ -16,9 +16,9 @@
                 <th
                     class="px-6 py-3 bg-gray-50 rtl:text-right ltr:text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                     {{ __('Email') }}</th>
-                {{-- <th
+                <th
                     class="px-6 py-3 bg-gray-50 rtl:text-right ltr:text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                    {{ __('Roles') }}</th> --}}
+                    {{ __('User Type') }}</th>
 
                 <th
                     class="px-6 py-3 bg-gray-50 rtl:text-left ltr:text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -32,6 +32,7 @@
                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $user->id }}</td>
                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $user->name }}</td>
                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $user->email }}</td>
+                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ __($user->roles[0]->name) }}</td>
                         <td class="px-6 py-4 text-sm text-right">
                             <x-button wire:click="updateShowModal({{ $user->id }})">
                                 {{ __('Update') }}
