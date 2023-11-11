@@ -21,7 +21,7 @@ class IndexTransactions extends Component
     public $status;
     public function mount()
     {
-        switch ($this->status){
+        switch ($this->status) {
             case 'order':
                 auth()->user()->unreadNotifications()->where('type', OrderCreated::class)->update(['read_at' => now()]);
                 break;
@@ -61,6 +61,7 @@ class IndexTransactions extends Component
             if ($user->id == $current->user_id || $user->hasRole('Company Employee'))
                 $user->notify(new ApprovedByBank($current->id));
         }
+        return redirect()->route('dashboard');
     }
     public function cancelByBank($id)
     {
@@ -72,6 +73,7 @@ class IndexTransactions extends Component
             if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
                 $user->notify(new CanceledByBank($current->id));
         }
+        return redirect()->route('dashboard');
     }
     public function approveByManager($id)
     {
@@ -83,6 +85,7 @@ class IndexTransactions extends Component
             if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
                 $user->notify(new ApprovedByManager($current->id));
         }
+        return redirect()->route('dashboard');
     }
     public function cancelByManager($id)
     {
@@ -94,6 +97,7 @@ class IndexTransactions extends Component
             if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
                 $user->notify(new CanceledByManager($current->id));
         }
+        return redirect()->route('dashboard');
     }
     public function render()
     {
