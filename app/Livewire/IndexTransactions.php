@@ -9,6 +9,7 @@ use App\Notifications\ApprovedByManager;
 use App\Notifications\CanceledByBank;
 use App\Notifications\CanceledByManager;
 use App\Notifications\OrderCreated;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\Notification;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -26,7 +27,7 @@ class IndexTransactions extends Component
                 auth()->user()->unreadNotifications()->where('type', OrderCreated::class)->update(['read_at' => now()]);
                 break;
             case 'approved_by_manager':
-                auth()->user()->unreadNotifications()->where('type', CanceledByManager::class)->update(['read_at' => now()]);
+                auth()->user()->unreadNotifications()->where('type', ApprovedByManager::class)->update(['read_at' => now()]);
                 break;
             case 'approved_by_bank':
                 auth()->user()->unreadNotifications()->whereIn('type', [ApprovedByBank::class, CanceledByManager::class])->update(['read_at' => now()]);
@@ -61,6 +62,11 @@ class IndexTransactions extends Component
             if ($user->id == $current->user_id || $user->hasRole('Company Employee'))
                 $user->notify(new ApprovedByBank($current->id));
         }
+        DatabaseNotification::where([
+            ['type', OrderCreated::class],
+            ['data->transaction_id', $current->id],
+            ['read_at', NULL],
+        ])->update(['read_at' => now()]);
         return redirect()->route('dashboard');
     }
     public function cancelByBank($id)
@@ -73,6 +79,11 @@ class IndexTransactions extends Component
             if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
                 $user->notify(new CanceledByBank($current->id));
         }
+        DatabaseNotification::where([
+            ['type', OrderCreated::class],
+            ['data->transaction_id', $current->id],
+            ['read_at', NULL],
+        ])->update(['read_at' => now()]);
         return redirect()->route('dashboard');
     }
     public function approveByManager($id)
@@ -85,6 +96,11 @@ class IndexTransactions extends Component
             if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
                 $user->notify(new ApprovedByManager($current->id));
         }
+        DatabaseNotification::where([
+            ['type', ApprovedByBank::class],
+            ['data->transaction_id', $current->id],
+            ['read_at', NULL],
+        ])->update(['read_at' => now()]);
         return redirect()->route('dashboard');
     }
     public function cancelByManager($id)
@@ -97,6 +113,11 @@ class IndexTransactions extends Component
             if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
                 $user->notify(new CanceledByManager($current->id));
         }
+        DatabaseNotification::where([
+            ['type', ApprovedByBank::class],
+            ['data->transaction_id', $current->id],
+            ['read_at', NULL],
+        ])->update(['read_at' => now()]);
         return redirect()->route('dashboard');
     }
     public function render()

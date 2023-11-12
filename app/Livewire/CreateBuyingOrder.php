@@ -2,7 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Notifications\OfferCreated;
 use App\Notifications\OrderCreated;
+use Illuminate\Notifications\DatabaseNotification;
 use Livewire\Component;
 use App\Models\Transaction;
 
@@ -32,6 +34,11 @@ class CreateBuyingOrder extends Component
             if ($user->id == $this->transaction->user_id || $user->hasRole('Manager'))
                 $user->notify(new OrderCreated($this->transaction->id));
         }
+        DatabaseNotification::where([
+            ['type', OfferCreated::class],
+            ['data->transaction_id', $this->transaction->id],
+            ['read_at', NULL],
+        ])->update(['read_at' => now()]);
         $this->modalFormVisible = true;
         $this->transaction = NULL;
     }
