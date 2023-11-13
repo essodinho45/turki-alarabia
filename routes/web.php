@@ -30,6 +30,11 @@ Route::get('/config-clear', function () {
     return '<h1>Configurations cleared</h1>';
 });
 
+Route::get('/config-cache', function () {
+    $status = Artisan::call('config:cache');
+    return '<h1>Configurations cached</h1>';
+});
+
 //Generate Key:
 Route::get('/gen-key', function () {
     $status = Artisan::call('key:generate');
