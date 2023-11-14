@@ -24,7 +24,7 @@ class IndexTransactions extends Component
     {
         switch ($this->status) {
             case 'order':
-                auth()->user()->unreadNotifications()->where('type', OrderCreated::class)->update(['read_at' => now()]);
+                auth()->user()->unreadNotifications()->whereIn('type', [OrderCreated::class, CanceledByBank::class])->update(['read_at' => now()]);
                 break;
             case 'approved_by_manager':
                 auth()->user()->unreadNotifications()->where('type', ApprovedByManager::class)->update(['read_at' => now()]);
@@ -46,6 +46,10 @@ class IndexTransactions extends Component
             return $transactions->paginate(10);
         elseif ($this->status == 'approved_by_bank')
             return $transactions->whereIn('status', [$this->status, 'canceled'])
+                ->whereDate('created_at', '>=', Carbon::now()->StartOfDay())
+                ->paginate(10);
+        elseif ($this->status == 'order')
+            return $transactions->whereIn('status', [$this->status, 'canceled_by_bank'])
                 ->whereDate('created_at', '>=', Carbon::now()->StartOfDay())
                 ->paginate(10);
         return $transactions->where('status', $this->status)

@@ -73,14 +73,16 @@
                                 @break
 
                                 @case('order')
-                                    @can('approve by bank')
-                                        <button class="btn btn-blue" wire:click="approve({{ $transaction->id }})">
-                                            {{ __('Approve') }}
-                                        </button>
-                                        <button class="btn btn-red" wire:click="cancelByBank({{ $transaction->id }})">
-                                            {{ __('Refuse') }}
-                                        </button>
-                                    @endcan
+                                    @if ($transaction->status == 'order')
+                                        @can('approve by bank')
+                                            <button class="btn btn-blue" wire:click="approve({{ $transaction->id }})">
+                                                {{ __('Approve') }}
+                                            </button>
+                                            <button class="btn btn-red" wire:click="cancelByBank({{ $transaction->id }})">
+                                                {{ __('Refuse') }}
+                                            </button>
+                                        @endcan
+                                    @endif
                                 @break
 
                                 @case('approved_by_bank')
