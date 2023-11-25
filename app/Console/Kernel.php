@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function () {
             DB::table('transactions')->delete();
-        })->everyMinute();
+        })->daily();
         $schedule->call(function () {
             DB::table('notifications')->delete();
         })->daily();
