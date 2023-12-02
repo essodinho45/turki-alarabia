@@ -14,10 +14,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->call(function () {
-            DB::table('transactions')->delete();
+            DB::table('transactions')->truncate();
         })->daily();
         $schedule->call(function () {
-            DB::table('notifications')->delete();
+            DB::table('notifications')->truncate();
         })->daily();
     }
 
