@@ -91,7 +91,7 @@
                     <tr class="border border-gray-200 bg-gray-100">
                         <td class="py-3 px-6 text-right whitespace-nowrap border">{{ __('Total Amount') }}</td>
                         <td class="py-3 px-6 text-right whitespace-nowrap border">
-                            {{ number_format($transaction->amount + 50, 3) }}</td>
+                            {{ number_format($transaction->amount + config('settings.commission'), 3) }}</td>
                     </tr>
                 </tbody>
             </table>

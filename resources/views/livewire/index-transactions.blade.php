@@ -53,7 +53,7 @@
                             {{ $transaction->user->branch ? $transaction->user->branch->bank->name . ' - ' . $transaction->user->branch->name : '' }}
                         </td>
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">
-                            {{ number_format($transaction->amount + 50, 3) }}
+                            {{ number_format($transaction->amount + config('settings.commission'), 3) }}
                         </td>
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">
                             {{ $transaction->material->name }}

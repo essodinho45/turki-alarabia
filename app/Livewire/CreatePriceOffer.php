@@ -103,7 +103,7 @@ class CreatePriceOffer extends Component
         if ($material) {
             $this->price = $material->unit_price;
             $this->quantity = $this->amount / $this->price;
-            $this->total_amount = ($this->amount == 0) ? 0 : $this->amount + 50;
+            $this->total_amount = ($this->amount == 0) ? 0 : $this->amount + config('settings.commission');
         }
         // auth()->user()->notify(new SendPushNotification($title,$message,$fcmTokens));
         return view('livewire.create-price-offer')->withMaterials(Material::all());
