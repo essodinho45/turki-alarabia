@@ -98,7 +98,7 @@ Route::middleware([
     Route::get('/print-buying-order/{transaction}', function (Transaction $transaction) {
         $transaction->status = 'waiting_manager_approval';
         $transaction->save();
-        $users = User::query()->hasRole('Manager')->where('branch_id', $transaction->branch_id)->get();
+        $users = User::role('Manager')->where('branch_id', $transaction->branch_id)->get();
         foreach ($users as $user) {
             $user->notify(new OrderCreated($transaction->id));
         }

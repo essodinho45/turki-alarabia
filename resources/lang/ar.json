@@ -5,6 +5,7 @@
     "ID": "الرقم",
     "Showing": "إظهار",
     "to": "إلى",
+    "Send Message To Client": "إرسال رسالة إلى العميل",
     "Message Sent": "تم إرسال الرسالة",
     "Message sent for transaction with id: ": "تم إرسال الرسالة للعميل صاحب المعاملة ذات الرقم: ",
     "Transaction Done": "تم إتمام المعاملة",
