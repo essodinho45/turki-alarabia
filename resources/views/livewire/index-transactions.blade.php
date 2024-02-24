@@ -72,28 +72,60 @@
                                     </a>
                                 @break
 
-                                @case('order')
+                                @case('to_approve')
                                     @if ($transaction->status == 'order')
-                                        @can('approve by bank')
-                                            <button class="btn btn-blue" wire:click="approve({{ $transaction->id }})">
+                                        @role('Bank Employee')
+                                            <a href="{{ route('transactions.printOrder', ['transaction' => $transaction->id]) }}"
+                                                target="_blank"
+                                                class="inline-flex items-center px-4 py-2 bg-blue-700 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-800 focus:bg-blue-800 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 rtl:mr-3 ltr:ml-3">
+                                                {{ __('Print') }}
+                                            </a>
+                                        @endrole
+                                    @elseif($transaction->status == 'waiting_manager_approval')
+                                        @role('Manager')
+                                            <button class="btn btn-blue" wire:click="approveByManager({{ $transaction->id }})">
+                                                {{ __('Approve') }}
+                                            </button>
+                                            <button class="btn btn-red" wire:click="cancelByManager({{ $transaction->id }})">
+                                                {{ __('Refuse') }}
+                                            </button>
+                                        @endrole
+                                    @elseif($transaction->status == 'approved_by_manager')
+                                        @role('Bank Employee')
+                                            <button class="btn btn-blue" wire:click="approveByBank({{ $transaction->id }})">
                                                 {{ __('Approve') }}
                                             </button>
                                             <button class="btn btn-red" wire:click="cancelByBank({{ $transaction->id }})">
                                                 {{ __('Refuse') }}
                                             </button>
-                                        @endcan
+                                        @endrole
                                     @endif
                                 @break
 
-                                @case('approved_by_bank')
-                                    @can('approve by manager')
-                                        <button class="btn btn-blue" wire:click="approveByManager({{ $transaction->id }})">
-                                            {{ __('Approve') }}
-                                        </button>
-                                        <button class="btn btn-red" wire:click="cancelByManager({{ $transaction->id }})">
-                                            {{ __('Refuse') }}
-                                        </button>
-                                    @endcan
+                                @case('in_progress')
+                                    @if ($transaction->status == 'waiting_turki_approval')
+                                        @role('Company Employee')
+                                            <button class="btn btn-blue" wire:click="approveByTurki({{ $transaction->id }})">
+                                                {{ __('Approve') }}
+                                            </button>
+                                        @endrole
+                                    @elseif($transaction->status == 'approved_by_turki')
+                                        @role('Bank Employee')
+                                            <button class="btn btn-blue" wire:click="sendMessage({{ $transaction->id }})">
+                                                {{ __('Send Message To Client') }}
+                                            </button>
+                                        @endrole
+                                    @endif
+                                @break
+
+                                @case('completed')
+                                    @if ($transaction->status == 'approved_by_client')
+                                        @role('Company Employee')
+                                            <button class="btn btn-blue" wire:click="setAsDone({{ $transaction->id }})">
+                                                {{ __('Approve') }}
+                                            </button>
+                                        @endrole
+                                    @endif
                                 @break
 
                                 @default

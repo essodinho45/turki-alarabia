@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notification;
 use NotificationChannels\WebPush\WebPushMessage;
 use NotificationChannels\WebPush\WebPushChannel;
 
-class ApprovedByManager extends Notification
+class MessageSent extends Notification
 {
     private $transaction_id;
 
@@ -29,8 +29,8 @@ class ApprovedByManager extends Notification
     public function toWebPush($notifiable, $notification)
     {
         return (new WebPushMessage)
-            ->title(__('Transaction Approved By Manager'))
-            ->body(__('Manager has approved transaction with id: ') . $this->transaction_id)
+            ->title(__('Message Sent'))
+            ->body(__('Message sent for transaction with id: ') . $this->transaction_id)
             // ->action('View account', 'view_account')
             ->options(['TTL' => 1000]);
         // ->data(['id' => $notification->id])

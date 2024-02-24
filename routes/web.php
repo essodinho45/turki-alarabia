@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Transaction;
 use App\Http\Controllers\PushController;
+use App\Http\Controllers\FirebasePushController;
 use Spatie\Permission\Models\Role;
 
 /*
@@ -90,10 +91,12 @@ Route::middleware([
         return view('transactions.print-price-offer', compact('transaction'));
     })->name('transactions.printOffer')->middleware(['can:print offer']);
     Route::get('/print-buying-order/{transaction}', function (Transaction $transaction) {
+        $transaction->status = 'waiting_manager_approval';
+        $transaction->save();
         return view('transactions.print-buying-order', compact('transaction'));
     })->name('transactions.printOrder')->middleware(['can:print order']);
 
-    Route::post('setToken', [FirebasePushController::class, 'setToken'])->name('firebase.token');
+    Route::post('setToken', [FirebasePshController::class, 'setToken'])->name('firebase.token');
 });
 
 Route::middleware([

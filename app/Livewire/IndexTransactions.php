@@ -5,10 +5,13 @@ namespace App\Livewire;
 use App\Models\Branch;
 use App\Models\User;
 use App\Notifications\ApprovedByBank;
+use App\Notifications\ApprovedByClient;
 use App\Notifications\ApprovedByManager;
+use App\Notifications\ApprovedByTurki;
 use App\Notifications\CanceledByBank;
 use App\Notifications\CanceledByManager;
 use App\Notifications\OrderCreated;
+use App\Notifications\TransactionDone;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\Notification;
 use Livewire\Component;
@@ -49,7 +52,7 @@ class IndexTransactions extends Component
             if ($user->hasRole('Manager'))
                 $transactions->where('status', 'waiting_manager_approval');
             elseif ($user->hasRole('Bank Employee'))
-                $transactions->where('status', 'approved_by_manager')
+                $transactions->whereIn('status', ['order', 'approved_by_manager'])
                     ->where('user_id', $user->id);
         } elseif ($this->status == 'in_progress') {
             if ($user->hasRole('Company Employee'))
@@ -72,18 +75,51 @@ class IndexTransactions extends Component
             ->whereDate('created_at', '>=', Carbon::now()->StartOfDay())
             ->paginate(10);
     }
-    public function approve($id)
+    public function approveByManager($id)
     {
         $current = Transaction::find($id);
-        $current->status = 'approved_by_bank';
+        $current->status = 'approved_by_manager';
         $current->save();
-        $users = User::role('Company Employee')->orWhere('id', $current->user_id)->get();
+        $users = User::where('id', $current->user_id)->get();
         foreach ($users as $user) {
-            if ($user->id == $current->user_id || $user->hasRole('Company Employee'))
-                $user->notify(new ApprovedByBank($current->id));
+            if ($user->id == $current->user_id)
+                $user->notify(new ApprovedByManager($current->id));
         }
         DatabaseNotification::where([
             ['type', OrderCreated::class],
+            ['data->transaction_id', $current->id],
+            ['read_at', NULL],
+        ])->update(['read_at' => now()]);
+        return redirect()->route('dashboard');
+    }
+    public function cancelByManager($id)
+    {
+        $current = Transaction::find($id);
+        $current->status = 'canceled_by_manager';
+        $current->save();
+        $users = User::where('id', $current->user_id)->get();
+        foreach ($users as $user) {
+            if ($user->id == $current->user_id)
+                $user->notify(new CanceledByManager($current->id));
+        }
+        DatabaseNotification::where([
+            ['type', ApprovedByBank::class],
+            ['data->transaction_id', $current->id],
+            ['read_at', NULL],
+        ])->update(['read_at' => now()]);
+        return redirect()->route('dashboard');
+    }
+    public function approveByBank($id)
+    {
+        $current = Transaction::find($id);
+        $current->status = 'waiting_turki_approval';
+        $current->save();
+        $users = User::role('Company Employee')->get();
+        foreach ($users as $user) {
+            $user->notify(new ApprovedByBank($current->id));
+        }
+        DatabaseNotification::where([
+            ['type', ApprovedByManager::class],
             ['data->transaction_id', $current->id],
             ['read_at', NULL],
         ])->update(['read_at' => now()]);
@@ -94,27 +130,27 @@ class IndexTransactions extends Component
         $current = Transaction::find($id);
         $current->status = 'canceled_by_bank';
         $current->save();
-        $users = $current->branch->users;
+        $users = User::where('id', $current->user_id)->get();
         foreach ($users as $user) {
-            if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
+            if ($user->id == $current->user_id)
                 $user->notify(new CanceledByBank($current->id));
         }
         DatabaseNotification::where([
-            ['type', OrderCreated::class],
+            ['type', ApprovedByManager::class],
             ['data->transaction_id', $current->id],
             ['read_at', NULL],
         ])->update(['read_at' => now()]);
         return redirect()->route('dashboard');
     }
-    public function approveByManager($id)
+    public function approveByTurki($id)
     {
         $current = Transaction::find($id);
-        $current->status = 'approved_by_manager';
+        $current->status = 'approved_by_turki';
         $current->save();
-        $users = $current->branch->users;
+        $users = User::where('id', $current->user_id)->get();
         foreach ($users as $user) {
-            if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
-                $user->notify(new ApprovedByManager($current->id));
+            if ($user->id == $current->user_id)
+                $user->notify(new ApprovedByTurki($current->id));
         }
         DatabaseNotification::where([
             ['type', ApprovedByBank::class],
@@ -123,18 +159,33 @@ class IndexTransactions extends Component
         ])->update(['read_at' => now()]);
         return redirect()->route('dashboard');
     }
-    public function cancelByManager($id)
+    public function sendMessage($id)
     {
         $current = Transaction::find($id);
-        $current->status = 'canceled';
+        //sms logic
+        $current->status = 'waiting_client_approval';
         $current->save();
-        $users = $current->branch->users;
+        $users = User::role('Company Employee')->get();
+        DatabaseNotification::where([
+            ['type', ApprovedByTurki::class],
+            ['data->transaction_id', $current->id],
+            ['read_at', NULL],
+        ])->update(['read_at' => now()]);
+        return redirect()->route('dashboard');
+    }
+    public function setAsDone($id)
+    {
+        $current = Transaction::find($id);
+        //sms logic
+        $current->status = 'done';
+        $current->save();
+        $users = User::where('id', $current->user_id)->get();
         foreach ($users as $user) {
-            if ($user->id == $current->user_id || $user->hasRole('Bank Employee'))
-                $user->notify(new CanceledByManager($current->id));
+            if ($user->id == $current->user_id)
+                $user->notify(new TransactionDone($current->id));
         }
         DatabaseNotification::where([
-            ['type', ApprovedByBank::class],
+            ['type', ApprovedByClient::class],
             ['data->transaction_id', $current->id],
             ['read_at', NULL],
         ])->update(['read_at' => now()]);
