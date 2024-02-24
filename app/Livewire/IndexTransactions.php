@@ -10,6 +10,8 @@ use App\Notifications\ApprovedByManager;
 use App\Notifications\ApprovedByTurki;
 use App\Notifications\CanceledByBank;
 use App\Notifications\CanceledByManager;
+use App\Notifications\MessageSent;
+use App\Notifications\OfferCreated;
 use App\Notifications\OrderCreated;
 use App\Notifications\TransactionDone;
 use Illuminate\Notifications\DatabaseNotification;
@@ -25,18 +27,32 @@ class IndexTransactions extends Component
     public $status;
     public function mount()
     {
+        $user = auth()->user();
         switch ($this->status) {
-            // case 'order':
-            //     auth()->user()->unreadNotifications()->whereIn('type', [OrderCreated::class, CanceledByBank::class])->update(['read_at' => now()]);
-            //     break;
-            // case 'approved_by_manager':
-            //     auth()->user()->unreadNotifications()->where('type', ApprovedByManager::class)->update(['read_at' => now()]);
-            //     break;
-            // case 'approved_by_bank':
-            //     auth()->user()->unreadNotifications()->whereIn('type', [ApprovedByBank::class, CanceledByManager::class])->update(['read_at' => now()]);
-            //     break;
-            // default:
-            //     break;
+            case 'to_approve':
+                if ($user->hasRole('Manager'))
+                    $user->unreadNotifications()->whereIn('type', [OrderCreated::class])->update(['read_at' => now()]);
+                if ($user->hasRole('Bank Employee'))
+                    $user->unreadNotifications()->whereIn('type', [OfferCreated::class, ApprovedByManager::class])->update(['read_at' => now()]);
+                break;
+            case 'in_progress':
+                if ($user->hasRole('Company Employee'))
+                    $user->unreadNotifications()->whereIn('type', [ApprovedByBank::class])->update(['read_at' => now()]);
+                if ($user->hasRole('Bank Employee'))
+                    $user->unreadNotifications()->whereIn('type', [ApprovedByTurki::class])->update(['read_at' => now()]);
+                break;
+            case 'to_approve_by_agent':
+                if ($user->hasRole('Bank Employee'))
+                    $user->unreadNotifications()->whereIn('type', [MessageSent::class])->update(['read_at' => now()]);
+                break;
+            case 'completed':
+                if ($user->hasRole('Company Employee'))
+                    $user->unreadNotifications()->whereIn('type', [ApprovedByClient::class])->update(['read_at' => now()]);
+                if ($user->hasRole('Bank Employee'))
+                    $user->unreadNotifications()->whereIn('type', [TransactionDone::class])->update(['read_at' => now()]);
+                break;
+            default:
+                break;
         }
     }
     public function read()
@@ -166,6 +182,9 @@ class IndexTransactions extends Component
         $current->status = 'waiting_client_approval';
         $current->save();
         $users = User::role('Company Employee')->get();
+        foreach ($users as $user) {
+            $user->notify(new MessageSent($current->id));
+        }
         DatabaseNotification::where([
             ['type', ApprovedByTurki::class],
             ['data->transaction_id', $current->id],

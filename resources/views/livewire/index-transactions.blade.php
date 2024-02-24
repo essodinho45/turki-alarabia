@@ -40,7 +40,7 @@
                 @foreach ($data as $transaction)
                     <tr @class([
                         'bg-red-100' =>
-                            $transaction->status == 'canceled' ||
+                            $transaction->status == 'canceled_by_manager' ||
                             $transaction->status == 'canceled_by_bank',
                     ])>
                         <td class="px-6 py-2 text-sm whitespace-no-wrap">{{ $transaction->id }}</td>

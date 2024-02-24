@@ -1,9 +1,14 @@
 <?php
 
-use App\Notifications\ApprovedByBank;
-use App\Notifications\ApprovedByManager;
-use App\Notifications\CanceledByManager;
+use App\Models\User;
 use App\Notifications\OrderCreated;
+use App\Notifications\OfferCreated;
+use App\Notifications\ApprovedByManager;
+use App\Notifications\ApprovedByBank;
+use App\Notifications\ApprovedByTurki;
+use App\Notifications\MessageSent;
+use App\Notifications\ApprovedByClient;
+use App\Notifications\TransactionDone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Transaction;
@@ -61,10 +66,10 @@ Route::middleware([
     Route::get('/dashboard', function () {
         $user_notifications = auth()->user()->unreadNotifications;
         $notifications = [];
-        $notifications['order'] = $user_notifications->where('type', OrderCreated::class)->count();
-        $notifications['approved_by_manager'] = $user_notifications->where('type', ApprovedByManager::class)->count();
-        $notifications['approved_by_bank'] = $user_notifications->whereIn('type', [ApprovedByBank::class])->count();
-        $notifications['done'] = 0; //$user_notifications->whereIn('type', [ApprovedByBank::class, CanceledByManager::class])->count();
+        $notifications['to_approve'] = $user_notifications->whereIn('type', [OrderCreated::class, OfferCreated::class, ApprovedByManager::class])->count();
+        $notifications['in_progress'] = $user_notifications->whereIn('type', [ApprovedByBank::class, ApprovedByTurki::class])->count();
+        $notifications['to_approve_by_agent'] = $user_notifications->whereIn('type', [MessageSent::class])->count();
+        $notifications['completed'] = $user_notifications->whereIn('type', [ApprovedByClient::class, TransactionDone::class])->count();
         return view('dashboard', compact('notifications'));
     })->name('dashboard');
 
@@ -93,10 +98,14 @@ Route::middleware([
     Route::get('/print-buying-order/{transaction}', function (Transaction $transaction) {
         $transaction->status = 'waiting_manager_approval';
         $transaction->save();
+        $users = User::query()->hasRole('Manager')->where('branch_id', $transaction->branch_id)->get();
+        foreach ($users as $user) {
+            $user->notify(new OrderCreated($transaction->id));
+        }
         return view('transactions.print-buying-order', compact('transaction'));
     })->name('transactions.printOrder')->middleware(['can:print order']);
 
-    Route::post('setToken', [FirebasePshController::class, 'setToken'])->name('firebase.token');
+    Route::post('setToken', [FirebasePushController::class, 'setToken'])->name('firebase.token');
 });
 
 Route::middleware([
