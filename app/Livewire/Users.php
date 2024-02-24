@@ -87,7 +87,7 @@ class Users extends Component
             $this->password = NULL;
             $this->role_id = NULL;
             $this->branch_id = NULL;
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             dd($e);
         }
     }

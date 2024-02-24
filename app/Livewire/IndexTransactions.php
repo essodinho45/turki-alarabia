@@ -23,36 +23,52 @@ class IndexTransactions extends Component
     public function mount()
     {
         switch ($this->status) {
-            case 'order':
-                auth()->user()->unreadNotifications()->whereIn('type', [OrderCreated::class, CanceledByBank::class])->update(['read_at' => now()]);
-                break;
-            case 'approved_by_manager':
-                auth()->user()->unreadNotifications()->where('type', ApprovedByManager::class)->update(['read_at' => now()]);
-                break;
-            case 'approved_by_bank':
-                auth()->user()->unreadNotifications()->whereIn('type', [ApprovedByBank::class, CanceledByManager::class])->update(['read_at' => now()]);
-                break;
-            default:
-                break;
+            // case 'order':
+            //     auth()->user()->unreadNotifications()->whereIn('type', [OrderCreated::class, CanceledByBank::class])->update(['read_at' => now()]);
+            //     break;
+            // case 'approved_by_manager':
+            //     auth()->user()->unreadNotifications()->where('type', ApprovedByManager::class)->update(['read_at' => now()]);
+            //     break;
+            // case 'approved_by_bank':
+            //     auth()->user()->unreadNotifications()->whereIn('type', [ApprovedByBank::class, CanceledByManager::class])->update(['read_at' => now()]);
+            //     break;
+            // default:
+            //     break;
         }
     }
     public function read()
     {
+        $user = auth()->user();
         $transactions = Transaction::query();
-        if (auth()->user()->branch_id) {
-            $transactions = $transactions->where('branch_id', auth()->user()->branch_id);
+        if ($user->branch_id) {
+            $transactions = $transactions->where('branch_id', $user->branch_id);
         }
         if ($this->status == 'print')
             return $transactions->paginate(10);
-        elseif ($this->status == 'approved_by_bank')
-            return $transactions->whereIn('status', [$this->status, 'canceled'])
-                ->whereDate('created_at', '>=', Carbon::now()->StartOfDay())
-                ->paginate(10);
-        elseif ($this->status == 'order')
-            return $transactions->whereIn('status', [$this->status, 'canceled_by_bank'])
-                ->whereDate('created_at', '>=', Carbon::now()->StartOfDay())
-                ->paginate(10);
-        return $transactions->where('status', $this->status)
+        elseif ($this->status == 'to_approve') {
+            if ($user->hasRole('Manager'))
+                $transactions->where('status', 'waiting_manager_approval');
+            elseif ($user->hasRole('Bank Employee'))
+                $transactions->where('status', 'approved_by_manager')
+                    ->where('user_id', $user->id);
+        } elseif ($this->status == 'in_progress') {
+            if ($user->hasRole('Company Employee'))
+                $transactions->where('status', 'waiting_turki_approval');
+            elseif ($user->hasRole('Bank Employee'))
+                $transactions->where('status', 'approved_by_turki')
+                    ->where('user_id', $user->id);
+        } elseif ($this->status == 'to_approve_by_agent') {
+            if ($user->hasRole('Bank Employee'))
+                $transactions->where('status', 'waiting_client_approval')
+                    ->where('user_id', $user->id);
+        } elseif ($this->status == 'completed') {
+            if ($user->hasRole('Company Employee'))
+                $transactions->where('status', 'approved_by_client');
+            elseif ($user->hasRole('Bank Employee'))
+                $transactions->where('status', 'done')
+                    ->where('user_id', $user->id);
+        }
+        return $transactions
             ->whereDate('created_at', '>=', Carbon::now()->StartOfDay())
             ->paginate(10);
     }

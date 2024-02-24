@@ -42,12 +42,14 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('transactions.index', 'order') }}">
+        <a @hasanyrole('Manager|Bank Employee') href="{{ route('transactions.index', 'to_approve') }}" @endhasanyrole>
             <div class="content flex py-2 items-center">
                 <div class="relative">
                     <img class="welcome-img" src="{{ asset('images/approval_v.png') }}" alt="" />
-                    @if($notifications['order']>0)
-                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-gray-100 rounded-full -top-0 -left-0">{{$notifications['order']}}</div>
+                    @if ($notifications['to_approve'] > 0)
+                        <div
+                            class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-gray-100 rounded-full -top-0 -left-0">
+                            {{ $notifications['to_approve'] }}</div>
                     @endif
                 </div>
                 <div class="item-body px-2">
@@ -57,12 +59,14 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('transactions.index', 'approved_by_manager') }}">
+        <a href="{{ route('transactions.index', 'to_approve_by_agent') }}">
             <div class="content flex py-2 items-center">
                 <div class="relative">
                     <img class="welcome-img" src="{{ asset('images/agent_v.png') }}" alt="" />
-                    @if($notifications['approved_by_manager']>0)
-                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-gray-100 rounded-full -top-0 -left-0">{{$notifications['approved_by_manager']}}</div>
+                    @if ($notifications['to_approve_by_agent'] > 0)
+                        <div
+                            class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-gray-100 rounded-full -top-0 -left-0">
+                            {{ $notifications['to_approve_by_agent'] }}</div>
                     @endif
                 </div>
                 <div class="item-body px-2">
@@ -72,12 +76,14 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('transactions.index', 'approved_by_bank') }}">
+        <a href="{{ route('transactions.index', 'in_progress') }}">
             <div class="content flex py-2 items-center">
                 <div class="relative">
                     <img class="welcome-img" src="{{ asset('images/waiting_v.png') }}" alt="" />
-                    @if($notifications['approved_by_bank']>0)
-                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-gray-100 rounded-full -top-0 -left-0">{{$notifications['approved_by_bank']}}</div>
+                    @if ($notifications['in_progress'] > 0)
+                        <div
+                            class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-gray-100 rounded-full -top-0 -left-0">
+                            {{ $notifications['in_progress'] }}</div>
                     @endif
                 </div>
                 <div class="item-body px-2 ">
@@ -87,12 +93,14 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('transactions.index', 'done') }}">
+        <a href="{{ route('transactions.index', 'completed') }}">
             <div class="content flex py-2 items-center">
                 <div class="relative">
                     <img class="welcome-img" src="{{ asset('images/done_v.png') }}" alt="" />
-                    @if($notifications['done']>0)
-                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-gray-100 rounded-full -top-0 -left-0">{{$notifications['done']}}</div>
+                    @if ($notifications['completed'] > 0)
+                        <div
+                            class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-gray-100 rounded-full -top-0 -left-0">
+                            {{ $notifications['completed'] }}</div>
                     @endif
                 </div>
                 <div class="item-body px-2 ">
