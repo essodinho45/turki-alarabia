@@ -111,7 +111,7 @@
                     <tr class="border border-gray-200">
                         <td class="py-2 px-6 text-right whitespace-nowrap border">المبلغ الإجمالي</td>
                         <td class="py-2 px-6 text-right whitespace-nowrap border">
-                            {{ number_format($transaction->amount + 50, 3) }}
+                            {{ number_format($transaction->amount, 3) }}
                         </td>
                     </tr>
                     <tr class="border border-gray-200 bg-gray-100">
