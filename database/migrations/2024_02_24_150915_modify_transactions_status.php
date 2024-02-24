@@ -15,6 +15,7 @@ return new class extends Migration {
                 'status',
                 [
                     'offer',
+                    'order',
                     'waiting_manager_approval',
                     'approved_by_manager',
                     'printed',
