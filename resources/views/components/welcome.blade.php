@@ -59,7 +59,7 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('transactions.index', 'to_approve_by_agent') }}">
+        <a @hasanyrole('Bank Employee') href="{{ route('transactions.index', 'to_approve_by_agent') }}" @endhasanyrole>
             <div class="content flex py-2 items-center">
                 <div class="relative">
                     <img class="welcome-img" src="{{ asset('images/agent_v.png') }}" alt="" />
@@ -76,7 +76,8 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('transactions.index', 'in_progress') }}">
+        <a
+            @hasanyrole('Bank Employee|Company Employee') href="{{ route('transactions.index', 'in_progress') }}" @endhasanyrole>
             <div class="content flex py-2 items-center">
                 <div class="relative">
                     <img class="welcome-img" src="{{ asset('images/waiting_v.png') }}" alt="" />
@@ -93,7 +94,8 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('transactions.index', 'completed') }}">
+        <a
+            @hasanyrole('Bank Employee|Company Employee') href="{{ route('transactions.index', 'completed') }}" @endhasanyrole>
             <div class="content flex py-2 items-center">
                 <div class="relative">
                     <img class="welcome-img" src="{{ asset('images/done_v.png') }}" alt="" />
