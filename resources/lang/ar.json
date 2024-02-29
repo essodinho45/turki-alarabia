@@ -14,6 +14,8 @@
     "Manager has approved transaction with id: ": "قام مدير فرع البنك بالموافقة على المعاملة ذات الرقم: ",
     "Transaction Approved By Client": "تمت الموافقة من العميل",
     "Client has approved transaction with id: ": "قام العميل بالموافقة على المعاملة ذات الرقم: ",
+    "Order Waiting for Approval": "المعاملة قيد الإنجاز بانتظار موافقة تركي العربية.",
+    "buying order waiting fot approval with id: ": "طلب الشراء قيد الانجاز بانتظار موافة تركي العربية. رقم المعاملة: ",
     "Transaction Refused By Manager": "تم الرفض من مدير فرع البنك",
     "Manager has refused transaction with id: ": "قام مدير فرع البنك برفض المعاملة ذات الرقم: ",
     "Transaction Approved By Bank": "تمت الموافقة من موظف البنك",

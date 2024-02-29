@@ -13,6 +13,7 @@ use App\Notifications\CanceledByManager;
 use App\Notifications\MessageSent;
 use App\Notifications\OfferCreated;
 use App\Notifications\OrderCreated;
+use App\Notifications\OrderWaitingTurki;
 use App\Notifications\TransactionDone;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\Notification;
@@ -37,7 +38,7 @@ class IndexTransactions extends Component
                 break;
             case 'in_progress':
                 if ($user->hasRole('Company Employee'))
-                    $user->unreadNotifications()->whereIn('type', [ApprovedByBank::class])->update(['read_at' => now()]);
+                    $user->unreadNotifications()->whereIn('type', [ApprovedByBank::class, OrderWaitingTurki::class])->update(['read_at' => now()]);
                 if ($user->hasRole('Bank Employee'))
                     $user->unreadNotifications()->whereIn('type', [ApprovedByTurki::class])->update(['read_at' => now()]);
                 break;
@@ -68,7 +69,7 @@ class IndexTransactions extends Component
             if ($user->hasRole('Manager'))
                 $transactions->where('status', 'waiting_manager_approval');
             elseif ($user->hasRole('Bank Employee'))
-                $transactions->whereIn('status', ['order', 'approved_by_manager'])
+                $transactions->whereIn('status', ['approved_by_manager'])
                     ->where('user_id', $user->id);
         } elseif ($this->status == 'in_progress') {
             if ($user->hasRole('Company Employee'))
@@ -125,39 +126,39 @@ class IndexTransactions extends Component
         ])->update(['read_at' => now()]);
         return redirect()->route('dashboard');
     }
-    public function approveByBank($id)
-    {
-        $current = Transaction::find($id);
-        $current->status = 'waiting_turki_approval';
-        $current->save();
-        $users = User::role('Company Employee')->get();
-        foreach ($users as $user) {
-            $user->notify(new ApprovedByBank($current->id));
-        }
-        DatabaseNotification::where([
-            ['type', ApprovedByManager::class],
-            ['data->transaction_id', $current->id],
-            ['read_at', NULL],
-        ])->update(['read_at' => now()]);
-        return redirect()->route('dashboard');
-    }
-    public function cancelByBank($id)
-    {
-        $current = Transaction::find($id);
-        $current->status = 'canceled_by_bank';
-        $current->save();
-        $users = User::where('id', $current->user_id)->get();
-        foreach ($users as $user) {
-            if ($user->id == $current->user_id)
-                $user->notify(new CanceledByBank($current->id));
-        }
-        DatabaseNotification::where([
-            ['type', ApprovedByManager::class],
-            ['data->transaction_id', $current->id],
-            ['read_at', NULL],
-        ])->update(['read_at' => now()]);
-        return redirect()->route('dashboard');
-    }
+//    public function approveByBank($id)
+//    {
+//        $current = Transaction::find($id);
+//        $current->status = 'waiting_turki_approval';
+//        $current->save();
+//        $users = User::role('Company Employee')->get();
+//        foreach ($users as $user) {
+//            $user->notify(new ApprovedByBank($current->id));
+//        }
+//        DatabaseNotification::where([
+//            ['type', ApprovedByManager::class],
+//            ['data->transaction_id', $current->id],
+//            ['read_at', NULL],
+//        ])->update(['read_at' => now()]);
+//        return redirect()->route('dashboard');
+//    }
+//    public function cancelByBank($id)
+//    {
+//        $current = Transaction::find($id);
+//        $current->status = 'canceled_by_bank';
+//        $current->save();
+//        $users = User::where('id', $current->user_id)->get();
+//        foreach ($users as $user) {
+//            if ($user->id == $current->user_id)
+//                $user->notify(new CanceledByBank($current->id));
+//        }
+//        DatabaseNotification::where([
+//            ['type', ApprovedByManager::class],
+//            ['data->transaction_id', $current->id],
+//            ['read_at', NULL],
+//        ])->update(['read_at' => now()]);
+//        return redirect()->route('dashboard');
+//    }
     public function approveByTurki($id)
     {
         $current = Transaction::find($id);

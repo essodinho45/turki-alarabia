@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\User;
-use App\Notifications\OrderCreated;
+use App\Notifications\OrderWaitingTurki;
 use App\Notifications\OfferCreated;
 use App\Notifications\ApprovedByManager;
 use App\Notifications\ApprovedByBank;
@@ -67,7 +67,7 @@ Route::middleware([
         $user_notifications = auth()->user()->unreadNotifications;
         $notifications = [];
         $notifications['to_approve'] = $user_notifications->whereIn('type', [OrderCreated::class, OfferCreated::class, ApprovedByManager::class])->count();
-        $notifications['in_progress'] = $user_notifications->whereIn('type', [ApprovedByBank::class, ApprovedByTurki::class])->count();
+        $notifications['in_progress'] = $user_notifications->whereIn('type', [ApprovedByBank::class, OrderWaitingTurki::class, ApprovedByTurki::class])->count();
         $notifications['to_approve_by_agent'] = $user_notifications->whereIn('type', [MessageSent::class])->count();
         $notifications['completed'] = $user_notifications->whereIn('type', [ApprovedByClient::class, TransactionDone::class])->count();
         return view('dashboard', compact('notifications'));
@@ -96,11 +96,13 @@ Route::middleware([
         return view('transactions.print-price-offer', compact('transaction'));
     })->name('transactions.printOffer')->middleware(['can:print offer']);
     Route::get('/print-buying-order/{transaction}', function (Transaction $transaction) {
-        $transaction->status = 'waiting_manager_approval';
-        $transaction->save();
-        $users = User::role('Manager')->where('branch_id', $transaction->branch_id)->get();
-        foreach ($users as $user) {
-            $user->notify(new OrderCreated($transaction->id));
+        if($transaction->status = 'approved_by_manager'){
+            $transaction->status = 'waiting_turki_approval';
+            $transaction->save();
+            $users = User::role('Company Employee')->get();
+            foreach ($users as $user) {
+                $user->notify(new OrderWaitingTurki($transaction->id));
+            }
         }
         return view('transactions.print-buying-order', compact('transaction'));
     })->name('transactions.printOrder')->middleware(['can:print order']);

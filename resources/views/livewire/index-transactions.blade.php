@@ -73,7 +73,7 @@
                                 @break
 
                                 @case('to_approve')
-                                    @if ($transaction->status == 'order')
+                                    @if ($transaction->status == 'approved_by_manager')
                                         @role('Bank Employee')
                                             <a href="{{ route('transactions.printOrder', ['transaction' => $transaction->id]) }}"
                                                 target="_blank"
@@ -87,15 +87,6 @@
                                                 {{ __('Approve') }}
                                             </button>
                                             <button class="btn btn-red" wire:click="cancelByManager({{ $transaction->id }})">
-                                                {{ __('Refuse') }}
-                                            </button>
-                                        @endrole
-                                    @elseif($transaction->status == 'approved_by_manager')
-                                        @role('Bank Employee')
-                                            <button class="btn btn-blue" wire:click="approveByBank({{ $transaction->id }})">
-                                                {{ __('Approve') }}
-                                            </button>
-                                            <button class="btn btn-red" wire:click="cancelByBank({{ $transaction->id }})">
                                                 {{ __('Refuse') }}
                                             </button>
                                         @endrole

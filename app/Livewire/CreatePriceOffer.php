@@ -68,10 +68,10 @@ class CreatePriceOffer extends Component
             'quantity' => $validated_data['quantity'],
         ]);
         $users = $transaction->branch->users;
-        foreach ($users as $user) {
-            if ($user->id == $transaction->user_id)
-                $user->notify(new OfferCreated($transaction->id));
-        }
+//        foreach ($users as $user) {
+//            if ($user->id == $transaction->user_id)
+//                $user->notify(new OfferCreated($transaction->id));
+//        }
         $this->modalFormVisible = true;
         $this->date = date('d-m-Y');
         $this->amount = 0;
