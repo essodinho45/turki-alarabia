@@ -30,8 +30,9 @@ class CreateBuyingOrder extends Component
             $this->transaction->status = 'waiting_manager_approval';
             $this->transaction->save();
         }
-        $users = User::role('Manager')->where(['branch_id', $this->transaction->branch_id])->get();
+        $users = User::where(['branch_id', $this->transaction->branch_id])->get();
         foreach ($users as $user) {
+            if($user->hasRole('Manager'))
                 $user->notify(new OrderCreated($this->transaction->id));
         }
         DatabaseNotification::where([
