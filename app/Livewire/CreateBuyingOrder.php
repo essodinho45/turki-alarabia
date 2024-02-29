@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
 use App\Notifications\OfferCreated;
 use App\Notifications\OrderCreated;
 use Illuminate\Notifications\DatabaseNotification;
@@ -30,9 +29,9 @@ class CreateBuyingOrder extends Component
             $this->transaction->status = 'waiting_manager_approval';
             $this->transaction->save();
         }
-        $users = User::where(['branch_id', $this->transaction->branch_id])->get();
+        $users = $this->transaction->branch->users;
         foreach ($users as $user) {
-            if($user->hasRole('Manager'))
+            if ($user->hasRole('Manager'))
                 $user->notify(new OrderCreated($this->transaction->id));
         }
         DatabaseNotification::where([
