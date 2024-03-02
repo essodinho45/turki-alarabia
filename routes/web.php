@@ -63,15 +63,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::post('/push', [PushController::class, 'store']);
-    Route::get('/dashboard', function () {
-        $user_notifications = auth()->user()->unreadNotifications;
-        $notifications = [];
-        $notifications['to_approve'] = $user_notifications->whereIn('type', [OrderCreated::class, OfferCreated::class, ApprovedByManager::class])->count();
-        $notifications['in_progress'] = $user_notifications->whereIn('type', [ApprovedByBank::class, OrderWaitingTurki::class, ApprovedByTurki::class])->count();
-        $notifications['to_approve_by_agent'] = $user_notifications->whereIn('type', [MessageSent::class])->count();
-        $notifications['completed'] = $user_notifications->whereIn('type', [ApprovedByClient::class, TransactionDone::class])->count();
-        return view('dashboard', compact('notifications'));
-    })->name('dashboard');
+    Route::get('/dashboard', [PushController::class, 'dashboard'])->name('dashboard');
 
     Route::get('/create-price-offer', function () {
         return view('transactions.create-price-offer');
@@ -96,7 +88,7 @@ Route::middleware([
         return view('transactions.print-price-offer', compact('transaction'));
     })->name('transactions.printOffer')->middleware(['can:print offer']);
     Route::get('/print-buying-order/{transaction}', function (Transaction $transaction) {
-        if($transaction->status = 'approved_by_manager'){
+        if ($transaction->status = 'approved_by_manager') {
             $transaction->status = 'waiting_turki_approval';
             $transaction->save();
             $users = User::role('Company Employee')->get();
