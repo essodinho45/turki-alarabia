@@ -28,7 +28,6 @@ use Spatie\Permission\Models\Role;
 */
 
 Route::get('/', function () {
-    return 'test';
     return redirect()->route('dashboard');
 });
 
