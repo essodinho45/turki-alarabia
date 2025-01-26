@@ -26,6 +26,7 @@ class IndexTransactions extends Component
 {
     use WithPagination;
     public $status;
+    public $count;
     public function mount()
     {
         $user = auth()->user();
@@ -59,7 +60,7 @@ class IndexTransactions extends Component
     public function read()
     {
         $user = auth()->user();
-        $transactions = Transaction::query();
+        $transactions = Transaction::query()->whereDate('created_at', '>=', Carbon::now()->StartOfDay());
         if ($user->branch_id) {
             $transactions = $transactions->where('branch_id', $user->branch_id);
         }
@@ -88,9 +89,9 @@ class IndexTransactions extends Component
                 $transactions->where('status', 'done')
                     ->where('user_id', $user->id);
         }
-        return $transactions
-            ->whereDate('created_at', '>=', Carbon::now()->StartOfDay())
-            ->paginate(10);
+        $count = clone $transactions;
+        $this->count = $count->count();
+        return $transactions->paginate(10);
     }
     public function approveByManager($id)
     {
@@ -107,6 +108,8 @@ class IndexTransactions extends Component
             ['data->transaction_id', $current->id],
             ['read_at', NULL],
         ])->update(['read_at' => now()]);
+        if ($this->count > 1)
+            return redirect()->back();
         return redirect()->route('dashboard');
     }
     public function cancelByManager($id)
@@ -124,9 +127,11 @@ class IndexTransactions extends Component
             ['data->transaction_id', $current->id],
             ['read_at', NULL],
         ])->update(['read_at' => now()]);
+        if ($this->count > 1)
+            return redirect()->back();
         return redirect()->route('dashboard');
     }
-//    public function approveByBank($id)
+    //    public function approveByBank($id)
 //    {
 //        $current = Transaction::find($id);
 //        $current->status = 'waiting_turki_approval';
@@ -174,6 +179,8 @@ class IndexTransactions extends Component
             ['data->transaction_id', $current->id],
             ['read_at', NULL],
         ])->update(['read_at' => now()]);
+        if ($this->count > 1)
+            return redirect()->back();
         return redirect()->route('dashboard');
     }
     public function sendMessage($id)
@@ -191,6 +198,8 @@ class IndexTransactions extends Component
             ['data->transaction_id', $current->id],
             ['read_at', NULL],
         ])->update(['read_at' => now()]);
+        if ($this->count > 1)
+            return redirect()->back();
         return redirect()->route('dashboard');
     }
     public function setAsDone($id)
@@ -209,12 +218,15 @@ class IndexTransactions extends Component
             ['data->transaction_id', $current->id],
             ['read_at', NULL],
         ])->update(['read_at' => now()]);
+        if ($this->count > 1)
+            return redirect()->back();
         return redirect()->route('dashboard');
     }
     public function render()
     {
+        $data = $this->read();
         return view('livewire.index-transactions', [
-            'data' => $this->read()
+            'data' => $data
         ]);
     }
 }

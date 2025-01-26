@@ -12,7 +12,7 @@ class CreatePriceOffer extends Component
 {
     public $id;
     public $date;
-    public float $amount;
+    public float $amount = 0;
     public float $total_amount;
     public $material_id;
     public $client_name;
@@ -68,7 +68,7 @@ class CreatePriceOffer extends Component
             'quantity' => $validated_data['quantity'],
         ]);
         $users = $transaction->branch->users;
-//        foreach ($users as $user) {
+        //        foreach ($users as $user) {
 //            if ($user->id == $transaction->user_id)
 //                $user->notify(new OfferCreated($transaction->id));
 //        }

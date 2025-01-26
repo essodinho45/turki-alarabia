@@ -13,8 +13,6 @@ class BanksSeeder extends Seeder
      */
     public function run(): void
     {
-        $bank = Bank::where('name', 'بوبيان')->first();
-        if (!$bank)
-            Bank::create(['name' => 'بوبيان']);
+        Bank::firstOrCreate(['name' => 'بنك وربة']);
     }
 }
