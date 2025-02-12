@@ -57,6 +57,21 @@ Route::get('/seed', function () {
     return '<h1>Seeded</h1>';
 });
 
+Route::get('/approveTransaction/{id}/{code}', function ($id, $code) {
+    return view('transactions.approve-by-client', ['id' => $id, 'code' => $code]);
+})->name('approveTransaction');
+
+Route::post('/approveTransaction/{id}/{code}', function ($request, $id, $code) {
+    if($request->code == $code){
+        $transaction = Transaction::query()->find($id);
+        $transaction->status = 'approved_by_client';
+        $transaction->save();
+        return 'Approved successfully';
+    } else
+        return 'Approval failed, please check your code';
+})->name('postClientApprove');
+
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
