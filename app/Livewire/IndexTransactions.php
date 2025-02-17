@@ -18,6 +18,7 @@ use App\Notifications\TransactionDone;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Transaction;
@@ -199,6 +200,7 @@ class IndexTransactions extends Component
             'msg_lang' => 'ar',
             'msg_text' => $this->to_unicode($message)
         ]);
+        Log::debug($response);
         $current->status = 'waiting_client_approval';
         $current->save();
         $users = User::role('Company Employee')->get();
