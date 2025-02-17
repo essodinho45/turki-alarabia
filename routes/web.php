@@ -61,8 +61,8 @@ Route::get('/approveTransaction/{id}/{code}', function ($id, $code) {
     return view('transactions.approve-by-client', ['id' => $id, 'code' => $code]);
 })->name('approveTransaction');
 
-Route::post('/approveTransaction/{id}/{code}', function ($request, $id, $code) {
-    if($request->code == $code){
+Route::post('/approveTransaction/{id}/{code}', function ($id, $code) {
+    if(\request()->code == $code){
         $transaction = Transaction::query()->find($id);
         $transaction->status = 'approved_by_client';
         $transaction->save();

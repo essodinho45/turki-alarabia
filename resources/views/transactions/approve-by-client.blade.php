@@ -20,7 +20,9 @@
                 <x-input id="code" class="block mt-1 w-full" type="text" name="code" :value="old('code')" required
                          autofocus />
             </div>
-
+            <x-button class="ml-4">
+                {{ __('Approve') }}
+            </x-button>
         </form>
     </x-authentication-card>
 </x-guest-layout>
