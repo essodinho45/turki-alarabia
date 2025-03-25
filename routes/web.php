@@ -62,14 +62,15 @@ Route::get('/approveTransaction/{id}/{code}', function ($id, $code) {
 })->name('approveTransaction');
 
 Route::post('/approveTransaction/{id}/{code}', function ($id, $code) {
-    if(\request()->code == $code){
-        $transaction = Transaction::query()->find($id);
-        $transaction->status = 'approved_by_client';
-        $transaction->save();
-        return 'Approved successfully';
+    if (\request()->code == $code) {
+        return redirect(route('transactions.view', ['id' => $id]));
     } else
         return 'Approval failed, please check your code';
 })->name('postClientApprove');
+
+Route::get('viewForClient/{id}', function ($id) {
+    return view('transactions.view', compact('id'));
+})->name('transactions.view');
 
 
 Route::middleware([

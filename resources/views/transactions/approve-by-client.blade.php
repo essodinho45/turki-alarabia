@@ -18,7 +18,7 @@
             <div>
                 <x-label for="code" value="{{ __('Code') }}" />
                 <x-input id="code" class="block mt-1 w-full" type="text" name="code" :value="old('code')" required
-                         autofocus />
+                    autofocus />
             </div>
             <x-button class="ml-4">
                 {{ __('Approve') }}
