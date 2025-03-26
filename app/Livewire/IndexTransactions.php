@@ -189,14 +189,14 @@ class IndexTransactions extends Component
     {
         $current = Transaction::find($id);
         $code = rand(1000, 9999);
-        $message = "رمز التأكيد الخاص بكم هو: ".$code."\n";
+        $message = "رمز التأكيد الخاص بكم هو: " . $code . "\n";
         $message .= "يرجى تأكيد طلبكم لدى تركي العربية عبر إدخال رمز التأكيد على الرابط التالي:\n";
-        $message .= env('APP_URL')."/approveTransaction/".$current->id."/".$code;
+        $message .= env('APP_URL') . "/approveTransaction/" . $current->id . "/" . $code;
         $response = Http::get('http://62.215.172.203/knews/easy_api_submit.aspx', [
-            'un'    => 'ACC_681-742',
-            'pw'     => 'KhAsbVi$MQLScUrt',
-            'originator'   => '5475726B69417261626961',
-            'mobiles_list'     => $current->client_phone,
+            'un' => 'ACC_681-742',
+            'pw' => 'KhAsbVi$MQLScUrt',
+            'originator' => '5475726B69417261626961',
+            'mobiles_list' => $current->client_phone,
             'msg_lang' => 'ar',
             'msg_text' => $this->to_unicode($message)
         ]);
@@ -242,7 +242,8 @@ class IndexTransactions extends Component
             'data' => $data
         ]);
     }
-    private function utf8ToUnicode(&$str) {
+    private function utf8ToUnicode(&$str)
+    {
         $mState = 0;     // cached expected number of octets after the current octet
         // until the beginning of the next UTF8 character sequence
         $mUcs4 = 0;     // cached Unicode character
@@ -280,13 +281,13 @@ class IndexTransactions extends Component
                     $mBytes = 4;
                 } else if (0xF8 == (0xFC & ($in))) {
                     /* First octet of 5 octet sequence.
-                    *
-                    * This is illegal because the encoded codepoint must be either
-                    * (a) not the shortest form or
-                    * (b) outside the Unicode range of 0-0x10FFFF.
-                    * Rather than trying to resynchronize, we will carry on until the end
-                    * of the sequence and let the later error handling code catch it.
-                    */
+                     *
+                     * This is illegal because the encoded codepoint must be either
+                     * (a) not the shortest form or
+                     * (b) outside the Unicode range of 0-0x10FFFF.
+                     * Rather than trying to resynchronize, we will carry on until the end
+                     * of the sequence and let the later error handling code catch it.
+                     */
                     $mUcs4 = ($in);
                     $mUcs4 = ($mUcs4 & 0x03) << 24;
                     $mState = 4;
@@ -299,8 +300,8 @@ class IndexTransactions extends Component
                     $mBytes = 6;
                 } else {
                     /* Current octet is neither in the US-ASCII range nor a legal first
-                    * octet of a multi-octet sequence.
-                    */
+                     * octet of a multi-octet sequence.
+                     */
                     return false;
                 }
             } else {
@@ -315,20 +316,22 @@ class IndexTransactions extends Component
 
                     if (0 == --$mState) {
                         /* End of the multi-octet sequence. mUcs4 now contains the final
-                        * Unicode codepoint to be output
-                        *
-                        * Check for illegal sequences and codepoints.
-                        */
+                         * Unicode codepoint to be output
+                         *
+                         * Check for illegal sequences and codepoints.
+                         */
 
                         // From Unicode 3.1, non-shortest form is illegal
-                        if (((2 == $mBytes) && ($mUcs4 < 0x0080)) ||
+                        if (
+                            ((2 == $mBytes) && ($mUcs4 < 0x0080)) ||
                             ((3 == $mBytes) && ($mUcs4 < 0x0800)) ||
                             ((4 == $mBytes) && ($mUcs4 < 0x10000)) ||
                             (4 < $mBytes) ||
-                            // From Unicode 3.2, surrogate characters are illegal
+                                // From Unicode 3.2, surrogate characters are illegal
                             (($mUcs4 & 0xFFFFF800) == 0xD800) ||
-                            // Codepoints outside the Unicode range are illegal
-                            ($mUcs4 > 0x10FFFF)) {
+                                // Codepoints outside the Unicode range are illegal
+                            ($mUcs4 > 0x10FFFF)
+                        ) {
                             return false;
                         }
                         if (0xFEFF != $mUcs4) {
@@ -342,9 +345,9 @@ class IndexTransactions extends Component
                     }
                 } else {
                     /* ((0xC0 & (*in) != 0x80) && (mState != 0))
-                    *
-                    * Incomplete multi-octet sequence.
-                    */
+                     *
+                     * Incomplete multi-octet sequence.
+                     */
                     return false;
                 }
             }
@@ -352,19 +355,24 @@ class IndexTransactions extends Component
         return $out;
     }
 
-    private function to_unicode($text) {
+    private function to_unicode($text)
+    {
         $text = $this->utf8ToUnicode($text);
         $res = '';
         foreach ($text as $value) {
             $c = dechex($value + 0);
             switch (strlen($c)) {
-                case 1: $res .= '000' . $c;
+                case 1:
+                    $res .= '000' . $c;
                     break;
-                case 2: $res .= '00' . $c;
+                case 2:
+                    $res .= '00' . $c;
                     break;
-                case 3: $res .= '0' . $c;
+                case 3:
+                    $res .= '0' . $c;
                     break;
-                case 4: $res .= $c;
+                case 4:
+                    $res .= $c;
                     break;
             }
         }
